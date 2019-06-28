@@ -2,13 +2,13 @@
 {
     public class Environment
     {
-        public readonly Vector3D Gravity;
-        public readonly Vector3D Wind;
+        public readonly Vector Gravity;
+        public readonly Vector Wind;
 
-        public Vector3D TotalEffect
+        public Vector TotalEffect
             => Gravity + Wind;
 
-        public Environment(Vector3D gravity, Vector3D wind)
+        public Environment(Vector gravity, Vector wind)
         {
             Gravity = gravity;
             Wind = wind;

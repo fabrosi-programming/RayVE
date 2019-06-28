@@ -1,5 +1,8 @@
 ﻿using RayVE;
+using RayVE.Extensions;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,31 +12,65 @@ namespace RayVE.ProjectileSimulation
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            var gravity = new Vector3D(0.0d, -0.1d, 0.0d);
-            var wind = new Vector3D(-0.01d, 0.0d, 0.0d);
+            var gravity = new Vector(new[] { 0.0d, -0.1d });
+            var wind = new Vector(new[] { -0.05d, 0.0d });
             var environment = new Environment(gravity, wind);
             var simulation = new Simulation(environment);
-            var canvas = new Canvas(1920, 1080);
+            var width = 5760;
+            var height = 1460;
+            var canvas = new Canvas(width, height);
 
-            var projectil = new Projectile(Point3D.Origin, new Vector3D(1.0d, 1.0d, 0.0d).Normalize());
-            simulation.Projectiles.Add(projectil);
+            simulation.Projectiles.AddRange(new List<Projectile>()
+            {
+                new Projectile(new Vector(new[] { 0.01d, 0.01d }), 10 * new Vector(new[] { 1.0d, 1.0d }).Normalize(), Color.Red),
+                new Projectile(new Vector(new[] { 0.01d, 0.01d }), 11 * new Vector(new[] { 1.0d, 1.0d }).Normalize(), Color.Red),
+                new Projectile(new Vector(new[] { 0.01d, 0.01d }), 12 * new Vector(new[] { 1.0d, 1.0d }).Normalize(), Color.White),
+                new Projectile(new Vector(new[] { 0.01d, 0.01d }), 13 * new Vector(new[] { 1.0d, 1.0d }).Normalize(), Color.White),
+                new Projectile(new Vector(new[] { 0.01d, 0.01d }), 14 * new Vector(new[] { 1.0d, 1.0d }).Normalize(), Color.Blue),
+                new Projectile(new Vector(new[] { 0.01d, 0.01d }), 15 * new Vector(new[] { 1.0d, 1.0d }).Normalize(), Color.Blue),
+                new Projectile(new Vector(new[] { 0.01d, 0.01d }), 10.5 * new Vector(new[] { 1.0d, 1.0d }).Normalize(), Color.Red),
+                new Projectile(new Vector(new[] { 0.01d, 0.01d }), 11.5 * new Vector(new[] { 1.0d, 1.0d }).Normalize(), Color.Red),
+                new Projectile(new Vector(new[] { 0.01d, 0.01d }), 12.5 * new Vector(new[] { 1.0d, 1.0d }).Normalize(), Color.White),
+                new Projectile(new Vector(new[] { 0.01d, 0.01d }), 13.5 * new Vector(new[] { 1.0d, 1.0d }).Normalize(), Color.White),
+                new Projectile(new Vector(new[] { 0.01d, 0.01d }), 14.5 * new Vector(new[] { 1.0d, 1.0d }).Normalize(), Color.Blue),
+                new Projectile(new Vector(new[] { 0.01d, 0.01d }), 15.5 * new Vector(new[] { 1.0d, 1.0d }).Normalize(), Color.Blue),
 
-            while (simulation.Projectiles.Any(p => p.Position.Y > 0.0d))
+                new Projectile(new Vector(new[] { width - 0.01d, 0.01d }), 10 * new Vector(new[] { 0.5d, 1.0d }).Normalize(), Color.Red),
+                new Projectile(new Vector(new[] { width - 0.01d, 0.01d }), 11 * new Vector(new[] { 0.5d, 1.0d }).Normalize(), Color.Red),
+                new Projectile(new Vector(new[] { width - 0.01d, 0.01d }), 12 * new Vector(new[] { 0.5d, 1.0d }).Normalize(), Color.White),
+                new Projectile(new Vector(new[] { width - 0.01d, 0.01d }), 13 * new Vector(new[] { 0.5d, 1.0d }).Normalize(), Color.White),
+                new Projectile(new Vector(new[] { width - 0.01d, 0.01d }), 14 * new Vector(new[] { 0.5d, 1.0d }).Normalize(), Color.Blue),
+                new Projectile(new Vector(new[] { width - 0.01d, 0.01d }), 15 * new Vector(new[] { 0.5d, 1.0d }).Normalize(), Color.Blue),
+                new Projectile(new Vector(new[] { width - 0.01d, 0.01d }), 10.5 * new Vector(new[] { 0.5d, 1.0d }).Normalize(), Color.Red),
+                new Projectile(new Vector(new[] { width - 0.01d, 0.01d }), 11.5 * new Vector(new[] { 0.5d, 1.0d }).Normalize(), Color.Red),
+                new Projectile(new Vector(new[] { width - 0.01d, 0.01d }), 12.5 * new Vector(new[] { 0.5d, 1.0d }).Normalize(), Color.White),
+                new Projectile(new Vector(new[] { width - 0.01d, 0.01d }), 13.5 * new Vector(new[] { 0.5d, 1.0d }).Normalize(), Color.White),
+                new Projectile(new Vector(new[] { width - 0.01d, 0.01d }), 14.5 * new Vector(new[] { 0.5d, 1.0d }).Normalize(), Color.Blue),
+                new Projectile(new Vector(new[] { width - 0.01d, 0.01d }), 15.5 * new Vector(new[] { 0.5d, 1.0d }).Normalize(), Color.Blue)
+            });
+
+            Debug.WriteLine("Simulating projectile paths.");
+
+            while (simulation.Projectiles.Any(p => p.Position[1] > 0.0d))
             {
                 foreach (var projectile in simulation.Projectiles)
                 {
-                    var x = Convert.ToInt32(projectile.Position.X);
-                    var y = canvas.Height - Convert.ToInt32(projectile.Position.Y);
-                    canvas[x, y] = Color.White;
+                    var x = (int)projectile.Position[0] - 1;
+                    var y = canvas.Height - (int)projectile.Position[1] - 1;
+                    canvas[x, y] += projectile.Color;
                 }
 
-                simulation.Tick();
+                simulation.Tick(0.0625);
             }
 
-            var filePath = $"C:\\temp\\RayVE\\ProjectileSimulation\\{DateTime.Now:yyyyMMdd_hhmmss}.ppm";
+            Debug.WriteLine("Writing to file.");
+
+            var filePath = $"C:\\temp\\RayVE\\ProjectileSimulation\\{DateTime.Now:yyyyMMdd_HHmmss}.ppm";
             File.WriteAllText(filePath, canvas.ToPPM(255));
+
+            Debug.WriteLine("Done.");
         }
     }
 }

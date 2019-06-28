@@ -3,16 +3,18 @@ using System.Diagnostics;
 
 namespace RayVE.ProjectileSimulation
 {
-    [DebuggerDisplay("({Position.X},{Position.Y},{Position.Z}) x ({Velocity.X},{Velocity.Y},{Velocity.Z})")]
+    [DebuggerDisplay("({Position[0]},{Position[1]},{Position[2]}) x ({Velocity[0]},{Velocity[1]},{Velocity[2]})")]
     public class Projectile
     {
-        public readonly Point3D Position;
-        public readonly Vector3D Velocity;
+        public readonly Vector Position;
+        public readonly Vector Velocity;
+        public readonly Color Color;
 
-        public Projectile(Point3D position, Vector3D velocity)
+        public Projectile(Vector position, Vector velocity, Color color)
         {
             Position = position;
             Velocity = velocity;
+            Color = color;
         }
     }
 }
