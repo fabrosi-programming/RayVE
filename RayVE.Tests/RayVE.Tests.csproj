@@ -51,8 +51,8 @@
   <ItemGroup>
     <Compile Include="ColorTests.cs" />
     <Compile Include="CanvasTests.cs" />
-    <Compile Include="Vector3DTests.cs" />
-    <Compile Include="Point3DTests.cs" />
+    <Compile Include="MatrixTests.cs" />
+    <Compile Include="VectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
