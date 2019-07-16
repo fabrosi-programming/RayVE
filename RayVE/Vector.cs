@@ -8,12 +8,12 @@ using static System.Math;
 
 namespace RayVE
 {
-    public sealed class Vector : IEnumerable<double>, IEquatable<Vector>
+    public class Vector : IEnumerable<double>, IEquatable<Vector>
     {
         private readonly double[] _values;
 
-        public int Length
-            => _values.Length;
+        public uint Length
+            => Convert.ToUInt32(_values.Length);
 
         public double this[uint i]
             => _values[i];

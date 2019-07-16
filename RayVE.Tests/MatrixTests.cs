@@ -990,5 +990,107 @@ namespace RayVE.Tests
             //act-assert
             Assert.ThrowsException<ArgumentNullException>(() => left * right);
         }
+
+        [TestMethod]
+        public void Translation_WithVectorValues_ExpectMultipliesToCorrectPoint()
+        {
+            //arrange
+            var vector = new Vector(new[] { 5.0d, -3.0d, 2.0d });
+            var translation = Matrix.Translation(vector);
+            var point = new Point3D(-3.0d, 4.0d, 5.0d);
+
+            //act
+            var newPoint = translation * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(2.0d, 1.0d, 7.0d), newPoint);
+        }
+
+        [TestMethod]
+        public void Translation_WithInverseOfTranslationMatrix_ExpectMultipliesToCorrectPoint()
+        {
+            //arrange
+            var vector = new Vector(new[] { 5.0d, -3.0d, 2.0d });
+            var translation = Matrix.Translation(vector).Inverse;
+            var point = new Point3D(-3.0d, 4.0d, 5.0d);
+
+            //act
+            var newPoint = translation * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(-8.0d, 7.0d, 3.0d), newPoint);
+        }
+
+        [TestMethod]
+        public void Translation_WithVectorValues_ExpectMultipliesWithVectorToNoChange()
+        {
+            //arrange
+            var translationVector = new Vector(new[] { 5.0d, -3.0d, 2.0d });
+            var translation = Matrix.Translation(translationVector);
+            var vector = new Vector3D(-3.0d, 4.0d, 5.0d);
+
+            //act
+            var newPoint = translation * vector;
+
+            //assert
+            Assert.AreEqual(vector, newPoint);
+        }
+
+        [TestMethod]
+        public void Scale_MultipliedByPoint_ExpectCorrectNewPoint()
+        {
+            //arrange
+            var scale = Matrix.Scale(new Vector(new[] { 2.0d, 3.0d, 4.0d }));
+            var point = new Point3D(-4.0d, 6.0d, 8.0d);
+
+            //act
+            var newPoint = scale * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(-8.0d, 18.0d, 32.0d), newPoint);
+        }
+
+        [TestMethod]
+        public void Scale_MultipliedByVector_ExpectCorrectNewPoint()
+        {
+            //arrange
+            var scale = Matrix.Scale(new Vector(new[] { 2.0d, 3.0d, 4.0d }));
+            var point = new Vector3D(-4.0d, 6.0d, 8.0d);
+
+            //act
+            var newPoint = scale * point;
+
+            //assert
+            Assert.AreEqual(new Vector3D(-8.0d, 18.0d, 32.0d), newPoint);
+        }
+
+        [TestMethod]
+        public void Scale_InvertedAndMultipliedByPoint_ExpectCorrectNewPoint()
+        {
+            //arrange
+            var scale = Matrix.Scale(new Vector(new[] { 2.0d, 3.0d, 4.0d })).Inverse;
+            var point = new Point3D(-4.0d, 6.0d, 8.0d);
+
+            //act
+            var newPoint = scale * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(-2.0d, 2.0d, 2.0d), newPoint);
+        }
+
+
+        [TestMethod]
+        public void Scale_WithScalarsOfOne_ExpectNoChangeToThePoint()
+        {
+            //arrange
+            var scale = Matrix.Scale(new Vector(new[] { 1.0d, 1.0d, 1.0d }));
+            var point = new Point3D(-4.0d, 6.0d, 8.0d);
+
+            //act
+            var newPoint = scale * point;
+
+            //assert
+            Assert.AreEqual(point, newPoint);
+        }
     }
 }

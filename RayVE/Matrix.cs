@@ -200,11 +200,20 @@ namespace RayVE
             return builder.ToString();
         }
 
+        #region Static Factory
         public static Matrix Zero(uint rows, uint columns)
             => new Matrix(rows, columns, (i, j) => 0.0d);
 
         public static Matrix Identity(uint size)
             => new Matrix(size, size, (i, j) => i == j ? 1.0d : 0.0d);
+
+        public static Matrix Translation(Vector vector)
+            => Identity(vector.Length + 1)
+               + new Matrix(vector.Length + 1, vector.Length + 1, (i, j) => i != j && j == vector.Length ? vector[i] : 0.0d);
+
+        public static Matrix Scale(Vector scalars)
+            => new Matrix(scalars.Length + 1, scalars.Length + 1, (i, j) => i != j ? 0.0d : (i == scalars.Length ? 1.0d : scalars[i]));
+        #endregion
 
         private static double[][] GetRectangularArray(uint rows, uint columns)
         {
@@ -217,6 +226,9 @@ namespace RayVE
         }
 
         #region Operators
+        public static Matrix operator +(Matrix left, Matrix right)
+            => new Matrix(left.RowCount, left.ColumnCount, (i, j) => left[i, j] + right[i, j]);
+
         public static Matrix operator *(Matrix left, Matrix right)
         {
             if (left == null)
