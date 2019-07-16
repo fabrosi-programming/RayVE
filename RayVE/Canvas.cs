@@ -27,14 +27,22 @@ namespace RayVE
 
         public Color this[int x, int y]
         {
-            get => _pixels[x, y];
-            set => _pixels[x, y] = value;
+            get
+            {
+                if (ContainsPoint(x, y))
+                    return _pixels[x, y];
+
+                return Color.Black;
+            }
+            set
+            {
+                if (ContainsPoint(x, y))
+                    _pixels[x, y] = value;
+            }
         }
 
         public Canvas(int width, int height)
-        {
-            _pixels = new Color[width, height];
-        }
+            => _pixels = new Color[width, height];
 
         public void Fill(Color color)
         {
@@ -42,6 +50,10 @@ namespace RayVE
                 for (var j = 0; j < Height; j++)
                     _pixels[i, j] = color;
         }
+
+        public bool ContainsPoint(int x, int y)
+            => x >= 0 && x < Width
+            && y >= 0 && y < Height;
 
         public string ToPPM(int maxValue)
         {
@@ -61,7 +73,6 @@ namespace RayVE
             for (var i = 0; i < Width; i++)
                 rowValues.AddRange(_pixels[i, row].ToPPM(maxValue));
 
-            var builder = new StringBuilder();
             var subRowValues = new List<string>();
             var subRowLength = 0;
 

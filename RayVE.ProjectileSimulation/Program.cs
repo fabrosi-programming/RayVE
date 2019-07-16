@@ -18,8 +18,8 @@ namespace RayVE.ProjectileSimulation
             var wind = new Vector(new[] { -0.05d, 0.0d });
             var environment = new Environment(gravity, wind);
             var simulation = new Simulation(environment);
-            var width = 5760;
-            var height = 1460;
+            var width = 1920;
+            var height = 1080;
             var canvas = new Canvas(width, height);
 
             simulation.Projectiles.AddRange(new List<Projectile>()

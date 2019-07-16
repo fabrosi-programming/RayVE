@@ -348,6 +348,359 @@ namespace RayVE.Tests
         }
 
         [TestMethod]
+        public void Determinant_Wit2x2Matrix_ExpectCorrectValue()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { 1.0d, 5.0d },
+                new[] {-3.0d, 2.0d }
+            });
+
+            //act
+            var determinant = matrix.Determinant;
+
+            //assert
+            Assert.AreEqual(17.0d, determinant);
+        }
+        
+        [TestMethod]
+        public void Determinant_With3x3Matrix_ExpectCorrectValue()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { 1.0d, 2.0d, 6.0d },
+                new[] { -5.0d, 8.0d, -4.0d },
+                new[] { 2.0d, 6.0d, 4.0d }
+            });
+
+            //act
+            var determinant = matrix.Determinant;
+
+            //assert
+            Assert.AreEqual(-196.0d, determinant);
+        }
+
+        [TestMethod]
+        public void Determinant_With4x4Matrix_ExpectCorrectValue()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { -2.0d, -8.0d, 3.0d, 5.0d },
+                new[] { -3.0d, 1.0d, 7.0d, 3.0d },
+                new[] { 1.0d, 2.0d, -9.0d, 6.0d },
+                new[] { -6.0d, 7.0d, 7.0d, -9.0d }
+            });
+
+            //act
+            var determinant = matrix.Determinant;
+
+            //assert
+            Assert.AreEqual(-4071.0d, determinant);
+        }
+
+        [TestMethod]
+        public void GetSubMatrix_With3x3Matrix_ExpectCorrect2x2Matrix()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { 1.0d, 5.0d, 0.0d },
+                new[] { -3.0d, 2.0d, 7.0d },
+                new[] { 0.0d, 6.0d, -3.0d }
+            });
+
+            //act
+            var subMatrix = matrix.GetSubMatrix(0, 2);
+
+            //assert
+            Assert.AreEqual(new Matrix(new[]
+            {
+                new[] { -3.0d, 2.0d },
+                new[] { 0.0d, 6.0d }
+            }), subMatrix);
+        }
+
+        [TestMethod]
+        public void GetSubMatrix_With4x4Matrix_ExpectCorrect3x3Matrix()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { -6.0d, 1.0d, 1.0d, 6.0d },
+                new[] { -8.0d, 5.0d, 8.0d, 6.0d },
+                new[] { -1.0d, 0.0d, 8.0d, 2.0d },
+                new[] { -7.0d, 1.0d, -1.0d, 1.0d }
+            });
+
+            //act
+            var subMatrix = matrix.GetSubMatrix(2, 1);
+
+            //assert
+            Assert.AreEqual(new Matrix(new[]
+            {
+                new[] { -6.0d, 1.0d, 6.0d },
+                new[] { -8.0d, 8.0d, 6.0d },
+                new[] { -7.0d, -1.0d, 1.0d }
+            }), subMatrix);
+        }
+
+        [TestMethod]
+        public void GetMinor_With3x3Matrix_ExpectCorrectValue()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { 3.0d, 5.0d, 0.0d },
+                new[] { 2.0d, -1.0d, -7.0d },
+                new[] { 6.0d, -1.0d, 5.0d }
+            });
+
+            //act
+            var minor = matrix.GetMinor(1, 0);
+
+            //assert
+            Assert.AreEqual(25.0d, minor);
+        }
+
+        [TestMethod]
+        public void GetCofactor_With3x3Matrix_ExpectCorrectValues_1()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { 3.0d, 5.0d, 0.0d },
+                new[] { 2.0d, -1.0d, -7.0d },
+                new[] { 6.0d, -1.0d, 5.0d }
+            });
+
+            //act
+            var cofactor1 = matrix.GetCofactor(0, 0);
+            var cofactor2 = matrix.GetCofactor(1, 0);
+
+            //assert
+            Assert.AreEqual(-12.0d, cofactor1);
+            Assert.AreEqual(-25.0d, cofactor2);
+        }
+
+        [TestMethod]
+        public void GetCofactor_With3x3Matrix_ExpectCorrectValues_2()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { 1.0d, 2.0d, 6.0d },
+                new[] { -5.0d, 8.0d, -4.0d },
+                new[] { 2.0d, 6.0d, 4.0d }
+            });
+
+            //act
+            var cofactor1 = matrix.GetCofactor(0, 0);
+            var cofactor2 = matrix.GetCofactor(0, 1);
+            var cofactor3 = matrix.GetCofactor(0, 2);
+
+            //assert
+            Assert.AreEqual(56.0d, cofactor1);
+            Assert.AreEqual(12.0d, cofactor2);
+            Assert.AreEqual(-46.0d, cofactor3);
+        }
+
+        [TestMethod]
+        public void GetCofactor_With4x4Matrix_ExpectCorrectValues()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { -2.0d, -8.0d, 3.0d, 5.0d },
+                new[] { -3.0d, 1.0d, 7.0d, 3.0d },
+                new[] { 1.0d, 2.0d, -9.0d, 6.0d },
+                new[] { -6.0d, 7.0d, 7.0d, -9.0d }
+            });
+
+            //act
+            var cofactor1 = matrix.GetCofactor(0, 0);
+            var cofactor2 = matrix.GetCofactor(0, 1);
+            var cofactor3 = matrix.GetCofactor(0, 2);
+            var cofactor4 = matrix.GetCofactor(0, 3);
+
+            //assert
+            Assert.AreEqual(690.0d, cofactor1);
+            Assert.AreEqual(447.0d, cofactor2);
+            Assert.AreEqual(210.0d, cofactor3);
+            Assert.AreEqual(51.0d, cofactor4);
+        }
+
+        [TestMethod]
+        public void IsInvertible_WithInvertible4x4Matrix_ExpectTrue()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { 6.0d, 4.0d, 4.0d, 4.0d },
+                new[] { 5.0d, 5.0d, 7.0d, 6.0d },
+                new[] { 4.0d, -9.0d, 3.0d, -7.0d },
+                new[] { 9.0d, 1.0d, 7.0d, -6.0d }
+            });
+
+            //act
+            var isInvertible = matrix.IsInvertible;
+
+            //assert
+            Assert.IsTrue(isInvertible);
+        }
+
+        [TestMethod]
+        public void IsInvertible_WithSingular4x4Matrix_ExpectFalse()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { -4.0d, 2.0d, -2.0d, -3.0d },
+                new[] { 9.0d, 6.0d, 2.0d, 6.0d },
+                new[] { 0.0d, -5.0d, 1.0d, -5.0d },
+                new[] { 0.0d, 0.0d, 0.0d, 0.0d }
+            });
+
+            //act
+            var isInvertible = matrix.IsInvertible;
+
+            //assert
+            Assert.IsFalse(isInvertible);
+        }
+
+        [TestMethod]
+        public void Inverse_WithInvertible4x4Matrix_ExpectCorrect4x4Matrix_1()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { -5.0d, 2.0d, 6.0d, -8.0d },
+                new[] { 1.0d, -5.0d, 1.0d, 8.0d },
+                new[] { 7.0d, 7.0d, -6.0d, -7.0d },
+                new[] { 1.0d, -3.0d, 7.0d, 4.0d }
+            });
+
+            //act
+            var inverse = matrix.Inverse;
+
+            //assert
+            Assert.AreEqual(new Matrix(new[]
+            {
+                new[] {  0.21804511d,  0.45112782d,  0.24060150d, -0.04511278d },
+                new[] { -0.80827067d, -1.45676692d, -0.44360902d,  0.52067669d },
+                new[] { -0.07894737d, -0.22368421d, -0.05263158d,  0.19736842d },
+                new[] { -0.52255639d, -0.81390977d, -0.30075188d,  0.30639098d }
+            }), inverse);
+        }
+
+        [TestMethod]
+        public void Inverse_WithInvertible4x4Matrix_ExpectCorrect4x4Matrix_2()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { 8.0d, -5.0d, 9.0d, 2.0d },
+                new[] { 7.0d, 5.0d, 6.0d, 1.0d },
+                new[] { -6.0d, 0.0d, 9.0d, 6.0d },
+                new[] { -3.0d, 0.0d, -9.0d, -4.0d }
+            });
+
+            //act
+            var inverse = matrix.Inverse;
+
+            //assert
+            Assert.AreEqual(new Matrix(new[]
+            {
+                new[] { -0.15384615d, -0.15384615d, -0.28205128d, -0.53846154d },
+                new[] { -0.07692308d,  0.12307692d,  0.02564103d,  0.03076923d },
+                new[] {  0.35897436d,  0.35897436d,  0.43589744d,  0.92307692d },
+                new[] { -0.69230769d, -0.69230769d, -0.76923077d, -1.92307692d }
+            }), inverse);
+        }
+
+        [TestMethod]
+        public void Inverse_WithInvertible4x4Matrix_ExpectCorrect4x4Matrix_3()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { 9.0d, 3.0d, 0.0d, 9.0d },
+                new[] { -5.0d, -2.0d, -6.0d, -3.0d },
+                new[] { -4.0d, 9.0d, 6.0d, 4.0d },
+                new[] { -7.0d, 6.0d, 6.0d, 2.0d }
+            });
+
+            //act
+            var inverse = matrix.Inverse;
+
+            //assert
+            Assert.AreEqual(new Matrix(new[]
+            {
+                new[] { -0.04074074d, -0.07777778d,  0.14444444d, -0.22222222d },
+                new[] { -0.07777778d,  0.03333333d,  0.36666667d, -0.33333333d },
+                new[] { -0.02901234d, -0.14629630d, -0.10925926d,  0.12962963d },
+                new[] {  0.17777778d,  0.06666667d, -0.26666667d,  0.33333333d }
+            }), inverse);
+        }
+
+        [TestMethod]
+        public void Inverse_WithInvertible4x4Matrix_ExpectMultipliesWithOriginalMatrixToIdentityMatrix()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { 3.0d, -9.0d, 7.0d, 3.0d },
+                new[] { 3.0d, -8.0d, 2.0d, -9.0d },
+                new[] { -4.0d, 4.0d, 4.0d, 1.0d },
+                new[] { -6.0d, 5.0d, -1.0d, 1.0d }
+            });
+            var inverse = matrix.Inverse;
+
+            //act
+            var product1 = matrix * inverse;
+            var product2 = inverse * matrix;
+
+            //assert
+            Assert.AreEqual(Matrix.Identity(4), product1);
+            Assert.AreEqual(Matrix.Identity(4), product2);
+        }
+
+        [TestMethod]
+        public void Inverse_WithInvertible4x4Matrix_ExpectInvertsToOriginalMatrix()
+        {
+            //arrange
+            var matrix = new Matrix(new[]
+            {
+                new[] { 3.0d, -9.0d, 7.0d, 3.0d },
+                new[] { 3.0d, -8.0d, 2.0d, -9.0d },
+                new[] { -4.0d, 4.0d, 4.0d, 1.0d },
+                new[] { -6.0d, 5.0d, -1.0d, 1.0d }
+            });
+            var inverse = matrix.Inverse;
+
+            //act
+            var secondInverse = inverse.Inverse;
+
+            //assert
+            Assert.AreEqual(matrix, secondInverse);
+        }
+
+        [TestMethod]
+        public void Inverse_WithIdentityMatrix_ExpectNoChange()
+        {
+            //arrange
+            var matrix = Matrix.Identity(4);
+
+            //act
+            var inverse = matrix.Inverse;
+
+            //assert
+            Assert.AreEqual(matrix, inverse);
+        }
+
+        [TestMethod]
         public void Equals_WithNonMatrixObject_ExpectFalse()
         {
             //arrange
