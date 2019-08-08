@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static System.Math;
 
 namespace RayVE.Tests
 {
@@ -1091,6 +1092,192 @@ namespace RayVE.Tests
 
             //assert
             Assert.AreEqual(point, newPoint);
+        }
+
+        [TestMethod]
+        public void Rotation_WithHalfQuarterRotationAboutXAxis_ExpectCorrectRotatedPoint()
+        {
+            //arrange
+            var point = new Point3D(0, 1, 0);
+            var halfQuarterRotation = Matrix.Rotation(Dimension.X, PI / 4);
+
+            //act
+            var rotatedPoint = halfQuarterRotation * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(0, Sqrt(2) / 2, Sqrt(2) / 2), rotatedPoint);
+        }
+
+        [TestMethod]
+        public void Rotation_WithFullQuarterRotationAboutXAxis_ExpectCorrectRotatedPoint()
+        {
+            //arrange
+            var point = new Point3D(0, 1, 0);
+            var halfQuarterRotation = Matrix.Rotation(Dimension.X, PI / 2);
+
+            //act
+            var rotatedPoint = halfQuarterRotation * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(0, 0, 1), rotatedPoint);
+        }
+
+        [TestMethod]
+        public void Rotation_WithHalfQuarterRotationAboutXAxis_ExpectCorrectInverseRotation()
+        {
+            //arrange
+            var point = new Point3D(0, 1, 0);
+            var halfQuarterRotation = Matrix.Rotation(Dimension.X, PI / 4);
+            var inverseRotation = halfQuarterRotation.Inverse;
+
+            //act
+            var rotatedPoint = inverseRotation * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(0, Sqrt(2) / 2, -Sqrt(2) / 2), rotatedPoint);
+        }
+
+        [TestMethod]
+        public void Rotation_WithHalfQuarterRotationAboutYAxis_ExpectCorrectRotatedPoint()
+        {
+            //arrange
+            var point = new Point3D(0, 0, 1);
+            var halfQuarterRotation = Matrix.Rotation(Dimension.Y, PI / 4);
+
+            //act
+            var rotatedPoint = halfQuarterRotation * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(Sqrt(2) / 2, 0, Sqrt(2) / 2), rotatedPoint);
+        }
+
+        [TestMethod]
+        public void Rotation_WithFullQuarterRotationAboutYAxis_ExpectCorrectRotatedPoint()
+        {
+            //arrange
+            var point = new Point3D(0, 0, 1);
+            var halfQuarterRotation = Matrix.Rotation(Dimension.Y, PI / 2);
+
+            //act
+            var rotatedPoint = halfQuarterRotation * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(1, 0, 0), rotatedPoint);
+        }
+
+        [TestMethod]
+        public void Rotation_WithHalfQuarterRotationAboutZAxis_ExpectCorrectRotatedPoint()
+        {
+            //arrange
+            var point = new Point3D(0, 1, 0);
+            var halfQuarterRotation = Matrix.Rotation(Dimension.Z, PI / 4);
+
+            //act
+            var rotatedPoint = halfQuarterRotation * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(-Sqrt(2) / 2, Sqrt(2) / 2, 0), rotatedPoint);
+        }
+
+        [TestMethod]
+        public void Rotation_WithFullQuarterRotationAboutZAxis_ExpectCorrectRotatedPoint()
+        {
+            //arrange
+            var point = new Point3D(0, 1, 0);
+            var halfQuarterRotation = Matrix.Rotation(Dimension.Z, PI / 2);
+
+            //act
+            var rotatedPoint = halfQuarterRotation * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(-1, 0, 0), rotatedPoint);
+        }
+
+        [TestMethod]
+        public void Shear_WithXInProportionToY_ExpectCorrectShearedPoint()
+        {
+            //arrange
+            var point = new Point3D(2, 3, 4);
+            var shear = Matrix.Shear(Dimension.X, Dimension.Y, 1);
+
+            //act
+            var shearedPoint = shear * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(5, 3, 4), shearedPoint);
+        }
+
+        [TestMethod]
+        public void Shear_WithXInProportionToZ_ExpectCorrectShearedPoint()
+        {
+            //arrange
+            var point = new Point3D(2, 3, 4);
+            var shear = Matrix.Shear(Dimension.X, Dimension.Z, 1);
+
+            //act
+            var shearedPoint = shear * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(6, 3, 4), shearedPoint);
+        }
+
+
+        [TestMethod]
+        public void Shear_WithYInProportionToX_ExpectCorrectShearedPoint()
+        {
+            //arrange
+            var point = new Point3D(2, 3, 4);
+            var shear = Matrix.Shear(Dimension.Y, Dimension.X, 1);
+
+            //act
+            var shearedPoint = shear * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(2, 5, 4), shearedPoint);
+        }
+
+
+        [TestMethod]
+        public void Shear_WithYInProportionToZ_ExpectCorrectShearedPoint()
+        {
+            //arrange
+            var point = new Point3D(2, 3, 4);
+            var shear = Matrix.Shear(Dimension.Y, Dimension.Z, 1);
+
+            //act
+            var shearedPoint = shear * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(2, 7, 4), shearedPoint);
+        }
+
+
+        [TestMethod]
+        public void Shear_WithZInProportionToX_ExpectCorrectShearedPoint()
+        {
+            //arrange
+            var point = new Point3D(2, 3, 4);
+            var shear = Matrix.Shear(Dimension.Z, Dimension.X, 1);
+
+            //act
+            var shearedPoint = shear * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(2, 3, 6), shearedPoint);
+        }
+
+        [TestMethod]
+        public void Shear_WithZInProportionToY_ExpectCorrectShearedPoint()
+        {
+            //arrange
+            var point = new Point3D(2, 3, 4);
+            var shear = Matrix.Shear(Dimension.Z, Dimension.Y, 1);
+
+            //act
+            var shearedPoint = shear * point;
+
+            //assert
+            Assert.AreEqual(new Point3D(2, 3, 7), shearedPoint);
         }
     }
 }

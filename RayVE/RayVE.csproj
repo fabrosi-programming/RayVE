@@ -49,6 +49,7 @@
     <Compile Include="Canvas.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Dimension.cs" />
     <Compile Include="DimensionMismatchException.cs" />
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Matrix.cs" />

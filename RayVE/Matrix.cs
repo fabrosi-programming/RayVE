@@ -1,9 +1,9 @@
-﻿//using MoreLinq;
-using RayVE.Extensions;
+﻿using RayVE.Extensions;
 using System;
 using System.Linq;
 using System.Text;
 using static RayVE.Constants;
+using static System.Math;
 
 namespace RayVE
 {
@@ -213,6 +213,44 @@ namespace RayVE
 
         public static Matrix Scale(Vector scalars)
             => new Matrix(scalars.Length + 1, scalars.Length + 1, (i, j) => i != j ? 0.0d : (i == scalars.Length ? 1.0d : scalars[i]));
+
+        public static Matrix Rotation(Dimension dimension, double angle)
+        {
+            switch (dimension)
+            {
+                case Dimension.X:
+                    return new Matrix(new[]
+                    {
+                        new[] { 1.0d, 0.0d,        0.0d,       0.0d },
+                        new[] { 0.0d, Cos(angle), -Sin(angle), 0.0d },
+                        new[] { 0.0d, Sin(angle),  Cos(angle), 0.0d },
+                        new[] { 0.0d, 0.0d,        0.0d,       1.0d }
+                    });
+                case Dimension.Y:
+                    return new Matrix(new[]
+                    {
+                        new[] { Cos(angle),  0.0d,  Sin(angle), 0.0d },
+                        new[] { 0.0d,        1.0d,  0.0d,       0.0d },
+                        new[] { -Sin(angle), 0.0d,  Cos(angle), 0.0d },
+                        new[] { 0.0d,        0.0d,  0.0d,       1.0d }
+                    });
+                case Dimension.Z:
+                    return new Matrix(new[]
+                    {
+                        new[] { Cos(angle), -Sin(angle), 0.0d, 0.0d },
+                        new[] { Sin(angle),  Cos(angle), 0.0d, 0.0d },
+                        new[] { 0.0d,        0.0d,       1.0d, 0.0d },
+                        new[] { 0.0d,        0.0d,       0.0d, 1.0d }
+                    });
+                default:
+                    throw new NotImplementedException("Rotation matrices are only implemented for 3D transformations.");
+            }
+        }
+
+        public static Matrix Shear(Dimension shearDimension, Dimension inProportionTo, double amount)
+            => new Matrix(4, 4, (r, c) => (r == (uint)shearDimension) && (c == (uint)inProportionTo)
+                                          ? amount
+                                          : Identity(4)[r, c]);
         #endregion
 
         private static double[][] GetRectangularArray(uint rows, uint columns)
