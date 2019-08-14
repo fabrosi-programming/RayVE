@@ -107,10 +107,17 @@ namespace RayVE.Tests
                 new double[] { 1.0d, 0.0d },
                 new double[] { 2.0d, -1.0d }
             };
-            double valueSource(uint i, uint j) => values[i][j];
-
+            Func<int, int, double> valueSource = (i, j) => values[i][j];
+#if CSHARP
             //act
             var matrix = new Matrix(2, 2, valueSource);
+#endif
+#if FSHARP
+            var fSharpFunc = valueSource.ToFSharpFunc();
+
+            //act
+            var matrix = new Matrix(2, 2, fSharpFunc);
+#endif
 
             //assert
             Assert.AreEqual(1.0d, matrix[0, 0]);
@@ -217,10 +224,15 @@ namespace RayVE.Tests
                 new double[] { 2.0d, -1.0d },
                 new double[] { 3.0d, 4.0d }
             });
+            Func<int, int, double> transform = (i, j) => 2.0d * i + j;
 
             //act
-            var transformed = matrix.Transform((i, j) => 2.0d * i + j);
-
+#if CSHARP
+            var transformed = matrix.Transform(transform);
+#endif
+#if FSHARP
+            var transformed = matrix.Transform(transform.ToFSharpFunc());
+#endif
             //assert
             var expected = new Matrix(new double[][]
             {
@@ -241,10 +253,16 @@ namespace RayVE.Tests
                 new double[] { 2.0d, -1.0d },
                 new double[] { 3.0d, 4.0d }
             });
+            Func<int, int, double> transform = (i, j) => 2.0d * i + j;
+            Func<int, int, bool> predicate = (i, j) => i <= j;
 
             //act
-            var transformed = matrix.Transform((i, j) => 2.0d * i + j, (i, j) => i <= j);
-
+#if CSHARP
+            var transformed = matrix.Transform(transform, predicate);
+#endif
+#if FSHARP
+            var transformed = matrix.Transform(transform.ToFSharpFunc(), predicate.ToFSharpFunc());
+#endif
             //assert
             var expected = new Matrix(new double[][]
             {
@@ -270,9 +288,15 @@ namespace RayVE.Tests
         {
             //arrange
             var matrix = Matrix.Identity(3);
+            Func<int, int, bool> predicate = (i, j) => i <= j;
 
             //act-assert
-            Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform(null, (i, j) => i <= j));
+#if CSHARP
+            Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform(null, predicate));
+#endif
+#if FSHARP
+            Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform(null, predicate.ToFSharpFunc()));
+#endif
         }
 
         [TestMethod]
@@ -280,9 +304,15 @@ namespace RayVE.Tests
         {
             //arrange
             var matrix = Matrix.Identity(3);
+            Func<int, int, double> transform = (i, j) => 2.0d * i + j;
 
             //act-assert
-            Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform((i, j) => 2.0d * i + j, null));
+#if CSHARP
+            Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform(transform, null));
+#endif
+#if FSHARP
+            Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform(transform.ToFSharpFunc(), null));
+#endif
         }
 
         [TestMethod]

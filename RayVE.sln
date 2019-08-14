@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayVE.ProjectileSimulation", "RayVE.ProjectileSimulation\RayVE.ProjectileSimulation.csproj", "{25ABE6D4-9BE2-41D0-8B49-48EEF52B54D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayVE", "RayVE\RayVE.csproj", "{83663766-BAD0-46FC-9CEB-992AC2CEEFA0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayVE.CSharp", "RayVE\RayVE.CSharp.csproj", "{83663766-BAD0-46FC-9CEB-992AC2CEEFA0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayVE.Tests", "RayVE.Tests\RayVE.Tests.csproj", "{54702AD0-DC81-4FC0-99E9-4BFB2D89CF17}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RayVE.FSharp", "RayVE.FSharp\RayVE.FSharp.fsproj", "{58B729A1-A1AF-48C6-AC02-5DCE3E1D4759}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{25ABE6D4-9BE2-41D0-8B49-48EEF52B54D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25ABE6D4-9BE2-41D0-8B49-48EEF52B54D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25ABE6D4-9BE2-41D0-8B49-48EEF52B54D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25ABE6D4-9BE2-41D0-8B49-48EEF52B54D4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{83663766-BAD0-46FC-9CEB-992AC2CEEFA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{83663766-BAD0-46FC-9CEB-992AC2CEEFA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83663766-BAD0-46FC-9CEB-992AC2CEEFA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -23,10 +29,10 @@ Global
 		{54702AD0-DC81-4FC0-99E9-4BFB2D89CF17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54702AD0-DC81-4FC0-99E9-4BFB2D89CF17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54702AD0-DC81-4FC0-99E9-4BFB2D89CF17}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25ABE6D4-9BE2-41D0-8B49-48EEF52B54D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25ABE6D4-9BE2-41D0-8B49-48EEF52B54D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25ABE6D4-9BE2-41D0-8B49-48EEF52B54D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25ABE6D4-9BE2-41D0-8B49-48EEF52B54D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58B729A1-A1AF-48C6-AC02-5DCE3E1D4759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58B729A1-A1AF-48C6-AC02-5DCE3E1D4759}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58B729A1-A1AF-48C6-AC02-5DCE3E1D4759}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58B729A1-A1AF-48C6-AC02-5DCE3E1D4759}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -24,8 +24,9 @@ namespace RayVE.Tests
             var canvas = new Canvas(10, 20);
 
             //assert
-            foreach (var pixel in canvas)
-                Assert.AreEqual(pixel, Color.Black);
+            for (var x = 0; x < 10; x++)
+                for (var y = 0; y < 20; y++)
+                    Assert.AreEqual(canvas[x, y], Color.Black);
         }
 
         [TestMethod]

@@ -53,9 +53,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RayVE\RayVE.csproj">
+    <ProjectReference Include="..\RayVE\RayVE.CSharp.csproj">
       <Project>{83663766-bad0-46fc-9ceb-992ac2ceefa0}</Project>
-      <Name>RayVE</Name>
+      <Name>RayVE.CSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
