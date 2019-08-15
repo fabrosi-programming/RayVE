@@ -67,6 +67,12 @@ type Matrix(values: double[][]) =
     //TODO: implement
     member __.GetCofactor r c = Matrix.Zero r c
 
+    override this.Equals other =
+        match other with
+        | :? Matrix as m -> Array.exists2 (fun (v1: double[]) (v2: double[]) -> Vector(v1) <> Vector(v2)) this.Values m.Values
+                            |> not
+        | _ -> false
+
     //TODO: implement
     static member (*) (left: Matrix, right: Matrix) = Matrix.Zero left.Rows left.Columns
 

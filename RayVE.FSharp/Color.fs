@@ -1,19 +1,17 @@
 ﻿namespace RayVE
 
 type Color(red, green, blue) =
-    member __.R with get() = red
+    inherit Vector([| red; green; blue |])
 
-    member __.G with get() = green
+    member __.R with get() = __.Values.[0]
 
-    member __.B with get() = blue
-    
-    static member (+) (left: Color, right: Color) = Color.Black
+    member __.G with get() = __.Values.[1]
 
-    static member (-) (left: Color, right: Color) = Color.Black
+    member __.B with get() = __.Values.[2]
 
-    static member (*) (color: Color, scalar: float) = Color.Black
-
-    static member (*) (left: Color, right: Color) = Color.Black
+    static member (*) (left: Color, right: Color) =
+        let values = Array.map2 (*) left.Values right.Values
+        Color(values.[0], values.[1], values.[2])
 
     static member Black
         with get() = Color(0.0, 0.0, 0.0)

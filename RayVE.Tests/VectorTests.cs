@@ -417,7 +417,7 @@ namespace RayVE.Tests
         }
 
         [TestMethod]
-        public void DivideOperator_WithZeroScalar_ExpectNaNVector()
+        public void DivideOperator_WithZeroScalar_ExpectInfinityVector()
         {
             //arrange
             var vector = new Vector(4.3d, -4.2d, 3.1d);
@@ -427,7 +427,7 @@ namespace RayVE.Tests
             var scaled = vector / scalar;
 
             //assert
-            Assert.AreEqual(new Vector(Double.NaN, Double.NaN, Double.NaN), scaled);
+            Assert.AreEqual(new Vector(Double.PositiveInfinity, Double.NegativeInfinity, Double.PositiveInfinity), scaled);
         }
 
         [TestMethod]
