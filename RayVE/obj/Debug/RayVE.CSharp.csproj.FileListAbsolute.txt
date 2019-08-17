@@ -4,3 +4,4 @@ C:\Users\benra\source\repos\RayVE\RayVE\bin\Debug\RayVE.CSharp.pdb
 C:\Users\benra\source\repos\RayVE\RayVE\obj\Debug\RayVE.CSharp.csproj.CoreCompileInputs.cache
 C:\Users\benra\source\repos\RayVE\RayVE\obj\Debug\RayVE.CSharp.dll
 C:\Users\benra\source\repos\RayVE\RayVE\obj\Debug\RayVE.CSharp.pdb
+C:\Users\benra\source\repos\RayVE\RayVE\obj\Debug\RayVE.CSharp.csprojAssemblyReference.cache

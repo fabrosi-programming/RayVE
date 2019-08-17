@@ -1,7 +1,11 @@
 ﻿namespace RayVE
 
+open System
+
 
 type Matrix(values: double[][]) =
+    do if values = null then raise (ArgumentNullException "values")
+
     new(rows, columns, valueSource: int -> int -> float) =
         let values = Array2D.init rows columns valueSource
         Matrix(values)
@@ -23,17 +27,23 @@ type Matrix(values: double[][]) =
     member __.Columns
         with get() = values.[0].Length
 
-    //TODO: implement
-    member __.Determinant
-        with get() = 0.0
+    member this.Determinant
+        with get() =
+            match (this.Rows, this.Columns) with
+            | (2, 2) -> this.[0, 0] * this.[1, 1] - this.[0, 1] * this.[1, 0]
+            | _ -> Vector(values.[0]) * Vector(this.GetCofactors 0)
+
+
+    member this.IsInvertible
+        with get() =
+            this.Determinant <> 0.0
+
+    member this.Cofactors = Array2D.init this.Rows this.Columns this.GetCofactor
+                            |> Matrix
 
     //TODO: implement
-    member __.IsInvertible
-        with get() = true
-
-    //TODO: implement
-    member __.Inverse
-        with get() = Matrix.Zero __.Rows __.Columns
+    member this.Inverse
+        with get() = this.Cofactors / this.Determinant
 
     member __.SwapRows row1 row2 =
         let valueSource r c =
@@ -58,14 +68,24 @@ type Matrix(values: double[][]) =
 
     member __.Transpose() = Matrix(__.Rows, __.Columns, (fun r c -> values.[c].[r]))
 
-    //TODO: implement
-    member __.GetSubMatrix r c = Matrix.Zero r c
+    member this.GetSubMatrix r c : Matrix =
+        fun i j ->
+            let newRow = if i < r then i else i + 1
+            let newColumn = if j < c then j else j + 1
+            this.[newRow, newColumn]
+        |> Array2D.init (this.Rows - 1) (this.Columns - 1)
+        |> Matrix
 
-    //TODO: implement
-    member __.GetMinor r c = Matrix.Zero r c
+    member this.GetMinor r c = (this.GetSubMatrix r c).Determinant
 
-    //TODO: implement
-    member __.GetCofactor r c = Matrix.Zero r c
+    member this.GetCofactor r c : float =
+        let sign = match (r + c) % 2 with
+                   | 0 -> 1
+                   | _ -> -1
+        (float sign) * this.GetMinor r c
+
+    member this.GetCofactors r : float[] = [| 0 .. (this.Columns - 1) |]
+                                           |> Array.map (fun c -> this.GetCofactor r c)
 
     override this.Equals other =
         match other with
@@ -81,6 +101,12 @@ type Matrix(values: double[][]) =
 
     //TODO: implement
     static member (*) (left: Vector, right: Matrix) = Matrix.Zero right.Rows right.Columns
+
+    //TODO: implement
+    static member (*) (scalar: float, matrix: Matrix) = Array2D.init matrix.Rows matrix.Columns (fun r c -> matrix.[r, c] * scalar)
+                                                        |> Matrix
+
+    static member (/) (matrix: Matrix, scalar: float) = (1.0 / scalar) * matrix
 
     static member Identity(size: int) =
         fun r c -> if r = c then 1.0
