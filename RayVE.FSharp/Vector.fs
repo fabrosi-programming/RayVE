@@ -37,10 +37,10 @@ type Vector([<ParamArray>] values: double[]) =
     override __.GetHashCode() = __.Values.GetHashCode()
 
     static member (+) (left: Vector, right: Vector) = Array.map2 (+) left.Values right.Values
-                                                           |> Vector
+                                                      |> Vector
 
     static member (-) (left: Vector, right: Vector) = Array.map2 (-) left.Values right.Values
-                                                           |> Vector
+                                                      |> Vector
  
     static member (*) (left: Vector, right: Vector) = Array.map2 (*) left.Values right.Values
                                                            |> Array.sum

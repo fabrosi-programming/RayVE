@@ -833,6 +833,7 @@ namespace RayVE.Tests
             Assert.IsTrue(equal);
         }
 
+#if CSHARP
         [TestMethod]
         public void EqualsOperator_WithNullLeftMatrix_ExpectFalse()
         {
@@ -846,6 +847,7 @@ namespace RayVE.Tests
             //assert
             Assert.IsFalse(equal);
         }
+#endif
 
         [TestMethod]
         public void EqualsOperator_WithTwoEqual4x4Matrices_ExpectTrue()
@@ -895,7 +897,7 @@ namespace RayVE.Tests
             });
 
             //act
-            var areEqual = matrix1 == matrix2;
+             var areEqual = matrix1 == matrix2;
 
             //assert
             Assert.IsFalse(areEqual);

@@ -15,6 +15,10 @@ type Matrix(values: double[][]) =
                            |> Array2D.toJagged
         Matrix(jaggedValues)
 
+    new(vectors: Vector[]) =
+        let array = Array.map (fun (v: Vector) -> v.Values) vectors
+        Matrix(array)
+
     member __.Values
         with get() = values
 
@@ -32,7 +36,6 @@ type Matrix(values: double[][]) =
             match (this.Rows, this.Columns) with
             | (2, 2) -> this.[0, 0] * this.[1, 1] - this.[0, 1] * this.[1, 0]
             | _ -> Vector(values.[0]) * Vector(this.GetCofactors 0)
-
 
     member this.IsInvertible
         with get() =
@@ -89,8 +92,15 @@ type Matrix(values: double[][]) =
 
     override this.Equals other =
         match other with
-        | :? Matrix as m -> Array.exists2 (fun (v1: double[]) (v2: double[]) -> Vector(v1) <> Vector(v2)) this.Values m.Values
-                            |> not
+        | :? Matrix as m ->
+            if this.Rows <> m.Rows || this.Columns <> m.Columns then
+                false
+            else
+                seq { for r in 0 .. this.Rows - 1 do
+                          for c in 0 .. this.Columns - 1 do
+                              if Math.Abs (this.[r, c] - m.[r, c]) > Constants.EPSILON then
+                                  yield false }
+                |> Seq.forall id
         | _ -> false
 
     //TODO: implement
@@ -107,6 +117,14 @@ type Matrix(values: double[][]) =
                                                         |> Matrix
 
     static member (/) (matrix: Matrix, scalar: float) = (1.0 / scalar) * matrix
+
+    static member (-) (left: Matrix, right: Matrix) : Matrix =
+        Array.map2 (fun (v1: float[]) (v2: float[]) -> Vector(v1) - Vector(v2)) left.Values right.Values
+        |> Matrix
+
+    static member op_Inequality (left: Matrix, right: Matrix) = not(left.Equals right)
+
+    static member op_Equality (left: Matrix, right: Matrix) = left.Equals right
 
     static member Identity(size: int) =
         fun r c -> if r = c then 1.0
