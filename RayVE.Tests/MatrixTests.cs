@@ -167,7 +167,11 @@ namespace RayVE.Tests
             var matrix = Matrix.Identity(3);
 
             //act-assert
+#if CSHARP
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => matrix.SwapRows(100, 2));
+#elif FSHARP
+            Assert.ThrowsException<IndexOutOfRangeException>(() => matrix.SwapRows(100, 2));
+#endif
         }
 
         [TestMethod]
@@ -177,7 +181,11 @@ namespace RayVE.Tests
             var matrix = Matrix.Identity(3);
 
             //act-assert
+#if CSHARP
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => matrix.SwapRows(2, 100));
+#elif FSHARP
+            Assert.ThrowsException<IndexOutOfRangeException>(() => matrix.SwapRows(2, 100));
+#endif
         }
 
         [TestMethod]
@@ -1002,6 +1010,7 @@ namespace RayVE.Tests
             Assert.AreEqual(expected, product);
         }
 
+#if CSHARP
         [TestMethod]
         public void MultiplyOperator_WithNullLeftMatrix_ExpectArgumentNullException()
         {
@@ -1023,6 +1032,7 @@ namespace RayVE.Tests
             //act-assert
             Assert.ThrowsException<ArgumentNullException>(() => left * right);
         }
+#endif
 
         [TestMethod]
         public void Translation_WithVectorValues_ExpectMultipliesToCorrectPoint()

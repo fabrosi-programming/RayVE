@@ -3,11 +3,14 @@
 type Color(red, green, blue) =
     inherit Vector([| red; green; blue |])
 
-    member __.R with get() = __.Values.[0]
+    member __.R
+        with get() = __.Values.[0]
 
-    member __.G with get() = __.Values.[1]
+    member __.G
+        with get() = __.Values.[1]
 
-    member __.B with get() = __.Values.[2]
+    member __.B
+        with get() = __.Values.[2]
 
     static member (*) (left: Color, right: Color) =
         let values = Array.map2 (*) left.Values right.Values
