@@ -180,22 +180,22 @@ type Matrix(values: double[][]) =
 
     static member Rotation (dimension: Dimension) (radians: float) =
         match dimension with
-        | X -> [| [| 1.0; 0.0;          0.0;           0.0 |];
-                  [| 0.0; cos(radians); -sin(radians); 0.0 |];
-                  [| 0.0; sin(radians);  cos(radians); 0.0 |];
-                  [| 0.0; 0.0;           0.0;          1.0 |] |]
-            |> Matrix
+        | Dimension.X -> [| [| 1.0; 0.0;          0.0;           0.0 |];
+                            [| 0.0; cos(radians); -sin(radians); 0.0 |];
+                            [| 0.0; sin(radians);  cos(radians); 0.0 |];
+                            [| 0.0; 0.0;           0.0;          1.0 |] |]
+                         |> Matrix
 
-        | Y -> [| [| cos(radians);  0.0; sin(radians); 0.0 |];
-                  [| 0.0;           1.0; 0.0;          0.0 |];
-                  [| -sin(radians); 0.0; cos(radians); 0.0 |];
-                  [| 0.0;           0.0; 0.0;          1.0 |] |]
-            |> Matrix
-        | Z -> [| [| cos(radians); -sin(radians); 0.0; 0.0 |];
-                  [| sin(radians); cos(radians);  0.0; 0.0 |];
-                  [| 0.0;          0.0;           1.0; 0.0 |];
-                  [| 0.0;          0.0;           0.0; 1.0 |] |]
-            |> Matrix
+        | Dimension.Y -> [| [| cos(radians);  0.0; sin(radians); 0.0 |];
+                            [| 0.0;           1.0; 0.0;          0.0 |];
+                            [| -sin(radians); 0.0; cos(radians); 0.0 |];
+                            [| 0.0;           0.0; 0.0;          1.0 |] |]
+                         |> Matrix
+        | Dimension.Z -> [| [| cos(radians); -sin(radians); 0.0; 0.0 |];
+                            [| sin(radians); cos(radians);  0.0; 0.0 |];
+                            [| 0.0;          0.0;           1.0; 0.0 |];
+                            [| 0.0;          0.0;           0.0; 1.0 |] |]
+                         |> Matrix
 
     static member Shear (shearDimension: Dimension) (inProportionTo: Dimension) (amount: float) =
         Matrix(4, 4, fun r c -> if r = (LanguagePrimitives.EnumToValue shearDimension) && c = (LanguagePrimitives.EnumToValue inProportionTo)
