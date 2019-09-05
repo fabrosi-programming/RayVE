@@ -136,7 +136,6 @@ type Matrix(values: double[][]) =
         |> Array.map (fun v -> vector * v)
         |> Vector
 
-    //TODO: implement
     static member (*) (scalar: float, matrix: Matrix) =
         Array2D.init matrix.RowCount matrix.ColumnCount (fun r c -> matrix.[r, c] * scalar)
         |> Matrix
@@ -146,6 +145,10 @@ type Matrix(values: double[][]) =
 
     static member (-) (left: Matrix, right: Matrix) : Matrix =
         Array.map2 (-) left.RowVectors right.RowVectors
+        |> Matrix
+
+    static member (+) (left: Matrix, right: Matrix) : Matrix =
+        Array.map2 (+) left.RowVectors right.RowVectors
         |> Matrix
 
     static member op_Inequality (left: Matrix, right: Matrix) =
@@ -164,18 +167,37 @@ type Matrix(values: double[][]) =
         Array2D.zeroCreate rows columns
         |> Matrix
 
-    //TODO: implement
     static member Translation (vector: Vector) =
-        Matrix.Zero vector.Values.Length vector.Values.Length
+        Matrix.Identity (vector.Length + 1)
+        + Matrix(vector.Length + 1, vector.Length + 1, fun r c -> if r <> c && c = vector.Length
+                                                                  then vector.[r]
+                                                                  else 0.0)
 
-    //TODO: implement
     static member Scale (vector: Vector) =
-        Matrix.Zero vector.Values.Length vector.Values.Length
+        Matrix(vector.Length + 1, vector.Length + 1, fun r c -> if r <> c then 0.0
+                                                                elif r = vector.Length then 1.0
+                                                                else vector.[r])
 
-    //TODO: implement
     static member Rotation (dimension: Dimension) (radians: float) =
-        Matrix.Zero 4 4
+        match dimension with
+        | X -> [| [| 1.0; 0.0;          0.0;           0.0 |];
+                  [| 0.0; cos(radians); -sin(radians); 0.0 |];
+                  [| 0.0; sin(radians);  cos(radians); 0.0 |];
+                  [| 0.0; 0.0;           0.0;          1.0 |] |]
+            |> Matrix
 
-    //TODO: implement
+        | Y -> [| [| cos(radians);  0.0; sin(radians); 0.0 |];
+                  [| 0.0;           1.0; 0.0;          0.0 |];
+                  [| -sin(radians); 0.0; cos(radians); 0.0 |];
+                  [| 0.0;           0.0; 0.0;          1.0 |] |]
+            |> Matrix
+        | Z -> [| [| cos(radians); -sin(radians); 0.0; 0.0 |];
+                  [| sin(radians); cos(radians);  0.0; 0.0 |];
+                  [| 0.0;          0.0;           1.0; 0.0 |];
+                  [| 0.0;          0.0;           0.0; 1.0 |] |]
+            |> Matrix
+
     static member Shear (shearDimension: Dimension) (inProportionTo: Dimension) (amount: float) =
-        Matrix.Zero 4 4
+        Matrix(4, 4, fun r c -> if r = (LanguagePrimitives.EnumToValue shearDimension) && c = (LanguagePrimitives.EnumToValue inProportionTo)
+                                then amount
+                                else Matrix.Identity(4).[r, c])

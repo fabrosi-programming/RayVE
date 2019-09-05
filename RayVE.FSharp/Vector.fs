@@ -20,6 +20,9 @@ type Vector([<ParamArray>] values: double[]) =
             |> Array.sum
             |> sqrt
 
+    member __.Length
+        with get() = values.Length
+
     member __.Normalize() =
         values |> Array.map (fun e -> e / __.Magnitude)
                |> Vector

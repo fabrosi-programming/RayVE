@@ -18,4 +18,10 @@ type Canvas(width, height) =
     member __.Fill color =
         do pixels <- Array2D.init width height (fun i j -> color)
 
+    member __.PPMHeader (maxValue: int) =
+        [| "P3";
+           __.Width.ToString() + " " + __.Height.ToString()
+           maxValue.ToString() |]
+        |> String.concat "\r\n"
+
     member __.ToPPM maxValue = ""
