@@ -281,6 +281,7 @@ namespace RayVE.Tests
             Assert.AreEqual(expected, transformed);
         }
 
+#if CSHARP
         [TestMethod]
         public void Transform_WithNullTransform_ExpectArgumentNullException()
         {
@@ -299,12 +300,7 @@ namespace RayVE.Tests
             Func<int, int, bool> predicate = (i, j) => i <= j;
 
             //act-assert
-#if CSHARP
             Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform(null, predicate));
-#endif
-#if FSHARP
-            Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform(null, predicate.ToFSharpFunc()));
-#endif
         }
 
         [TestMethod]
@@ -315,13 +311,10 @@ namespace RayVE.Tests
             Func<int, int, double> transform = (i, j) => 2.0d * i + j;
 
             //act-assert
-#if CSHARP
+
             Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform(transform, null));
-#endif
-#if FSHARP
-            Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform(transform.ToFSharpFunc(), null));
-#endif
         }
+#endif
 
         [TestMethod]
         public void Transpose_WithSquareMatrix_ExpectCorrectMatrix()

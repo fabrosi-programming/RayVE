@@ -52,7 +52,7 @@ namespace RayVE.Tests
             //act
             var ppm = canvas.ToPPM(maxValue)
                             .Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-
+            
             //assert
             Assert.AreEqual("P3", ppm[0]);
             Assert.AreEqual("5 3", ppm[1]);
@@ -72,7 +72,7 @@ namespace RayVE.Tests
             //act
             var ppm = canvas.ToPPM(maxValue)
                             .Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-
+            
             //assert
             Assert.AreEqual("255 0 0 0 0 0 0 0 0 0 0 0 0 0 0", ppm[3]);
             Assert.AreEqual("0 0 0 0 0 0 0 128 0 0 0 0 0 0 0", ppm[4]);
@@ -90,7 +90,7 @@ namespace RayVE.Tests
             //act
             var ppm = canvas.ToPPM(maxValue)
                             .Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-
+            
             //assert
             Assert.AreEqual("255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204", ppm[3]);
             Assert.AreEqual("153 255 204 153 255 204 153 255 204 153 255 204 153", ppm[4]);

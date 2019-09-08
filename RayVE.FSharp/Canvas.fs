@@ -24,4 +24,11 @@ type Canvas(width, height) =
            maxValue.ToString() |]
         |> String.concat "\r\n"
 
-    member __.ToPPM maxValue = ""
+    member __.ToPPM maxValue =
+        let data = Array2D.init __.Width __.Height (fun r c -> pixels.[r, c].ToPPM())
+                   |> Array2D.map (String.concat " ")
+                   |> Array2D.toJagged
+                   |> Array.map (String.concat " ")
+                   |> String.concat "\r\n"
+
+        (__.PPMHeader maxValue) + "\r\n" + data

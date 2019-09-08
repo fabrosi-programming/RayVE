@@ -12,6 +12,22 @@ type Color(red, green, blue) =
     member __.B
         with get() = __.Values.[2]
 
+    member __.ToPPM maxValue =
+        [__.R; __.G; __.B]
+        |> List.map (Color.GetPPMValue 255)
+        |> List.map (sprintf "%i")
+    
+    static member private clamp minValue maxValue value =
+        match value with
+        | v when v < minValue -> minValue
+        | v when v > maxValue -> maxValue
+        | _ -> value
+
+    static member GetPPMValue maxValue rawValue =
+        rawValue * double(maxValue)
+        |> int32
+        |> Color.clamp 0 maxValue
+
     static member (*) (left: Color, right: Color) =
         let values = Array.map2 (*) left.Values right.Values
         Color(values.[0], values.[1], values.[2])

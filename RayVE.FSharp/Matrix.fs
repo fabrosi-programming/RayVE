@@ -66,10 +66,12 @@ type Matrix(values: double[][]) =
         Matrix(__.RowCount, __.ColumnCount, valueSource)
 
     member __.ScaleColumn column factor =
-        let valueSource r c =
-            if c = column then values.[r].[c] * factor
-            else values.[r].[c]
-        Matrix(__.RowCount, __.ColumnCount, valueSource)
+        match column with
+        | c when c > __.ColumnCount -> raise (ArgumentOutOfRangeException("column"))
+        | _ -> let valueSource r c =
+                   if c = column then values.[r].[c] * factor
+                   else values.[r].[c]
+               Matrix(__.RowCount, __.ColumnCount, valueSource)
 
     member __.Transform (transform: int -> int -> float) =
         Matrix(__.RowCount, __.ColumnCount, transform)
