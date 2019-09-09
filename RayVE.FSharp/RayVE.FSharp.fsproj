@@ -46,6 +46,8 @@
     <Content Include="packages.config" />
     <Compile Include="Constants.fs" />
     <Compile Include="Array2D.fs" />
+    <Compile Include="Math.fs" />
+    <Compile Include="String.fs" />
     <Compile Include="Dimension.fs" />
     <Compile Include="Vector.fs" />
     <Compile Include="Matrix.fs" />

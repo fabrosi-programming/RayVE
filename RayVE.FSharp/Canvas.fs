@@ -1,6 +1,8 @@
 ﻿namespace RayVE
 
-open System.Collections.Generic
+open System
+open RayVE.Math
+open RayVE.String
 
 type Canvas(width, height) =
     let mutable pixels = Array2D.init width height (fun i j -> Color.Black)
@@ -13,7 +15,7 @@ type Canvas(width, height) =
 
     member __.Item
         with get(x, y) = pixels.[x, y]
-        and set (x, y) value = pixels.[x, y] <- value
+        and set(x, y) value = pixels.[x, y] <- value
 
     member __.Fill color =
         do pixels <- Array2D.init width height (fun i j -> color)
@@ -24,11 +26,14 @@ type Canvas(width, height) =
            maxValue.ToString() |]
         |> String.concat "\r\n"
 
-    member __.ToPPM maxValue =
-        let data = Array2D.init __.Width __.Height (fun r c -> pixels.[r, c].ToPPM())
-                   |> Array2D.map (String.concat " ")
+    member __.ToPPM (maxValue: int) =
+        let maxChunkSize = 70
+        let data = Array2D.init __.Width __.Height (fun i j -> pixels.[i, j].ToPPM())
                    |> Array2D.toJagged
-                   |> Array.map (String.concat " ")
-                   |> String.concat "\r\n"
+                   |> Array.transpose
+                   |> Array.map (Array.collect id)
+                   |> Array.map (chunkSplit maxChunkSize " ")
+                   |> Seq.collect id
+                   |> String.concat Environment.NewLine
 
-        (__.PPMHeader maxValue) + "\r\n" + data
+        (__.PPMHeader maxValue) + Environment.NewLine + data + Environment.NewLine

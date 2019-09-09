@@ -1,5 +1,7 @@
 ﻿namespace RayVE
 
+open RayVE.Math
+
 type Color(red, green, blue) =
     inherit Vector([| red; green; blue |])
 
@@ -13,20 +15,15 @@ type Color(red, green, blue) =
         with get() = __.Values.[2]
 
     member __.ToPPM maxValue =
-        [__.R; __.G; __.B]
-        |> List.map (Color.GetPPMValue 255)
-        |> List.map (sprintf "%i")
-    
-    static member private clamp minValue maxValue value =
-        match value with
-        | v when v < minValue -> minValue
-        | v when v > maxValue -> maxValue
-        | _ -> value
+        [| __.R; __.G; __.B |]
+        |> Array.map (Color.GetPPMValue 255)
+        |> Array.map (sprintf "%i")
 
     static member GetPPMValue maxValue rawValue =
         rawValue * double(maxValue)
-        |> int32
-        |> Color.clamp 0 maxValue
+        |> round
+        |> int
+        |> clamp 0 maxValue
 
     static member (*) (left: Color, right: Color) =
         let values = Array.map2 (*) left.Values right.Values
