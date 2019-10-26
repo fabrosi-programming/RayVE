@@ -107,7 +107,7 @@ namespace RayVE.Tests
                 new double[] { 1.0d, 0.0d },
                 new double[] { 2.0d, -1.0d }
             };
-            Func<int, int, double> valueSource = (i, j) => values[i][j];
+            Func<uint, uint, double> valueSource = (i, j) => values[i][j];
 #if CSHARP
             //act
             var matrix = new Matrix(2, 2, valueSource);
@@ -232,7 +232,7 @@ namespace RayVE.Tests
                 new double[] { 2.0d, -1.0d },
                 new double[] { 3.0d, 4.0d }
             });
-            Func<int, int, double> transform = (i, j) => 2.0d * i + j;
+            Func<uint, uint, double> transform = (i, j) => 2.0d * i + j;
 
             //act
 #if CSHARP
@@ -261,8 +261,8 @@ namespace RayVE.Tests
                 new double[] { 2.0d, -1.0d },
                 new double[] { 3.0d, 4.0d }
             });
-            Func<int, int, double> transform = (i, j) => 2.0d * i + j;
-            Func<int, int, bool> predicate = (i, j) => i <= j;
+            Func<uint, uint, double> transform = (i, j) => 2.0d * i + j;
+            Func<uint, uint, bool> predicate = (i, j) => i <= j;
 
             //act
 #if CSHARP
@@ -297,7 +297,7 @@ namespace RayVE.Tests
         {
             //arrange
             var matrix = Matrix.Identity(3);
-            Func<int, int, bool> predicate = (i, j) => i <= j;
+            Func<uint, uint, bool> predicate = (i, j) => i <= j;
 
             //act-assert
             Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform(null, predicate));
@@ -308,7 +308,7 @@ namespace RayVE.Tests
         {
             //arrange
             var matrix = Matrix.Identity(3);
-            Func<int, int, double> transform = (i, j) => 2.0d * i + j;
+            Func<uint, uint, double> transform = (i, j) => 2.0d * i + j;
 
             //act-assert
 

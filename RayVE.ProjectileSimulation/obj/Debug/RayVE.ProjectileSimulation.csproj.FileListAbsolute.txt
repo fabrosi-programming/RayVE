@@ -9,3 +9,14 @@ C:\Users\benra\Source\Repos\RayVE\RayVE.ProjectileSimulation\obj\Debug\RayVE.Pro
 C:\Users\benra\source\repos\RayVE\RayVE.ProjectileSimulation\bin\Debug\RayVE.CSharp.dll
 C:\Users\benra\source\repos\RayVE\RayVE.ProjectileSimulation\bin\Debug\RayVE.CSharp.pdb
 C:\Users\benra\source\repos\RayVE\RayVE.ProjectileSimulation\bin\Debug\RayVE.CSharp.dll.config
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\RayVE.ProjectileSimulation.exe.config
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\RayVE.ProjectileSimulation.exe
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\RayVE.ProjectileSimulation.pdb
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\RayVE.CSharp.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\RayVE.CSharp.pdb
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\RayVE.CSharp.dll.config
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\obj\Debug\RayVE.ProjectileSimulation.csprojAssemblyReference.cache
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\obj\Debug\RayVE.ProjectileSimulation.csproj.CoreCompileInputs.cache
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\obj\Debug\RayVE.ProjectileSimulation.csproj.CopyComplete
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\obj\Debug\RayVE.ProjectileSimulation.exe
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\obj\Debug\RayVE.ProjectileSimulation.pdb

@@ -1,0 +1,6 @@
+C:\Users\Ben\Source\Repos\bunsofwrath\RayVE\RayVE\bin\Release\RayVE.CSharp.dll.config
+C:\Users\Ben\Source\Repos\bunsofwrath\RayVE\RayVE\bin\Release\RayVE.CSharp.dll
+C:\Users\Ben\Source\Repos\bunsofwrath\RayVE\RayVE\bin\Release\RayVE.CSharp.pdb
+C:\Users\Ben\Source\Repos\bunsofwrath\RayVE\RayVE\obj\Release\RayVE.CSharp.csproj.CoreCompileInputs.cache
+C:\Users\Ben\Source\Repos\bunsofwrath\RayVE\RayVE\obj\Release\RayVE.CSharp.dll
+C:\Users\Ben\Source\Repos\bunsofwrath\RayVE\RayVE\obj\Release\RayVE.CSharp.pdb
