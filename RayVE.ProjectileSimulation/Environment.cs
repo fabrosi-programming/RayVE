@@ -1,4 +1,6 @@
-﻿namespace RayVE.ProjectileSimulation
+﻿using RayVE.LinearAlgebra;
+
+namespace RayVE.ProjectileSimulation
 {
     public class Environment
     {

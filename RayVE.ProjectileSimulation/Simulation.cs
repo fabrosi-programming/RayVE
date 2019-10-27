@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RayVE.LinearAlgebra;
+using System.Collections.Generic;
 
 namespace RayVE.ProjectileSimulation
 {

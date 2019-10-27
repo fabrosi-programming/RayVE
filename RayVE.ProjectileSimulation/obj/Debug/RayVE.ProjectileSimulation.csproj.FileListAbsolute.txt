@@ -20,3 +20,13 @@ C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\obj\Debug
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\obj\Debug\RayVE.ProjectileSimulation.csproj.CopyComplete
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\obj\Debug\RayVE.ProjectileSimulation.exe
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\obj\Debug\RayVE.ProjectileSimulation.pdb
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\System.Collections.Immutable.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\System.Memory.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\System.Buffers.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\System.Collections.Immutable.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\System.Memory.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\System.Buffers.xml

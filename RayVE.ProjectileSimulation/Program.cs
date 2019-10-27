@@ -1,5 +1,6 @@
 ﻿using RayVE;
 using RayVE.Extensions;
+using RayVE.LinearAlgebra;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

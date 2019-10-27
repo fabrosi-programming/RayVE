@@ -1,4 +1,5 @@
 ﻿using RayVE;
+using RayVE.LinearAlgebra;
 using System.Diagnostics;
 
 namespace RayVE.ProjectileSimulation

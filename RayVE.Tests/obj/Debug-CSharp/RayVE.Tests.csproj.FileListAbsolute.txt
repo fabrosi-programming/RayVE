@@ -31,3 +31,13 @@ C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\zh-Hant\FSharp
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\obj\Debug-CSharp\RayVE.Tests.csproj.CopyComplete
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\obj\Debug-CSharp\RayVE.Tests.dll
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\obj\Debug-CSharp\RayVE.Tests.pdb
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Collections.Immutable.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Memory.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Buffers.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Collections.Immutable.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Memory.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Buffers.xml
