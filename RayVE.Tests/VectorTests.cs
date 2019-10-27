@@ -559,5 +559,63 @@ namespace RayVE.Tests
             //assert
             Assert.AreEqual(new Vector(0.0d, 0.0d, 0.0d), vector);
         }
+
+        [TestMethod]
+        public void Translate_WithVectorValues_ExpectTranslatesToCorrectVector()
+        {
+            //arrange
+            var vector = new Vector(new[] { 5.0d, -3.0d, 2.0d });
+            var point = new Point3D(-3.0d, 4.0d, 5.0d);
+
+            //act
+            var translated = point.Translate(vector);
+
+            //assert
+            Assert.AreEqual(new Point3D(2.0d, 1.0d, 7.0d), translated);
+        }
+
+        [TestMethod]
+        public void Scale_MultipliedByVector_ExpectCorrectNewPoint()
+        {
+            //arrange
+            var scalars = new Vector(new[] { 2.0d, 3.0d, 4.0d });
+            var point = new Vector3D(-4.0d, 6.0d, 8.0d);
+
+            //act
+            var newPoint = point.Scale(scalars);
+
+            //assert
+            Assert.AreEqual(new Vector3D(-8.0d, 18.0d, 32.0d), newPoint);
+        }
+
+        [TestMethod]
+        public void Rotate_WithHalfQuarterRotationAboutXAxis_ExpectCorrectRotatedPoint()
+        {
+            //arrange
+            var dimension = Dimension.X;
+            var angle = PI / 4;
+            var point = new Point3D(0, 1, 0);
+
+            //act
+            var rotatedPoint = point.Rotate(dimension, angle);
+
+            //assert
+            Assert.AreEqual(new Point3D(0, Sqrt(2) / 2, Sqrt(2) / 2), rotatedPoint);
+        }
+
+        [TestMethod]
+        public void TranslateScaleRotate_WithChainedOperations_ExpectCorrectResultPoint()
+        {
+            //arrange
+            var point = new Point3D(1, 0, 1);
+
+            //act
+            var transformedPoint = point.Rotate(Dimension.X, PI / 2)
+                                        .Scale(new Vector(new[] { 5, 5, 5 }))
+                                        .Translate(new Vector(new[] { 10, 5, 7 }));
+
+            //assert
+            Assert.AreEqual(new Point3D(15, 0, 7), transformedPoint);
+        }
     }
 }

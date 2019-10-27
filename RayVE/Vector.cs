@@ -56,6 +56,15 @@ namespace RayVE
                               (this[0] * other[1]) - (this[1] * other[0]));
         }
 
+        public Vector Translate(Vector translation)
+            => Matrix.Translation(translation) * this;
+
+        public Vector Scale(Vector scalars)
+            => Matrix.Scale(scalars) * this;
+
+        public Vector Rotate(Dimension dimension, double angle)
+            => Matrix.Rotation(dimension, angle) * this;
+
         private static Vector CombineElementWise(Vector left, Vector right, Func<double, double, double> combine)
         {
             if (left.Length != right.Length)

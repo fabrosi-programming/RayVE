@@ -184,7 +184,7 @@ namespace RayVE
         public Vector GetCofactors(uint row)
             => new Vector(Enumerable.Range(0, Convert.ToInt32(ColumnCount))
                                     .Select(c => GetCofactor(row, Convert.ToUInt32(c))));
-
+        
         public override string ToString()
         {
             var builder = new StringBuilder();
