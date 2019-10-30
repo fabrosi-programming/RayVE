@@ -16,7 +16,7 @@ namespace RayVE.SphereDrawing
         {
             var color = Color.Red;
             var origin = new Point3D(0, 0, -5);
-            var canvasSize = 100;
+            var canvasSize = 1000;
             var canvasDepth = 10;
             var scale = 7.0d / (double)canvasSize;
 
@@ -24,9 +24,9 @@ namespace RayVE.SphereDrawing
                        from y in Enumerable.Range(-canvasSize / 2, canvasSize)
                        select (Index: (x, y), Ray: new Ray(origin, new Vector3D((double)x * scale, (double)y * scale, canvasDepth)));
 
-            var sphere = new Sphere(Matrix.Rotation(Dimension.Z, Math.PI / 4) * Matrix.Scale(new Vector(0.5, 1.0, 1.0)));
+            var sphere = new Sphere(Matrix.Shear(Dimension.Y, Dimension.X, 2.0));
             
-            var hits = rays.Select(r => (r.Index, Hit: sphere.Intersect(r.Ray).GetHit()));
+            var hits = rays.AsParallel().Select(r => (r.Index, Hit: sphere.Intersect(r.Ray).GetHit()));
             var canvas = new Canvas(canvasSize, canvasSize);
 
             foreach (var ray in hits)

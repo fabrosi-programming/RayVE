@@ -13,7 +13,7 @@ namespace RayVE.Surfaces
     {
         private readonly Point3D _origin;
 
-        private readonly Matrix _transformation;
+        private readonly Matrix _rayTransformation;
         public Sphere()
             : this(new Point3D(0, 0, 0))
         { }
@@ -28,12 +28,12 @@ namespace RayVE.Surfaces
         public Sphere(Point3D origin, Matrix transformation)
         {
             _origin = origin;
-            _transformation = transformation;
+            _rayTransformation = transformation.Inverse;
         }
 
         private IEnumerable<double> GetIntersections(Ray ray)
         {
-            var transformedRay = _transformation.Inverse * ray;
+            var transformedRay = _rayTransformation * ray;
             var connectOrigins = transformedRay.Origin - _origin;
             var a = transformedRay.Direction * transformedRay.Direction; // more precise than Pow(ray.Direction.Magnitude, 2)
             var b = 2 * transformedRay.Direction * connectOrigins;
