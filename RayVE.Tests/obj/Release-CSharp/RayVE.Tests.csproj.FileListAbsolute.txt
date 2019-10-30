@@ -1,2 +1,0 @@
-C:\Users\Ben\Source\Repos\bunsofwrath\RayVE\RayVE.Tests\obj\Release-CSharp\RayVE.Tests.csprojAssemblyReference.cache
-C:\Users\Ben\Source\Repos\bunsofwrath\RayVE\RayVE.Tests\obj\Release-CSharp\RayVE.Tests.csproj.CoreCompileInputs.cache

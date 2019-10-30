@@ -13,16 +13,12 @@ namespace RayVE.Surfaces
     {
         private readonly Vector _origin;
 
-        private readonly double _radius;
-
-        public Sphere(uint dimensionality, double radius = 1.0d)
-            : this(Vector.Zero(dimensionality))
+        public Sphere()
+            : this(new Vector(0, 0, 0))
         { }
-
-        public Sphere(Vector origin, double radius = 1.0d)
+        public Sphere(Vector origin)
         {
             _origin = origin;
-            _radius = radius;
         }
 
         private Vector ConnectOrigins(Ray ray)
