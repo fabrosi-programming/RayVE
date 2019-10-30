@@ -25,13 +25,25 @@ namespace RayVE
         public Vector GetPosition(double distance)
             => Origin + (distance * Direction);
 
-        public Ray Transform(Matrix transformation)
+        public static Ray operator *(Ray ray, Matrix matrix)
         {
-            if (transformation.ColumnCount != Origin.Length)
+            if (matrix.ColumnCount != ray.Origin.Length)
                 throw new DimensionMismatchException();
 
-            var transformedOrigin = transformation * Origin;
-            var transformedDirection = transformation * Direction;
+            var transformedOrigin = ray.Origin * matrix;
+            var transformedDirection = ray.Direction * matrix;
+
+            return new Ray(new Point3D(transformedOrigin[0], transformedOrigin[1], transformedOrigin[2]),
+                           new Vector3D(transformedDirection[0], transformedDirection[1], transformedDirection[2]));
+        }
+
+        public static Ray operator *(Matrix matrix, Ray ray)
+        {
+            if (matrix.ColumnCount != ray.Origin.Length)
+                throw new DimensionMismatchException();
+
+            var transformedOrigin = matrix * ray.Origin;
+            var transformedDirection = matrix * ray.Direction;
 
             return new Ray(new Point3D(transformedOrigin[0], transformedOrigin[1], transformedOrigin[2]),
                            new Vector3D(transformedDirection[0], transformedDirection[1], transformedDirection[2]));

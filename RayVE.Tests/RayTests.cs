@@ -46,14 +46,14 @@ namespace RayVE.Tests
         }
 
         [TestMethod]
-        public void Transform_WithTranslationMatrix_ExpectCorrectTransformedRay()
+        public void MultiplyOperator_WithTranslationMatrix_ExpectCorrectTransformedRay()
         {
             //arrange
             var ray = new Ray(new Point3D(1, 2, 3), new Vector3D(0, 1, 0));
             var transformation = Matrix.Translation(new Vector(3, 4, 5));
 
             //act
-            var transformed = ray.Transform(transformation);
+            var transformed = transformation * ray;
 
             //assert
             Assert.AreEqual(new Point3D(4, 6, 8), transformed.Origin);
@@ -61,14 +61,14 @@ namespace RayVE.Tests
         }
 
         [TestMethod]
-        public void Transform_WithScalingMatrix_ExpectCorrectTransformedRay()
+        public void MultiplyOperator_WithScalingMatrix_ExpectCorrectTransformedRay()
         {
             //arrange
             var ray = new Ray(new Point3D(1, 2, 3), new Vector3D(0, 1, 0));
             var transformation = Matrix.Scale(new Vector(2, 3, 4));
 
             //act
-            var transformed = ray.Transform(transformation);
+            var transformed = transformation * ray;
 
             //assert
             Assert.AreEqual(new Point3D(2, 6, 12), transformed.Origin);
