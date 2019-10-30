@@ -31,9 +31,6 @@ namespace RayVE.Surfaces
             _transformation = transformation;
         }
 
-        private Vector3D ConnectOrigins(Ray ray)
-            => ray.Origin - _origin;
-
         private IEnumerable<double> GetIntersections(Ray ray)
         {
             var transformedRay = _transformation.Inverse * ray;
