@@ -41,3 +41,8 @@ C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Memory.
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\System.Buffers.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\MoreLinq.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\MoreLinq.pdb
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\MoreLinq.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\Option.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.Tests\bin\Debug\Option.xml

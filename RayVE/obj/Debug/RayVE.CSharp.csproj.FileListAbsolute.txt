@@ -23,3 +23,10 @@ C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE\bin\Debug\System.Memory.xml
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE\obj\Debug\RayVE.CSharp.csproj.CopyComplete
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE\bin\Debug\MoreLinq.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE\bin\Debug\System.ValueTuple.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE\bin\Debug\MoreLinq.pdb
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE\bin\Debug\MoreLinq.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE\bin\Debug\System.ValueTuple.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE\bin\Debug\Option.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE\bin\Debug\Option.xml

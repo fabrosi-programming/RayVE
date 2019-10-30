@@ -39,7 +39,7 @@ namespace RayVE.LinearAlgebra
             return builder.ToString();
         }
 
-        public double Magnitude
+        public virtual double Magnitude
             => Sqrt(_values.Select(v => Pow(v, 2))
                            .Sum());
 

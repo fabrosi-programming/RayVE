@@ -30,3 +30,8 @@ C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\System.Numerics.Vectors.xml
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\System.Buffers.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\Option.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\MoreLinq.dll
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\Option.xml
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\MoreLinq.pdb
+C:\Users\Ben\source\repos\bunsofwrath\RayVE\RayVE.ProjectileSimulation\bin\Debug\MoreLinq.xml
