@@ -6,6 +6,12 @@
             : base(x, y, z, 1.0d)
         { }
 
-        public override double Magnitude => new Vector(this[0], this[1], this[2]).Magnitude;
+        public override double Magnitude
+            => new Vector(this[0], this[1], this[2]).Magnitude;
+
+        #region Operators
+        public static Vector3D operator -(Point3D left, Point3D right)
+            => new Vector3D((Vector)left - (Vector)right);
+        #endregion
     }
 }

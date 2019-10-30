@@ -11,17 +11,27 @@ namespace RayVE.Surfaces
 {
     public class Sphere : ISurface
     {
-        private readonly Vector _origin;
+        private readonly Point3D _origin;
 
+        private readonly Matrix _transformation;
         public Sphere()
-            : this(new Vector(0, 0, 0))
+            : this(new Point3D(0, 0, 0))
         { }
-        public Sphere(Vector origin)
+        public Sphere(Point3D origin)
+            : this(origin, Matrix.Identity(origin.Length))
+        { }
+
+        public Sphere(Matrix transformation)
+            : this(new Point3D(0, 0, 0), transformation)
+        { }
+
+        public Sphere(Point3D origin, Matrix transformation)
         {
             _origin = origin;
+            _transformation = transformation;
         }
 
-        private Vector ConnectOrigins(Ray ray)
+        private Vector3D ConnectOrigins(Ray ray)
             => ray.Origin - _origin;
 
         private double a(Ray ray)
