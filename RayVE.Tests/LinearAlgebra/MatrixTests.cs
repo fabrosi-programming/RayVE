@@ -329,7 +329,7 @@ namespace RayVE.LinearAlgebra.Tests
             });
 
             //act
-            var transposed = matrix.Transpose();
+            var transposed = matrix.Transpose;
 
             //assert
             Assert.AreEqual(new Matrix(new[]
@@ -352,7 +352,7 @@ namespace RayVE.LinearAlgebra.Tests
             });
 
             //act
-            var transposed = matrix.Transpose();
+            var transposed = matrix.Transpose;
 
             //assert
             Assert.AreEqual(new Matrix(new[]
@@ -374,7 +374,7 @@ namespace RayVE.LinearAlgebra.Tests
             });
 
             //act
-            var transposed = matrix.Transpose();
+            var transposed = matrix.Transpose;
 
             //assert
             Assert.AreEqual(matrix, transposed);

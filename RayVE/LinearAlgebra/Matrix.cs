@@ -76,10 +76,24 @@ namespace RayVE.LinearAlgebra
 
         public Matrix Cofactors
             => new Matrix(RowCount, ColumnCount, (i, j) => GetCofactor(i, j))
-               .Transpose();
+               .Transpose;
 
         public Matrix Inverse
             => Cofactors / Determinant;
+
+        public Matrix Transpose
+        {
+            get
+            {
+                var values = GetRectangularArray(ColumnCount, RowCount);
+
+                for (uint i = 0; i < RowCount; i++)
+                    for (uint j = 0; j < ColumnCount; j++)
+                        values[j][i] = _values[i][j];
+
+                return new Matrix(values);
+            }
+        }
 
         public RowCollection Rows { get; }
 
@@ -157,17 +171,6 @@ namespace RayVE.LinearAlgebra
                     values[i][j] = predicate(i, j)
                                  ? transform(i, j)
                                  : this[i, j];
-
-            return new Matrix(values);
-        }
-
-        public Matrix Transpose()
-        {
-            var values = GetRectangularArray(ColumnCount, RowCount);
-
-            for (uint i = 0; i < RowCount; i++)
-                for (uint j = 0; j < ColumnCount; j++)
-                    values[j][i] = _values[i][j];
 
             return new Matrix(values);
         }

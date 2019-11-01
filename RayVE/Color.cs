@@ -39,6 +39,9 @@ namespace RayVE
         private int GetPPMValue(double rawValue, int maxValue)
             => Convert.ToInt32((rawValue * maxValue).Clamp(0.0d, maxValue));
 
+        public override string ToString()
+            => $"R:{R} G:{G} B:{B}";
+
         #region Operators
         public static Color operator +(Color left, Color right)
             => new Color(left.R + right.R,

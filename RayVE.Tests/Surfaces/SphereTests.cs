@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RayVE.LinearAlgebra;
 using RayVE.Surfaces;
+using static System.Math;
 
-namespace RayVE.Tests.Surfaces
+namespace RayVE.Surfaces.Tests
 {
     [TestClass]
     public class SphereTests
@@ -141,6 +142,109 @@ namespace RayVE.Tests.Surfaces
 
             //assert
             Assert.AreEqual(0, intersectionDistances.Count);
+        }
+
+        [TestMethod]
+        public void GetNormal_WithUnitSphereAtOrigin_ExpectCorrectNormalVector_0()
+        {
+            //arrange
+            var sphere = new Sphere();
+            var normalPoint = new Point3D(1, 0, 0);
+
+            //act
+            var normal = sphere.GetNormal(normalPoint);
+
+            //assert
+            Assert.AreEqual(new Vector3D(1, 0, 0), normal);
+        }
+
+        [TestMethod]
+        public void GetNormal_WithUnitSphereAtOrigin_ExpectCorrectNormalVector_1()
+        {
+            //arrange
+            var sphere = new Sphere();
+            var normalPoint = new Point3D(0, 1, 0);
+
+            //act
+            var normal = sphere.GetNormal(normalPoint);
+
+            //assert
+            Assert.AreEqual(new Vector3D(0, 1, 0), normal);
+        }
+
+        [TestMethod]
+        public void GetNormal_WithUnitSphereAtOrigin_ExpectCorrectNormalVector_2()
+        {
+            //arrange
+            var sphere = new Sphere();
+            var normalPoint = new Point3D(0, 0, 1);
+
+            //act
+            var normal = sphere.GetNormal(normalPoint);
+
+            //assert
+            Assert.AreEqual(new Vector3D(0, 0, 1), normal);
+        }
+
+        [TestMethod]
+        public void GetNormal_WithUnitSphereAtOrigin_ExpectCorrectNormalVector_4()
+        {
+            //arrange
+            var sphere = new Sphere();
+            var sqrt3over3 = Sqrt(3) / 3;
+            var normalPoint = new Point3D(sqrt3over3, sqrt3over3, sqrt3over3);
+
+            //act
+            var normal = sphere.GetNormal(normalPoint);
+
+            //assert
+            Assert.AreEqual(new Vector3D(sqrt3over3, sqrt3over3, sqrt3over3), normal);
+        }
+
+        [TestMethod]
+        public void GetNormal_WithUnitSphereAtOrigin_ExpectNormalizedVector()
+        {
+            //arrange
+            var sphere = new Sphere();
+            var sqrt3over3 = Sqrt(3) / 3;
+            var normalPoint = new Point3D(sqrt3over3, sqrt3over3, sqrt3over3);
+
+            //act
+            var normal = sphere.GetNormal(normalPoint);
+
+            //assert
+            Assert.AreEqual(1, normal.Magnitude);
+        }
+
+        [TestMethod]
+        public void GetNormal_WithTranslatedSphere_ExpectCorrectNormalVector()
+        {
+            //arrange
+            var transformation = Matrix.Translation(new Vector(0, 1, 0));
+            var sphere = new Sphere(transformation);
+            var normalPoint = new Point3D(0, 1.70710678, -0.70710678);
+
+            //act
+            var normal = sphere.GetNormal(normalPoint);
+
+            //assert
+            Assert.AreEqual(new Vector3D(0, 0.70710678, -0.70710678), normal);
+        }
+
+        [TestMethod]
+        public void GetNormal_WithScaledAndRotatedSphere_ExpectCorrectNormalVector()
+        {
+            //arrange
+            var transformation = Matrix.Scale(new Vector(1, 0.5, 1)) * Matrix.Rotation(Dimension.Z, PI / 5);
+            var sphere = new Sphere(transformation);
+            var sqrt2over2 = Sqrt(2) / 2;
+            var normalPoint = new Point3D(0, sqrt2over2, -sqrt2over2);
+
+            //act
+            var normal = sphere.GetNormal(normalPoint);
+
+            //assert
+            Assert.AreEqual(new Vector3D(0, 0.97014250, -0.24253563), normal);
         }
     }
 }

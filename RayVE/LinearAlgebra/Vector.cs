@@ -65,6 +65,9 @@ namespace RayVE.LinearAlgebra
         public Vector Rotate(Dimension dimension, double angle)
             => Matrix.Rotation(dimension, angle) * this;
 
+        public Vector Reflect(Vector normal)
+            => this - (normal * (2 * (this * normal)));
+
         private static Vector CombineElementWise(Vector left, Vector right, Func<double, double, double> combine)
         {
             if (left.Length != right.Length)
@@ -92,6 +95,9 @@ namespace RayVE.LinearAlgebra
         public static Vector operator *(double scalar, Vector vector)
             => new Vector(vector._values.Select(v => v * scalar)
                                         .ToArray());
+
+        public static Vector operator *(Vector vector, double scalar)
+            => scalar * vector;
 
         public static double operator *(Vector left, Vector right)
             => CombineElementWise(left, right, (l, r) => l * r).Sum();

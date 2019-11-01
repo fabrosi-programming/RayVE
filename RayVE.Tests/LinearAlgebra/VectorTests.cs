@@ -618,5 +618,34 @@ namespace RayVE.LinearAlgebra.Tests
             //assert
             Assert.AreEqual(new Point3D(15, 0, 7), transformedPoint);
         }
+
+        [TestMethod]
+        public void Reflect_WithNonZeroNormalVector_ExpectCorrectReflectedVector_0()
+        {
+            //arrange
+            var vector = new Vector(1, -1, 0);
+            var normal = new Vector(0, 1, 0);
+
+            //act
+            var reflected = vector.Reflect(normal);
+
+            //assert
+            Assert.AreEqual(new Vector(1, 1, 0), reflected);
+        }
+
+        [TestMethod]
+        public void Reflect_WithNonZeroNormalVector_ExpectCorrectReflectedVector_1()
+        {
+            //arrange
+            var vector = new Vector(0, -1, 0);
+            var sqrt2over2 = Sqrt(2) / 2;
+            var normal = new Vector(sqrt2over2, sqrt2over2, 0);
+
+            //act
+            var reflected = vector.Reflect(normal);
+
+            //assert
+            Assert.AreEqual(new Vector(1, 0, 0), reflected);
+        }
     }
 }

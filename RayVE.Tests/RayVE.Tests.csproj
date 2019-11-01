@@ -76,6 +76,7 @@
     <Compile Include="ColorTests.cs" />
     <Compile Include="CanvasTests.cs" />
     <Compile Include="IntersectionTests.cs" />
+    <Compile Include="Materials\PhongMaterialTests.cs" />
     <Compile Include="LinearAlgebra\MatrixTests.cs" />
     <Compile Include="RayTests.cs" />
     <Compile Include="Surfaces\SphereTests.cs" />
