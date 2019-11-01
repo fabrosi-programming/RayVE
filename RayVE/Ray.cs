@@ -22,7 +22,7 @@ namespace RayVE
             Direction = direction;
         }
 
-        public Vector GetPosition(double distance)
+        public Point3D GetPosition(double distance)
             => Origin + (distance * Direction);
 
         public static Ray operator *(Ray ray, Matrix matrix)

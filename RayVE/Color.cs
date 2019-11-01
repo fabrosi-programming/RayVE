@@ -10,7 +10,6 @@ using static RayVE.Constants;
 
 namespace RayVE
 {
-    [DebuggerDisplay("R:{Red} G:{Green} B:{Blue}")]
     public struct Color
     {
         public readonly double R;

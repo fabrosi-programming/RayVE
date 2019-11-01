@@ -30,6 +30,10 @@ namespace RayVE.Surfaces
             : this(new Point3D(0, 0, 0), transformation, new NoMaterial())
         { }
 
+        public Sphere(IMaterial material)
+            : this(new Point3D(0, 0, 0), material)
+        { }
+
         public Sphere(Point3D center, IMaterial material)
             : this(center, Matrix.Identity(center.Length), material)
         { }
@@ -75,8 +79,7 @@ namespace RayVE.Surfaces
         {
             var objectPoint = _inverseTransformation * point;
             var objectNormal = objectPoint - _center;
-            var worldNormal = new Vector3D(_transposeInverseTransformation * objectNormal);
-            return new Vector3D(worldNormal.Normalize());
+            return new Vector3D(_transposeInverseTransformation * objectNormal, true);
         }
         #endregion
     }
