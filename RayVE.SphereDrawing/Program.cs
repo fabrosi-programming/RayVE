@@ -5,6 +5,7 @@ using RayVE.Materials;
 using RayVE.Surfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,14 +21,15 @@ namespace RayVE.SphereDrawing
             var canvasSize = 1000;
             var canvasDepth = 10;
             var scale = 7.0d / (double)canvasSize;
+            var ambientColor = new Color(0.1, 0.1, 0.1);
 
             var rays = from x in Enumerable.Range(-canvasSize / 2, canvasSize)
                        from y in Enumerable.Range(-canvasSize / 2, canvasSize)
                        select (Index: (x, y), Ray: new Ray(origin, new Vector3D(x * scale, y * scale, canvasDepth, true)));
 
-            var sphereColor = new Color(0.1, 0.1, 0.1);
+            var sphereColor = Color.Magenta;
             var sphereMaterial = new PhongMaterial(sphereColor, 0.1, 0.9, 0.9, 200.0);
-            var sphere = new Sphere(sphereMaterial);
+            var sphere = new Sphere(Matrix.Shear(Dimension.X, Dimension.Y, 0.5), sphereMaterial);
 
             var lightPosition = new Point3D(-10, 10, -10);
             var lightColor = Color.White;
@@ -44,7 +46,7 @@ namespace RayVE.SphereDrawing
                 var yPixel = -hit.Index.y + canvasSize / 2;
 
                 if (!hit.Hit.HasValue)
-                    canvas[xPixel, yPixel] = Color.Black;
+                    canvas[xPixel, yPixel] = ambientColor;
                 else
                 {
                     var surface = hit.Hit.Value.Surface;
@@ -58,6 +60,7 @@ namespace RayVE.SphereDrawing
 
             var filePath = $"C:\\temp\\RayVE\\SphereDrawing\\{DateTime.Now:yyyyMMdd_HHmmss}.ppm";
             File.WriteAllText(filePath, canvas.ToPPM(255));
+            Process.Start(filePath);
         }
     }
 }
