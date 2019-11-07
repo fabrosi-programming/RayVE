@@ -27,9 +27,8 @@ namespace RayVE.Materials
 
         public Color Illuminate(Point3D point, ILightSource lightSource, Vector3D eyeVector, Vector3D normalVector)
         {
+            var lightVector = GetLightVector(point, lightSource);
             var illuminationColor = _color * lightSource.Color;
-            var lightVector = new Vector3D((lightSource.Position - point)).Normalize();
-            var ambience = illuminationColor * _ambience;
             var lightDotNormal = lightVector * normalVector;
 
             var diffusion = new Color(0, 0, 0);
@@ -38,8 +37,7 @@ namespace RayVE.Materials
             if (lightDotNormal > 0) // light source is not behind the surface
             {
                 diffusion = illuminationColor * _diffusion * lightDotNormal;
-
-                var reflectionVector = (-lightVector).Reflect(normalVector);
+                var reflectionVector = GetReflectionVector(normalVector, lightVector);
                 var reflectionDotEye = reflectionVector * eyeVector;
 
                 if (reflectionDotEye > 0)
@@ -49,7 +47,15 @@ namespace RayVE.Materials
                 }
             }
 
+            var ambience = illuminationColor * _ambience;
+
             return ambience + diffusion + specularity;
         }
+
+        private Vector GetLightVector(Point3D point, ILightSource lightSource)
+            => new Vector3D((lightSource.Position - point)).Normalize();
+
+        private static Vector GetReflectionVector(Vector3D normalVector, Vector lightVector)
+            => (-lightVector).Reflect(normalVector);
     }
 }

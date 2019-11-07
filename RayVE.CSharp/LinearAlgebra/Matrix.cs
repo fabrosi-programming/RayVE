@@ -185,21 +185,21 @@ namespace RayVE.LinearAlgebra
                                 new[] { 0.0d, Cos(angle), -Sin(angle), 0.0d },
                                 new[] { 0.0d, Sin(angle),  Cos(angle), 0.0d },
                                 new[] { 0.0d, 0.0d,        0.0d,       1.0d }
-                            }),
+                    }),
                 Dimension.Y => new Matrix(new[]
                     {
                                 new[] { Cos(angle),  0.0d,  Sin(angle), 0.0d },
                                 new[] { 0.0d,        1.0d,  0.0d,       0.0d },
                                 new[] { -Sin(angle), 0.0d,  Cos(angle), 0.0d },
                                 new[] { 0.0d,        0.0d,  0.0d,       1.0d }
-                            }),
+                    }),
                 Dimension.Z => new Matrix(new[]
                     {
                                 new[] { Cos(angle), -Sin(angle), 0.0d, 0.0d },
                                 new[] { Sin(angle),  Cos(angle), 0.0d, 0.0d },
                                 new[] { 0.0d,        0.0d,       1.0d, 0.0d },
                                 new[] { 0.0d,        0.0d,       0.0d, 1.0d }
-                            }),
+                    }),
                 _ => throw new NotImplementedException("Rotation matrices are only implemented for 3D transformations."),
             };
 
@@ -211,14 +211,10 @@ namespace RayVE.LinearAlgebra
         #endregion Static Factory
 
         private static double[][] GetRectangularArray(uint rows, uint columns)
-        {
-            var result = new double[rows][];
-
-            for (uint i = 0; i < rows; i++)
-                result[i] = new double[columns];
-
-            return result;
-        }
+            => Enumerable.Range(0, (int)rows)
+                         .Select(i => Convert.ToUInt32(i))
+                         .Select(i => new double[columns])
+                         .ToArray();
 
         #region Operators
 
@@ -230,13 +226,7 @@ namespace RayVE.LinearAlgebra
             if (left.ColumnCount != right.RowCount)
                 throw new InvalidOperationException("The number of rows for the left matrix must equal the number of columns for the right matrix.");
 
-            var result = GetRectangularArray(left.RowCount, right.ColumnCount);
-
-            for (uint i = 0; i < left.RowCount; i++)
-                for (uint j = 0; j < right.ColumnCount; j++)
-                    result[i][j] = left.Rows[i] * right.Columns[j];
-
-            return new Matrix(result);
+            return new Matrix(left.RowCount, right.ColumnCount, (i, j) => left.Rows[i] * right.Columns[j]);
         }
 
         public static Matrix operator *(double scalar, Matrix matrix)

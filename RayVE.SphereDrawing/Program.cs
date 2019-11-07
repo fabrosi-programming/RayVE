@@ -57,7 +57,6 @@ namespace RayVE.SphereDrawing
 
             var filePath = $"C:\\temp\\RayVE\\SphereDrawing\\{DateTime.Now:yyyyMMdd_HHmmss}.ppm";
             File.WriteAllText(filePath, canvas.ToPPM(255));
-            Process.Start(filePath);
         }
     }
 }

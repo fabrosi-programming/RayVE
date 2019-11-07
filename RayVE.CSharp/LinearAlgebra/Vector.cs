@@ -1,8 +1,8 @@
-﻿using System;
+﻿using RayVE.Extensions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using static RayVE.Constants;
 using static System.Math;
 
@@ -30,14 +30,9 @@ namespace RayVE.LinearAlgebra
         { }
 
         public override string ToString()
-        {
-            var builder = new StringBuilder();
-
-            for (uint i = 0; i < Length; i++)
-                builder.Append(this[i].ToString("F3").PadLeft(8) + Environment.NewLine);
-
-            return builder.ToString();
-        }
+            => String.Join(Environment.NewLine, Enumerable.Range(0, (int)Length)
+                                                          .Select(i => Convert.ToUInt32(i))
+                                                          .Select(i => this[i].ToString("F3").PadLeft(8)));
 
         public virtual double Magnitude
             => Sqrt(_values.Select(v => Pow(v, 2))
@@ -45,16 +40,6 @@ namespace RayVE.LinearAlgebra
 
         public Vector Normalize()
             => this / Magnitude;
-
-        public Vector Cross(Vector other)
-        {
-            if (Length != 3 || other.Length != 3)
-                throw new DimensionMismatchException();
-
-            return new Vector((this[1] * other[2]) - (this[2] * other[1]),
-                              (this[2] * other[0]) - (this[0] * other[2]),
-                              (this[0] * other[1]) - (this[1] * other[0]));
-        }
 
         public Vector Translate(Vector translation)
             => Matrix.Translation(translation) * this;
@@ -73,12 +58,10 @@ namespace RayVE.LinearAlgebra
             if (left.Length != right.Length)
                 throw new DimensionMismatchException();
 
-            var values = new double[left.Length];
-
-            for (uint i = 0; i < left.Length; i++)
-                values[i] = combine(left[i], right[i]);
-
-            return new Vector(values);
+            return Enumerable.Range(0, (int)left.Length)
+                             .Select(i => Convert.ToUInt32(i))
+                             .Select(i => combine(left[i], right[i]))
+                             .ToVector();
         }
 
         #region Operators
@@ -106,27 +89,23 @@ namespace RayVE.LinearAlgebra
         public static Vector operator *(Matrix left, Vector right)
         {
             if (left.ColumnCount != right.Length)
-                throw new DimensionMismatchException();
+                throw new DimensionMismatchException("Left matrix column count does not match right vector length.");
 
-            var result = new double[left.RowCount];
-
-            for (uint i = 0; i < left.RowCount; i++)
-                result[i] = left.Rows[i] * right;
-
-            return new Vector(result);
+            return Enumerable.Range(0, (int)left.RowCount)
+                             .Select(i => Convert.ToUInt32(i))
+                             .Select(i => left.Rows[i] * right)
+                             .ToVector();
         }
 
         public static Vector operator *(Vector left, Matrix right)
         {
             if (left.Length != right.RowCount)
-                throw new DimensionMismatchException();
+                throw new DimensionMismatchException("Left vector length does not match right matrix row count.");
 
-            var result = new double[right.ColumnCount];
-
-            for (uint i = 0; i < right.ColumnCount; i++)
-                result[i] = left * right.Columns[i];
-
-            return new Vector(result);
+            return Enumerable.Range(0, (int)right.ColumnCount)
+                             .Select(i => Convert.ToUInt32(i))
+                             .Select(i => left * right.Columns[i])
+                             .ToVector();
         }
 
         public static Vector operator /(Vector vector, double scalar)

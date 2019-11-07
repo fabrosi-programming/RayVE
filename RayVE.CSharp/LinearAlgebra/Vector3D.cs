@@ -16,6 +16,11 @@ namespace RayVE.LinearAlgebra
             : base(vector.Take(3).Append(0.0d))
         { }
 
+        public Vector3D Cross(Vector3D other)
+            => new Vector3D((this[1] * other[2]) - (this[2] * other[1]),
+                            (this[2] * other[0]) - (this[0] * other[2]),
+                            (this[0] * other[1]) - (this[1] * other[0]));
+
         #region Operators
 
         public static Vector3D operator *(double scalar, Vector3D vector)
