@@ -31,17 +31,9 @@ namespace RayVE.LinearAlgebra
                 => _matrix = matrix;
 
             public Vector this[uint i]
-            {
-                get
-                {
-                    var values = new double[_matrix.RowCount];
-
-                    for (uint j = 0; j < _matrix.RowCount; j++)
-                        values[j] = _matrix[j, i];
-
-                    return new Vector(values);
-                }
-            }
+                => Enumerable.Range(0, (int)_matrix.RowCount)
+                             .Select(j => _matrix[(uint)j, i])
+                             .ToVector();
 
             public Vector this[int i]
                 => this[Convert.ToUInt32(i)];
@@ -68,8 +60,8 @@ namespace RayVE.LinearAlgebra
 
         public double Determinant
             => RowCount == 2 && ColumnCount == 2
-            ? this[0, 0] * this[1, 1] - this[0, 1] * this[1, 0]
-            : Rows[0] * GetCofactors(0);
+               ? this[0, 0] * this[1, 1] - this[0, 1] * this[1, 0]
+               : Rows[0] * GetCofactors(0);
 
         public bool IsInvertible
             => Determinant != 0;
@@ -82,36 +74,18 @@ namespace RayVE.LinearAlgebra
             => Cofactors / Determinant;
 
         public Matrix Transpose
-        {
-            get
-            {
-                var values = GetRectangularArray(ColumnCount, RowCount);
+            => new Matrix(ColumnCount, RowCount, (i, j) => _values[j][i]);
 
-                for (uint i = 0; i < RowCount; i++)
-                    for (uint j = 0; j < ColumnCount; j++)
-                        values[j][i] = _values[i][j];
+        public RowCollection Rows => new RowCollection(this);
 
-                return new Matrix(values);
-            }
-        }
-
-        public RowCollection Rows { get; }
-
-        public ColumnCollection Columns { get; }
+        public ColumnCollection Columns => new ColumnCollection(this);
         
         public Matrix(double[][] values)
         {
             if (values == null)
                 throw new ArgumentNullException(nameof(values));
 
-            var rows = Convert.ToUInt32(values.Length);
-            var columns = Convert.ToUInt32(values[0].Length);
-
-            _values = GetRectangularArray(rows, columns);
             _values = (double[][])values.Clone();
-
-            Rows = new RowCollection(this);
-            Columns = new ColumnCollection(this);
         }
 
         public Matrix(Matrix matrix)
@@ -125,9 +99,6 @@ namespace RayVE.LinearAlgebra
             for (uint i = 0; i < rows; i++)
                 for (uint j = 0; j < columns; j++)
                     _values[i][j] = valueSource(i, j);
-
-            Rows = new RowCollection(this);
-            Columns = new ColumnCollection(this);
         }
 
         internal Matrix SwapRows(uint rowIndex1, uint rowIndex2)
@@ -164,15 +135,9 @@ namespace RayVE.LinearAlgebra
             if (predicate == null)
                 throw new ArgumentNullException(nameof(predicate));
 
-            var values = GetRectangularArray(RowCount, ColumnCount);
-
-            for (uint i = 0; i < RowCount; i++)
-                for (uint j = 0; j < ColumnCount; j++)
-                    values[i][j] = predicate(i, j)
+            return new Matrix(RowCount, ColumnCount, (i, j) => predicate(i, j)
                                  ? transform(i, j)
-                                 : this[i, j];
-
-            return new Matrix(values);
+                                 : this[i, j]);
         }
 
         public Matrix GetSubMatrix(uint row, uint column)
@@ -212,10 +177,16 @@ namespace RayVE.LinearAlgebra
 
         public static Matrix Translation(Vector vector)
             => Identity(vector.Length + 1)
-               + new Matrix(vector.Length + 1, vector.Length + 1, (i, j) => i != j && j == vector.Length ? vector[i] : 0.0d);
+               + new Matrix(vector.Length + 1, vector.Length + 1, (i, j) => i != j && j == vector.Length
+                                                                            ? vector[i]
+                                                                            : 0.0d);
 
         public static Matrix Scale(Vector scalars)
-            => new Matrix(scalars.Length + 1, scalars.Length + 1, (i, j) => i != j ? 0.0d : (i == scalars.Length ? 1.0d : scalars[i]));
+            => new Matrix(scalars.Length + 1, scalars.Length + 1, (i, j) => i != j
+                                                                            ? 0.0d
+                                                                            : (i == scalars.Length
+                                                                               ? 1.0d
+                                                                               : scalars[i]));
 
         public static Matrix Rotation(Dimension dimension, double angle)
         {

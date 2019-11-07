@@ -109,16 +109,9 @@ namespace RayVE.LinearAlgebra.Tests
                 new double[] { 2.0d, -1.0d }
             };
             Func<uint, uint, double> valueSource = (i, j) => values[i][j];
-#if CSHARP
-            //act
-            var matrix = new Matrix(2, 2, valueSource);
-#endif
-#if FSHARP
-            var fSharpFunc = valueSource.ToFSharpFunc();
 
             //act
-            var matrix = new Matrix(2, 2, fSharpFunc);
-#endif
+            var matrix = new Matrix(2, 2, valueSource);
 
             //assert
             Assert.AreEqual(1.0d, matrix[0, 0]);
@@ -236,12 +229,8 @@ namespace RayVE.LinearAlgebra.Tests
             Func<uint, uint, double> transform = (i, j) => 2.0d * i + j;
 
             //act
-#if CSHARP
             var transformed = matrix.Transform(transform);
-#endif
-#if FSHARP
-            var transformed = matrix.Transform(transform.ToFSharpFunc());
-#endif
+
             //assert
             var expected = new Matrix(new double[][]
             {
@@ -266,12 +255,8 @@ namespace RayVE.LinearAlgebra.Tests
             Func<uint, uint, bool> predicate = (i, j) => i <= j;
 
             //act
-#if CSHARP
             var transformed = matrix.Transform(transform, predicate);
-#endif
-#if FSHARP
-            var transformed = matrix.Transform(transform.ToFSharpFunc(), predicate.ToFSharpFunc());
-#endif
+
             //assert
             var expected = new Matrix(new double[][]
             {
