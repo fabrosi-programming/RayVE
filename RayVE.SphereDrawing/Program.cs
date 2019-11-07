@@ -4,18 +4,15 @@ using RayVE.LinearAlgebra;
 using RayVE.Materials;
 using RayVE.Surfaces;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RayVE.SphereDrawing
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
             var origin = new Point3D(0, 0, -5);
             var canvasSize = 1000;

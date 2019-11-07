@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RayVE;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RayVE.Tests
 {

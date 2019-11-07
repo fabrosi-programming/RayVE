@@ -1,17 +1,12 @@
 ﻿using RayVE.LightSources;
 using RayVE.LinearAlgebra;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static System.Math;
 
 namespace RayVE.Materials
 {
     public class PhongMaterial : IMaterial
     {
-        private Color _color;
+        private readonly Color _color;
 
         private readonly UDouble _ambience;
 

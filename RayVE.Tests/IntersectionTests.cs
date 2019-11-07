@@ -1,11 +1,9 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+﻿using Functional.Option;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RayVE.Surfaces;
+using Moq;
 using RayVE.Extensions;
-using Functional.Option;
-using RayVE.LinearAlgebra;
+using RayVE.Surfaces;
+using System.Collections.Generic;
 
 namespace RayVE.Tests
 {
@@ -109,6 +107,58 @@ namespace RayVE.Tests
 
             //assert
             Assert.AreEqual(Option<Intersection>.None, hit);
+        }
+
+        [TestMethod]
+        public void Equals_WithEqualIntersection_ExpectTrue()
+        {
+            //arrange
+            var surface = Mock.Of<ISurface>();
+            var intersection1 = new Intersection(1.5d, surface);
+            var intersection2 = new Intersection(1.5d, surface);
+
+            //act-assert
+            Assert.IsTrue(intersection1.Equals(intersection2));
+            Assert.IsTrue(intersection2.Equals(intersection1));
+        }
+
+        [TestMethod]
+        public void Equals_WitnUnequalSurfaces_ExpectFalse()
+        {
+            //arrange
+            var surface1 = Mock.Of<ISurface>();
+            var surface2 = Mock.Of<ISurface>();
+            var intersection1 = new Intersection(1.5d, surface1);
+            var intersection2 = new Intersection(1.5d, surface2);
+
+            //act-assert
+            Assert.IsFalse(intersection1.Equals(intersection2));
+            Assert.IsFalse(intersection2.Equals(intersection1));
+        }
+
+        [TestMethod]
+        public void Equals_WitnUnequalDistances_ExpectFalse()
+        {
+            //arrange
+            var surface = Mock.Of<ISurface>();
+            var intersection1 = new Intersection(1.5d, surface);
+            var intersection2 = new Intersection(2.5d, surface);
+
+            //act-assert
+            Assert.IsFalse(intersection1.Equals(intersection2));
+            Assert.IsFalse(intersection2.Equals(intersection1));
+        }
+
+        [TestMethod]
+        public void Equals_WithNullObject_ExpectFalse()
+        {
+            //arrange
+            var surface = Mock.Of<ISurface>();
+            var intersection1 = new Intersection(1.5d, surface);
+            object? nullObject = null;
+
+            //act-assert
+            Assert.IsFalse(intersection1.Equals(nullObject));
         }
     }
 }

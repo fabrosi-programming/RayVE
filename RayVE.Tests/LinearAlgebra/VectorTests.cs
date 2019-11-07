@@ -1,9 +1,7 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RayVE;
-using RayVE.LinearAlgebra;
-using static System.Math;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using static RayVE.Constants;
+using static System.Math;
 
 namespace RayVE.LinearAlgebra.Tests
 {
@@ -552,6 +550,17 @@ namespace RayVE.LinearAlgebra.Tests
         }
 
         [TestMethod]
+        public void Equals_WithNullObject_ExpectFalse()
+        {
+            //arrange
+            var vector1 = new Vector(4.3d, -4.2d, 3.1d);
+            object? nullObject = null;
+
+            //act-assert
+            Assert.IsFalse(vector1.Equals(nullObject));
+        }
+
+        [TestMethod]
         public void Zero_GetValue_ExpectCorrectVector()
         {
             //arrange-act
@@ -613,7 +622,7 @@ namespace RayVE.LinearAlgebra.Tests
             //act
             var transformedPoint = point.Rotate(Dimension.X, PI / 2)
                                         .Scale(new Vector(5, 5, 5))
-                                        .Translate(new Vector(10, 5, 7 ));
+                                        .Translate(new Vector(10, 5, 7));
 
             //assert
             Assert.AreEqual(new Point3D(15, 0, 7), transformedPoint);

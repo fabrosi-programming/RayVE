@@ -1,9 +1,5 @@
 ﻿using RayVE.Surfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RayVE
 {
@@ -20,6 +16,7 @@ namespace RayVE
         }
 
         #region Operators
+
         public static bool operator ==(Intersection left, Intersection right)
         {
             if (ReferenceEquals(left, right))
@@ -39,10 +36,12 @@ namespace RayVE
 
         public static bool operator !=(Intersection left, Intersection right)
             => !(left == right);
-        #endregion
+
+        #endregion Operators
 
         #region Equality
-        public override bool Equals(object obj)
+
+        public override bool Equals(object? obj)
         {
             if (obj is Intersection intersection)
                 return Equals(intersection);
@@ -55,6 +54,7 @@ namespace RayVE
 
         public override int GetHashCode()
             => Distance.GetHashCode() + Surface.GetHashCode();
-        #endregion
+
+        #endregion Equality
     }
 }

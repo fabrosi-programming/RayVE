@@ -1,19 +1,15 @@
-﻿using RayVE;
-using RayVE.Extensions;
-using RayVE.LinearAlgebra;
+﻿using RayVE.LinearAlgebra;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RayVE.ProjectileSimulation
 {
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
             var gravity = new Vector(new[] { 0.0d, -0.1d });
             var wind = new Vector(new[] { -0.05d, 0.0d });

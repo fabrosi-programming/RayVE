@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RayVE
 {
@@ -94,11 +92,13 @@ namespace RayVE
         }
 
         #region IEnumerable
+
         public IEnumerator<Color> GetEnumerator()
             => _pixels.Cast<Color>().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
-        #endregion
+
+        #endregion IEnumerable
     }
 }

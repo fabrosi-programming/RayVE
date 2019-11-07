@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RayVE.LightSources;
+﻿using RayVE.LightSources;
 using RayVE.LinearAlgebra;
 
 namespace RayVE.Materials

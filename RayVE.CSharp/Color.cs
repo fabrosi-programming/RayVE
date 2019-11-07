@@ -1,12 +1,8 @@
-﻿using System;
+﻿using RayVE.Extensions;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RayVE.Extensions;
-using static System.Math;
 using static RayVE.Constants;
+using static System.Math;
 
 namespace RayVE
 {
@@ -42,6 +38,7 @@ namespace RayVE
             => $"R:{R} G:{G} B:{B}";
 
         #region Operators
+
         public static Color operator +(Color left, Color right)
             => new Color(left.R + right.R,
                          left.G + right.G,
@@ -80,10 +77,12 @@ namespace RayVE
 
         public static bool operator !=(Color left, Color right)
             => !(left == right);
-        #endregion
+
+        #endregion Operators
 
         #region Equality
-        public override bool Equals(object obj)
+
+        public override bool Equals(object? obj)
         {
             if (obj is Color color)
                 return Equals(color);
@@ -94,14 +93,15 @@ namespace RayVE
         public bool Equals(Color other)
             => this == other;
 
-
         public override int GetHashCode()
             => R.GetHashCode()
              + G.GetHashCode()
              + B.GetHashCode();
-        #endregion
+
+        #endregion Equality
 
         #region FixedColors
+
         public static Color Black => new Color(0, 0, 0);
         public static Color White => new Color(1, 1, 1);
         public static Color Red => new Color(1, 0, 0);
@@ -110,6 +110,7 @@ namespace RayVE
         public static Color Cyan => new Color(0, 1, 1);
         public static Color Magenta => new Color(1, 0, 1);
         public static Color Yellow => new Color(1, 1, 0);
-        #endregion
+
+        #endregion FixedColors
     }
 }

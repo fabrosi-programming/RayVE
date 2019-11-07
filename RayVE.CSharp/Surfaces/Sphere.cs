@@ -1,11 +1,8 @@
 ﻿using RayVE.LinearAlgebra;
 using RayVE.Materials;
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static System.Math;
 
 namespace RayVE.Surfaces
@@ -70,6 +67,7 @@ namespace RayVE.Surfaces
         }
 
         #region ISurface
+
         public IMaterial Material { get; }
 
         public IEnumerable<Intersection> Intersect(Ray ray)
@@ -81,6 +79,7 @@ namespace RayVE.Surfaces
             var objectNormal = objectPoint - _center;
             return new Vector3D(_transposeInverseTransformation * objectNormal, true);
         }
-        #endregion
+
+        #endregion ISurface
     }
 }

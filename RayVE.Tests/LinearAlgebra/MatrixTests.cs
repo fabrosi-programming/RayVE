@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RayVE.LinearAlgebra;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using static System.Math;
 
 namespace RayVE.LinearAlgebra.Tests
@@ -108,7 +107,7 @@ namespace RayVE.LinearAlgebra.Tests
                 new double[] { 1.0d, 0.0d },
                 new double[] { 2.0d, -1.0d }
             };
-            Func<uint, uint, double> valueSource = (i, j) => values[i][j];
+            double valueSource(uint i, uint j) => values[i][j];
 
             //act
             var matrix = new Matrix(2, 2, valueSource);
@@ -118,16 +117,6 @@ namespace RayVE.LinearAlgebra.Tests
             Assert.AreEqual(0.0d, matrix[0, 1]);
             Assert.AreEqual(2.0d, matrix[1, 0]);
             Assert.AreEqual(-1.0d, matrix[1, 1]);
-        }
-
-        [TestMethod]
-        public void Constructor_WithNullValues_ExpectArgumentNullException()
-        {
-            //arrange
-            double[][] values = null;
-
-            //act-assert
-            Assert.ThrowsException<ArgumentNullException>(() => new Matrix(values));
         }
 
         [TestMethod]
@@ -226,7 +215,7 @@ namespace RayVE.LinearAlgebra.Tests
                 new double[] { 2.0d, -1.0d },
                 new double[] { 3.0d, 4.0d }
             });
-            Func<uint, uint, double> transform = (i, j) => 2.0d * i + j;
+            static double transform(uint i, uint j) => 2.0d * i + j;
 
             //act
             var transformed = matrix.Transform(transform);
@@ -251,8 +240,8 @@ namespace RayVE.LinearAlgebra.Tests
                 new double[] { 2.0d, -1.0d },
                 new double[] { 3.0d, 4.0d }
             });
-            Func<uint, uint, double> transform = (i, j) => 2.0d * i + j;
-            Func<uint, uint, bool> predicate = (i, j) => i <= j;
+            static double transform(uint i, uint j) => 2.0d * i + j;
+            static bool predicate(uint i, uint j) => i <= j;
 
             //act
             var transformed = matrix.Transform(transform, predicate);
@@ -266,41 +255,6 @@ namespace RayVE.LinearAlgebra.Tests
             });
             Assert.AreEqual(expected, transformed);
         }
-
-#if CSHARP
-        [TestMethod]
-        public void Transform_WithNullTransform_ExpectArgumentNullException()
-        {
-            //arrange
-            var matrix = Matrix.Identity(3);
-
-            //act-assert
-            Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform(null));
-        }
-
-        [TestMethod]
-        public void Transform_WithNullTransformAndNonNullPredicate_ExpectArgumentNullException()
-        {
-            //arrange
-            var matrix = Matrix.Identity(3);
-            Func<uint, uint, bool> predicate = (i, j) => i <= j;
-
-            //act-assert
-            Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform(null, predicate));
-        }
-
-        [TestMethod]
-        public void Transform_WithNullPredicate_ExpectArgumentNullException()
-        {
-            //arrange
-            var matrix = Matrix.Identity(3);
-            Func<uint, uint, double> transform = (i, j) => 2.0d * i + j;
-
-            //act-assert
-
-            Assert.ThrowsException<ArgumentNullException>(() => matrix.Transform(transform, null));
-        }
-#endif
 
         [TestMethod]
         public void Transpose_WithSquareMatrix_ExpectCorrectMatrix()
@@ -381,7 +335,7 @@ namespace RayVE.LinearAlgebra.Tests
             //assert
             Assert.AreEqual(17.0d, determinant);
         }
-        
+
         [TestMethod]
         public void Determinant_With3x3Matrix_ExpectCorrectValue()
         {
@@ -733,14 +687,14 @@ namespace RayVE.LinearAlgebra.Tests
         }
 
         [TestMethod]
-        public void Equals_WithNullNonMatrixObject_ExpectFalse()
+        public void Equals_WithNullObject_ExpectFalse()
         {
             //arrange
             var matrix = Matrix.Identity(3);
-            string other = null;
+            object? nullObject = null;
 
             //act
-            var equal = matrix.Equals(other);
+            var equal = matrix.Equals(nullObject);
 
             //assert
             Assert.IsFalse(equal);
@@ -820,22 +774,6 @@ namespace RayVE.LinearAlgebra.Tests
             Assert.IsTrue(equal);
         }
 
-#if CSHARP
-        [TestMethod]
-        public void EqualsOperator_WithNullLeftMatrix_ExpectFalse()
-        {
-            //arrange
-            Matrix left = null;
-            var right = Matrix.Identity(3);
-
-            //act
-            var equal = left == right;
-
-            //assert
-            Assert.IsFalse(equal);
-        }
-#endif
-
         [TestMethod]
         public void EqualsOperator_WithTwoEqual4x4Matrices_ExpectTrue()
         {
@@ -884,7 +822,7 @@ namespace RayVE.LinearAlgebra.Tests
             });
 
             //act
-             var areEqual = matrix1 == matrix2;
+            var areEqual = matrix1 == matrix2;
 
             //assert
             Assert.IsFalse(areEqual);
@@ -901,7 +839,7 @@ namespace RayVE.LinearAlgebra.Tests
                 new[] { 9.0d, 8.0d, 7.0d, 6.0d },
                 new[] { 5.0d, 4.0d, 3.0d, 2.0d }
             });
-            
+
             var matrix2 = new Matrix(new[]
             {
                 new[] { -2.0d, 1.0d, 2.0d, 3.0d },
@@ -989,30 +927,6 @@ namespace RayVE.LinearAlgebra.Tests
             Assert.AreEqual(expected, product);
         }
 
-#if CSHARP
-        [TestMethod]
-        public void MultiplyOperator_WithNullLeftMatrix_ExpectArgumentNullException()
-        {
-            //arrange
-            Matrix left = null;
-            var right = Matrix.Identity(3);
-
-            //act-assert
-            Assert.ThrowsException<ArgumentNullException>(() => left * right);
-        }
-
-        [TestMethod]
-        public void MultiplyOperator_WithNullRightMatrix_ExpectArgumentNullException()
-        {
-            //arrange
-            var left = Matrix.Identity(3);
-            Matrix right = null;
-
-            //act-assert
-            Assert.ThrowsException<ArgumentNullException>(() => left * right);
-        }
-#endif
-
         [TestMethod]
         public void Translation_WithVectorValues_ExpectMultipliesToCorrectPoint()
         {
@@ -1099,7 +1013,6 @@ namespace RayVE.LinearAlgebra.Tests
             //assert
             Assert.AreEqual(new Point3D(-2.0d, 2.0d, 2.0d), newPoint);
         }
-
 
         [TestMethod]
         public void Scale_WithScalarsOfOne_ExpectNoChangeToThePoint()
@@ -1242,7 +1155,6 @@ namespace RayVE.LinearAlgebra.Tests
             Assert.AreEqual(new Point3D(6, 3, 4), shearedPoint);
         }
 
-
         [TestMethod]
         public void Shear_WithYInProportionToX_ExpectCorrectShearedPoint()
         {
@@ -1257,7 +1169,6 @@ namespace RayVE.LinearAlgebra.Tests
             Assert.AreEqual(new Point3D(2, 5, 4), shearedPoint);
         }
 
-
         [TestMethod]
         public void Shear_WithYInProportionToZ_ExpectCorrectShearedPoint()
         {
@@ -1271,7 +1182,6 @@ namespace RayVE.LinearAlgebra.Tests
             //assert
             Assert.AreEqual(new Point3D(2, 7, 4), shearedPoint);
         }
-
 
         [TestMethod]
         public void Shear_WithZInProportionToX_ExpectCorrectShearedPoint()

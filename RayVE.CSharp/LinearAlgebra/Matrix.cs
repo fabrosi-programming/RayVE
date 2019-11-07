@@ -79,14 +79,9 @@ namespace RayVE.LinearAlgebra
         public RowCollection Rows => new RowCollection(this);
 
         public ColumnCollection Columns => new ColumnCollection(this);
-        
-        public Matrix(double[][] values)
-        {
-            if (values == null)
-                throw new ArgumentNullException(nameof(values));
 
-            _values = (double[][])values.Clone();
-        }
+        public Matrix(double[][] values)
+            => _values = (double[][])values.Clone();
 
         public Matrix(Matrix matrix)
             : this(matrix.RowCount, matrix.ColumnCount, (i, j) => matrix[i, j])
@@ -128,17 +123,9 @@ namespace RayVE.LinearAlgebra
             => Transform(transform, (i, j) => true);
 
         internal Matrix Transform(Func<uint, uint, double> transform, Func<uint, uint, bool> predicate)
-        {
-            if (transform == null)
-                throw new ArgumentNullException(nameof(transform));
-
-            if (predicate == null)
-                throw new ArgumentNullException(nameof(predicate));
-
-            return new Matrix(RowCount, ColumnCount, (i, j) => predicate(i, j)
+            => new Matrix(RowCount, ColumnCount, (i, j) => predicate(i, j)
                                  ? transform(i, j)
                                  : this[i, j]);
-        }
 
         public Matrix GetSubMatrix(uint row, uint column)
             => new Matrix(RowCount - 1, ColumnCount - 1, (i, j) => this[i < row ? i : i + 1, j < column ? j : j + 1]);
@@ -152,7 +139,7 @@ namespace RayVE.LinearAlgebra
         public Vector GetCofactors(uint row)
             => new Vector(Enumerable.Range(0, Convert.ToInt32(ColumnCount))
                                     .Select(c => GetCofactor(row, Convert.ToUInt32(c))));
-        
+
         public override string ToString()
         {
             var builder = new StringBuilder();
@@ -169,6 +156,7 @@ namespace RayVE.LinearAlgebra
         }
 
         #region Static Factory
+
         public static Matrix Zero(uint rows, uint columns)
             => new Matrix(rows, columns, (i, j) => 0.0d);
 
@@ -189,43 +177,38 @@ namespace RayVE.LinearAlgebra
                                                                                : scalars[i]));
 
         public static Matrix Rotation(Dimension dimension, double angle)
-        {
-            switch (dimension)
+            => dimension switch
             {
-                case Dimension.X:
-                    return new Matrix(new[]
+                Dimension.X => new Matrix(new[]
                     {
-                        new[] { 1.0d, 0.0d,        0.0d,       0.0d },
-                        new[] { 0.0d, Cos(angle), -Sin(angle), 0.0d },
-                        new[] { 0.0d, Sin(angle),  Cos(angle), 0.0d },
-                        new[] { 0.0d, 0.0d,        0.0d,       1.0d }
-                    });
-                case Dimension.Y:
-                    return new Matrix(new[]
+                                new[] { 1.0d, 0.0d,        0.0d,       0.0d },
+                                new[] { 0.0d, Cos(angle), -Sin(angle), 0.0d },
+                                new[] { 0.0d, Sin(angle),  Cos(angle), 0.0d },
+                                new[] { 0.0d, 0.0d,        0.0d,       1.0d }
+                            }),
+                Dimension.Y => new Matrix(new[]
                     {
-                        new[] { Cos(angle),  0.0d,  Sin(angle), 0.0d },
-                        new[] { 0.0d,        1.0d,  0.0d,       0.0d },
-                        new[] { -Sin(angle), 0.0d,  Cos(angle), 0.0d },
-                        new[] { 0.0d,        0.0d,  0.0d,       1.0d }
-                    });
-                case Dimension.Z:
-                    return new Matrix(new[]
+                                new[] { Cos(angle),  0.0d,  Sin(angle), 0.0d },
+                                new[] { 0.0d,        1.0d,  0.0d,       0.0d },
+                                new[] { -Sin(angle), 0.0d,  Cos(angle), 0.0d },
+                                new[] { 0.0d,        0.0d,  0.0d,       1.0d }
+                            }),
+                Dimension.Z => new Matrix(new[]
                     {
-                        new[] { Cos(angle), -Sin(angle), 0.0d, 0.0d },
-                        new[] { Sin(angle),  Cos(angle), 0.0d, 0.0d },
-                        new[] { 0.0d,        0.0d,       1.0d, 0.0d },
-                        new[] { 0.0d,        0.0d,       0.0d, 1.0d }
-                    });
-                default:
-                    throw new NotImplementedException("Rotation matrices are only implemented for 3D transformations.");
-            }
-        }
+                                new[] { Cos(angle), -Sin(angle), 0.0d, 0.0d },
+                                new[] { Sin(angle),  Cos(angle), 0.0d, 0.0d },
+                                new[] { 0.0d,        0.0d,       1.0d, 0.0d },
+                                new[] { 0.0d,        0.0d,       0.0d, 1.0d }
+                            }),
+                _ => throw new NotImplementedException("Rotation matrices are only implemented for 3D transformations."),
+            };
 
         public static Matrix Shear(Dimension shearDimension, Dimension inProportionTo, double amount)
             => new Matrix(4, 4, (r, c) => (r == (uint)shearDimension) && (c == (uint)inProportionTo)
                                           ? amount
                                           : Identity(4)[r, c]);
-        #endregion
+
+        #endregion Static Factory
 
         private static double[][] GetRectangularArray(uint rows, uint columns)
         {
@@ -238,17 +221,12 @@ namespace RayVE.LinearAlgebra
         }
 
         #region Operators
+
         public static Matrix operator +(Matrix left, Matrix right)
             => new Matrix(left.RowCount, left.ColumnCount, (i, j) => left[i, j] + right[i, j]);
 
         public static Matrix operator *(Matrix left, Matrix right)
         {
-            if (left == null)
-                throw new ArgumentNullException(nameof(left));
-
-            if (right == null)
-                throw new ArgumentNullException(nameof(right));
-
             if (left.ColumnCount != right.RowCount)
                 throw new InvalidOperationException("The number of rows for the left matrix must equal the number of columns for the right matrix.");
 
@@ -288,10 +266,12 @@ namespace RayVE.LinearAlgebra
 
         public static bool operator !=(Matrix left, Matrix right)
             => !(left == right);
-        #endregion
+
+        #endregion Operators
 
         #region Equality
-        public override bool Equals(object obj)
+
+        public override bool Equals(object? obj)
         {
             if (obj is Matrix matrix)
                 return Equals(matrix);
@@ -306,6 +286,7 @@ namespace RayVE.LinearAlgebra
             => _values.SelectMany(r => r.Select(v => v))
                       .Sum()
                       .GetHashCode();
-        #endregion
+
+        #endregion Equality
     }
 }

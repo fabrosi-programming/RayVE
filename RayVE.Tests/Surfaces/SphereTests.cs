@@ -1,10 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RayVE.LinearAlgebra;
-using RayVE.Surfaces;
+using System.Linq;
 using static System.Math;
 
 namespace RayVE.Surfaces.Tests
@@ -23,7 +19,7 @@ namespace RayVE.Surfaces.Tests
 
             //act
             var intersectionDistances = sphere.Intersect(ray)
-                                  
+
                 .ToList();
 
             //assert

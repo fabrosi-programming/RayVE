@@ -82,6 +82,7 @@ namespace RayVE.LinearAlgebra
         }
 
         #region Operators
+
         public static Vector operator +(Vector left, Vector right)
             => CombineElementWise(left, right, (l, r) => l + r);
 
@@ -151,18 +152,22 @@ namespace RayVE.LinearAlgebra
 
         public static bool operator !=(Vector left, Vector right)
             => !(left == right);
-        #endregion
+
+        #endregion Operators
 
         #region IEnumerable
+
         public IEnumerator<double> GetEnumerator()
             => ((IEnumerable<double>)_values).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
             => ((IEnumerable<double>)_values).GetEnumerator();
-        #endregion
+
+        #endregion IEnumerable
 
         #region Equality
-        public override bool Equals(object obj)
+
+        public override bool Equals(object? obj)
         {
             if (obj is Vector vector)
                 return Equals(vector);
@@ -176,7 +181,8 @@ namespace RayVE.LinearAlgebra
         public override int GetHashCode()
             => _values.Sum()
                       .GetHashCode();
-        #endregion
+
+        #endregion Equality
 
         public static Vector Zero(uint size)
             => new Vector(Enumerable.Repeat(0, Convert.ToInt32(size))

@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RayVE.LightSources;
 using RayVE.LinearAlgebra;
-using RayVE.Materials;
 using static System.Math;
 
 namespace RayVE.Materials.Tests

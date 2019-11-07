@@ -17,11 +17,13 @@ namespace RayVE.LinearAlgebra
         { }
 
         #region Operators
+
         public static Vector3D operator *(double scalar, Vector3D vector)
             => new Vector3D(scalar * (Vector)vector);
 
         public static Vector3D operator -(Vector3D vector)
             => new Vector3D(-(Vector)vector);
-        #endregion
+
+        #endregion Operators
     }
 }

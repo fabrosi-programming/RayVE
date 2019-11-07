@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RayVE
+﻿namespace RayVE
 {
     public struct UDouble
     {
-        private double _value;
+        private readonly double _value;
 
         public UDouble(double value)
             => _value = value < 0 ? 0 : value;
