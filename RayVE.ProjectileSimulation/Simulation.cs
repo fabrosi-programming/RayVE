@@ -23,13 +23,13 @@ namespace RayVE.ProjectileSimulation
                     break;
                 }
 
-                var position = (projectile.Position + granularity * projectile.Velocity);
+                var position = projectile.Position + (granularity * projectile.Velocity);
 
                 Vector velocity;
                 if (projectile.Position[1] == 0)
-                    velocity = projectile.Velocity + granularity * Environment.Wind;
+                    velocity = projectile.Velocity + (granularity * Environment.Wind);
                 else
-                    velocity = projectile.Velocity + granularity * Environment.TotalEffect;
+                    velocity = projectile.Velocity + (granularity * Environment.TotalEffect);
 
                 updatedProjectiles.Add(new Projectile(position, velocity, projectile.Color));
             }

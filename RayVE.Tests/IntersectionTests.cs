@@ -1,7 +1,6 @@
 ﻿using Functional.Option;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using RayVE.Extensions;
 using RayVE.Surfaces;
 using System.Collections.Generic;
 
@@ -32,14 +31,15 @@ namespace RayVE.Tests
             var sphere = new Sphere();
             var intersection1 = new Intersection(1, sphere);
             var intersection2 = new Intersection(2, sphere);
-            var intersections = new List<Intersection>()
-            {
-                intersection1,
-                intersection2
-            };
+            var intersections = new Intersections(
+                new List<Intersection>()
+                {
+                    intersection1,
+                    intersection2
+                });
 
             //act
-            var hit = intersections.GetHit();
+            var hit = intersections.GetNearestHit();
 
             //assert
             Assert.AreEqual(intersection1, hit);
@@ -52,14 +52,15 @@ namespace RayVE.Tests
             var sphere = new Sphere();
             var intersection1 = new Intersection(-1, sphere);
             var intersection2 = new Intersection(1, sphere);
-            var intersections = new List<Intersection>()
-            {
-                intersection1,
-                intersection2
-            };
+            var intersections = new Intersections(
+                new List<Intersection>()
+                {
+                    intersection1,
+                    intersection2
+                });
 
             //act
-            var hit = intersections.GetHit();
+            var hit = intersections.GetNearestHit();
 
             //assert
             Assert.AreEqual(intersection2, hit);
@@ -74,16 +75,17 @@ namespace RayVE.Tests
             var intersection2 = new Intersection(7, sphere);
             var intersection3 = new Intersection(-3, sphere);
             var intersection4 = new Intersection(2, sphere);
-            var intersections = new List<Intersection>()
-            {
-                intersection1,
-                intersection2,
-                intersection3,
-                intersection4
-            };
+            var intersections = new Intersections(
+                new List<Intersection>()
+                {
+                    intersection1,
+                    intersection2,
+                    intersection3,
+                    intersection4
+                });
 
             //act
-            var hit = intersections.GetHit();
+            var hit = intersections.GetNearestHit();
 
             //assert
             Assert.AreEqual(intersection4, hit);
@@ -96,14 +98,15 @@ namespace RayVE.Tests
             var sphere = new Sphere();
             var intersection1 = new Intersection(-2, sphere);
             var intersection2 = new Intersection(-1, sphere);
-            var intersections = new List<Intersection>()
-            {
-                intersection1,
-                intersection2
-            };
+            var intersections = new Intersections(
+                new List<Intersection>()
+                {
+                    intersection1,
+                    intersection2
+                });
 
             //act
-            var hit = intersections.GetHit();
+            var hit = intersections.GetNearestHit();
 
             //assert
             Assert.AreEqual(Option<Intersection>.None, hit);

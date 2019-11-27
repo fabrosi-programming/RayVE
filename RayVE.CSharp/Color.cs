@@ -6,11 +6,11 @@ using static System.Math;
 
 namespace RayVE
 {
-    public struct Color
+    public struct Color : IEquatable<Color>
     {
-        public readonly double R;
-        public readonly double G;
-        public readonly double B;
+        public readonly double R { get; }
+        public readonly double G { get; }
+        public readonly double B { get; }
 
         public Color(double red, double green, double blue)
         {
@@ -31,7 +31,7 @@ namespace RayVE
                 $"{GetPPMValue(B, maxValue)}"
             };
 
-        private int GetPPMValue(double rawValue, int maxValue)
+        private static int GetPPMValue(double rawValue, int maxValue)
             => Convert.ToInt32((rawValue * maxValue).Clamp(0.0d, maxValue));
 
         public override string ToString()

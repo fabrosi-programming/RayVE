@@ -1,6 +1,5 @@
 ﻿using RayVE.LinearAlgebra;
 using RayVE.Materials;
-using System.Collections.Generic;
 
 namespace RayVE.Surfaces
 {
@@ -8,7 +7,7 @@ namespace RayVE.Surfaces
     {
         IMaterial Material { get; }
 
-        IEnumerable<Intersection> Intersect(Ray ray);
+        Intersections Intersect(Ray ray);
 
         Vector3D GetNormal(Point3D point);
     }

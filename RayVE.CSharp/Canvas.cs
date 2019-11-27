@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RayVE
 {
-    public class Canvas : IEnumerable<Color>
+    public class Canvas
     {
+        [SuppressMessage("Performance", "CA1814:Prefer jagged arrays over multidimensional", Justification = "Multidimensional array does not waste space since all values are needed to represent a rectangular image.")]
         private readonly Color[,] _pixels;
 
         public int Width
@@ -39,6 +39,7 @@ namespace RayVE
             }
         }
 
+        [SuppressMessage("Performance", "CA1814:Prefer jagged arrays over multidimensional", Justification = "Multidimensional array does not waste space since all values are needed to represent a rectangular image.")]
         public Canvas(int width, int height)
             => _pixels = new Color[width, height];
 
@@ -90,15 +91,5 @@ namespace RayVE
             if (subRowValues.Count > 0)
                 yield return String.Join(" ", subRowValues);
         }
-
-        #region IEnumerable
-
-        public IEnumerator<Color> GetEnumerator()
-            => _pixels.Cast<Color>().GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
-
-        #endregion IEnumerable
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RayVE.LinearAlgebra;
-using System.Linq;
 using static System.Math;
 
 namespace RayVE.Surfaces.Tests
@@ -18,14 +17,12 @@ namespace RayVE.Surfaces.Tests
             var sphere = new Sphere();
 
             //act
-            var intersectionDistances = sphere.Intersect(ray)
-
-                .ToList();
+            var intersections = sphere.Intersect(ray);
 
             //assert
-            Assert.AreEqual(2, intersectionDistances.Count);
-            CollectionAssert.Contains(intersectionDistances, new Intersection(4.0d, sphere));
-            CollectionAssert.Contains(intersectionDistances, new Intersection(6.0d, sphere));
+            Assert.AreEqual(2, intersections.Count);
+            Assert.IsTrue(intersections.Contains(new Intersection(4.0d, sphere)));
+            Assert.IsTrue(intersections.Contains(new Intersection(6.0d, sphere)));
         }
 
         [TestMethod]
@@ -38,13 +35,12 @@ namespace RayVE.Surfaces.Tests
             var sphere = new Sphere();
 
             //act
-            var intersectionDistances = sphere.Intersect(ray)
-                                              .ToList();
+            var intersections = sphere.Intersect(ray);
 
             //assert
-            Assert.AreEqual(2, intersectionDistances.Count);
-            Assert.AreEqual(new Intersection(5.0d, sphere), intersectionDistances[0]);
-            Assert.AreEqual(new Intersection(5.0d, sphere), intersectionDistances[1]);
+            Assert.AreEqual(2, intersections.Count);
+            Assert.AreEqual(new Intersection(5.0d, sphere), intersections[0]);
+            Assert.AreEqual(new Intersection(5.0d, sphere), intersections[1]);
         }
 
         [TestMethod]
@@ -57,11 +53,10 @@ namespace RayVE.Surfaces.Tests
             var sphere = new Sphere();
 
             //act
-            var intersectionDistances = sphere.Intersect(ray)
-                                              .ToList();
+            var intersections = sphere.Intersect(ray);
 
             //assert
-            Assert.AreEqual(0, intersectionDistances.Count);
+            Assert.AreEqual(0, intersections.Count);
         }
 
         [TestMethod]
@@ -74,13 +69,12 @@ namespace RayVE.Surfaces.Tests
             var sphere = new Sphere();
 
             //act
-            var intersectionDistances = sphere.Intersect(ray)
-                                              .ToList();
+            var intersections = sphere.Intersect(ray);
 
             //assert
-            Assert.AreEqual(2, intersectionDistances.Count);
-            CollectionAssert.Contains(intersectionDistances, new Intersection(-1.0d, sphere));
-            CollectionAssert.Contains(intersectionDistances, new Intersection(1.0d, sphere));
+            Assert.AreEqual(2, intersections.Count);
+            Assert.IsTrue(intersections.Contains(new Intersection(-1.0d, sphere)));
+            Assert.IsTrue(intersections.Contains(new Intersection(1.0d, sphere)));
         }
 
         [TestMethod]
@@ -93,13 +87,12 @@ namespace RayVE.Surfaces.Tests
             var sphere = new Sphere();
 
             //act
-            var intersectionDistances = sphere.Intersect(ray)
-                                              .ToList();
+            var intersections = sphere.Intersect(ray);
 
             //assert
-            Assert.AreEqual(2, intersectionDistances.Count);
-            CollectionAssert.Contains(intersectionDistances, new Intersection(-6.0d, sphere));
-            CollectionAssert.Contains(intersectionDistances, new Intersection(-4.0d, sphere));
+            Assert.AreEqual(2, intersections.Count);
+            Assert.IsTrue(intersections.Contains(new Intersection(-6.0d, sphere)));
+            Assert.IsTrue(intersections.Contains(new Intersection(-4.0d, sphere)));
         }
 
         [TestMethod]
@@ -113,13 +106,12 @@ namespace RayVE.Surfaces.Tests
             var sphere = new Sphere(transformation);
 
             //act
-            var intersectionDistances = sphere.Intersect(ray)
-                                              .ToList();
+            var intersections = sphere.Intersect(ray);
 
             //assert
-            Assert.AreEqual(2, intersectionDistances.Count);
-            CollectionAssert.Contains(intersectionDistances, new Intersection(3.0d, sphere));
-            CollectionAssert.Contains(intersectionDistances, new Intersection(7.0d, sphere));
+            Assert.AreEqual(2, intersections.Count);
+            Assert.IsTrue(intersections.Contains(new Intersection(3.0d, sphere)));
+            Assert.IsTrue(intersections.Contains(new Intersection(7.0d, sphere)));
         }
 
         [TestMethod]
@@ -133,11 +125,10 @@ namespace RayVE.Surfaces.Tests
             var sphere = new Sphere(transformation);
 
             //act
-            var intersectionDistances = sphere.Intersect(ray)
-                                              .ToList();
+            var intersections = sphere.Intersect(ray);
 
             //assert
-            Assert.AreEqual(0, intersectionDistances.Count);
+            Assert.AreEqual(0, intersections.Count);
         }
 
         [TestMethod]

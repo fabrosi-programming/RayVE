@@ -1,14 +1,14 @@
 ﻿using RayVE.Extensions;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static RayVE.Constants;
 using static System.Math;
 
 namespace RayVE.LinearAlgebra
 {
-    public class Vector : IEnumerable<double>, IEquatable<Vector>
+    public class Vector : IEquatable<Vector>
     {
         private readonly double[] _values;
 
@@ -24,6 +24,9 @@ namespace RayVE.LinearAlgebra
 
         public Vector(IEnumerable<double> values)
             => _values = values.ToArray();
+
+        public Vector(Vector vector)
+            => _values = vector._values.ToArray();
 
         public Vector(IEnumerable<int> values)
             : this(values.Select(v => Convert.ToDouble(v)))
@@ -52,6 +55,12 @@ namespace RayVE.LinearAlgebra
 
         public Vector Reflect(Vector normal)
             => this - (normal * (2 * (this * normal)));
+
+        public double Sum()
+            => _values.Sum();
+
+        public IEnumerable<double> Take(int count)
+            => _values.Take(count);
 
         private static Vector CombineElementWise(Vector left, Vector right, Func<double, double, double> combine)
         {
@@ -108,6 +117,7 @@ namespace RayVE.LinearAlgebra
                              .ToVector();
         }
 
+        [SuppressMessage("Style", "IDE0047:Remove unnecessary parentheses", Justification = "Parentheses aid clarity of intent.")]
         public static Vector operator /(Vector vector, double scalar)
             => (1 / scalar) * vector;
 
@@ -133,16 +143,6 @@ namespace RayVE.LinearAlgebra
             => !(left == right);
 
         #endregion Operators
-
-        #region IEnumerable
-
-        public IEnumerator<double> GetEnumerator()
-            => ((IEnumerable<double>)_values).GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator()
-            => ((IEnumerable<double>)_values).GetEnumerator();
-
-        #endregion IEnumerable
 
         #region Equality
 

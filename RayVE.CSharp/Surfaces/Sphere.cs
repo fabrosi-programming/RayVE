@@ -53,7 +53,7 @@ namespace RayVE.Surfaces
             var connectOrigins = transformedRay.Origin - _center;
             var a = transformedRay.Direction * transformedRay.Direction; // more precise than Pow(ray.Direction.Magnitude, 2)
             var b = 2 * transformedRay.Direction * connectOrigins;
-            var c = connectOrigins * connectOrigins - 1; // more precise than Pow(connectOrigins.Direction.Magnitude, 2)
+            var c = (connectOrigins * connectOrigins) - 1; // more precise than Pow(connectOrigins.Direction.Magnitude, 2)
             var discriminant = Algebra.Discriminant(a, b, c);
 
             if (discriminant < 0)
@@ -70,8 +70,9 @@ namespace RayVE.Surfaces
 
         public IMaterial Material { get; }
 
-        public IEnumerable<Intersection> Intersect(Ray ray)
-            => GetIntersections(ray).Select(i => new Intersection(i, this));
+        public Intersections Intersect(Ray ray)
+            => new Intersections(
+                GetIntersections(ray).Select(i => new Intersection(i, this)));
 
         public Vector3D GetNormal(Point3D point)
         {

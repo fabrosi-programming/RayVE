@@ -1,5 +1,6 @@
 ﻿using RayVE.Extensions;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using static RayVE.Constants;
@@ -9,7 +10,7 @@ namespace RayVE.LinearAlgebra
 {
     public sealed class Matrix : IEquatable<Matrix>
     {
-        public sealed class RowCollection
+        internal sealed class RowCollection
         {
             private readonly Matrix _matrix;
 
@@ -23,7 +24,7 @@ namespace RayVE.LinearAlgebra
                 => this[Convert.ToUInt32(i)];
         }
 
-        public sealed class ColumnCollection
+        internal sealed class ColumnCollection
         {
             private readonly Matrix _matrix;
 
@@ -60,7 +61,7 @@ namespace RayVE.LinearAlgebra
 
         public double Determinant
             => RowCount == 2 && ColumnCount == 2
-               ? this[0, 0] * this[1, 1] - this[0, 1] * this[1, 0]
+               ? (this[0, 0] * this[1, 1]) - (this[0, 1] * this[1, 0])
                : Rows[0] * GetCofactors(0);
 
         public bool IsInvertible
@@ -76,9 +77,9 @@ namespace RayVE.LinearAlgebra
         public Matrix Transpose
             => new Matrix(ColumnCount, RowCount, (i, j) => _values[j][i]);
 
-        public RowCollection Rows => new RowCollection(this);
+        internal RowCollection Rows => new RowCollection(this);
 
-        public ColumnCollection Columns => new ColumnCollection(this);
+        internal ColumnCollection Columns => new ColumnCollection(this);
 
         public Matrix(double[][] values)
             => _values = (double[][])values.Clone();
@@ -99,10 +100,10 @@ namespace RayVE.LinearAlgebra
         internal Matrix SwapRows(uint rowIndex1, uint rowIndex2)
         {
             if (rowIndex1 > RowCount)
-                throw new ArgumentOutOfRangeException("Row index must be less than the maximum row index of the matrix.", nameof(rowIndex1));
+                throw new ArgumentOutOfRangeException(nameof(rowIndex1), "Row index must be less than the maximum row index of the matrix.");
 
             if (rowIndex2 > RowCount)
-                throw new ArgumentOutOfRangeException("Row index must be less than the maximum row index of the matrix.", nameof(rowIndex2));
+                throw new ArgumentOutOfRangeException(nameof(rowIndex2), "Row index must be less than the maximum row index of the matrix.");
 
             return Transform((i, j) => i == rowIndex1
                                        ? this[rowIndex2, j]
@@ -114,7 +115,7 @@ namespace RayVE.LinearAlgebra
         internal Matrix ScaleColumn(uint columnIndex, double factor)
         {
             if (columnIndex > ColumnCount)
-                throw new ArgumentOutOfRangeException("Column index must be less than the maximum row index of the matrix.", nameof(columnIndex));
+                throw new ArgumentOutOfRangeException(nameof(columnIndex), "Column index must be less than the maximum row index of the matrix.");
 
             return Transform((i, j) => this[i, j] * (j == columnIndex ? factor : 1.0d));
         }
@@ -136,7 +137,7 @@ namespace RayVE.LinearAlgebra
         public double GetCofactor(uint row, uint column)
             => GetMinor(row, column) * ((row + column) % 2 == 0 ? 1 : -1);
 
-        public Vector GetCofactors(uint row)
+        private Vector GetCofactors(uint row)
             => new Vector(Enumerable.Range(0, Convert.ToInt32(ColumnCount))
                                     .Select(c => GetCofactor(row, Convert.ToUInt32(c))));
 
@@ -147,9 +148,9 @@ namespace RayVE.LinearAlgebra
             for (uint i = 0; i < RowCount; i++)
             {
                 for (uint j = 0; j < ColumnCount; j++)
-                    builder.Append(this[i, j].ToString("F3").PadLeft(8) + " ");
+                    builder = builder.Append(this[i, j].ToString("F3").PadLeft(8) + " ");
 
-                builder.Append(Environment.NewLine);
+                builder = builder.Append(Environment.NewLine);
             }
 
             return builder.ToString();
@@ -232,6 +233,7 @@ namespace RayVE.LinearAlgebra
         public static Matrix operator *(double scalar, Matrix matrix)
             => new Matrix(matrix.RowCount, matrix.ColumnCount, (i, j) => scalar * matrix[i, j]);
 
+        [SuppressMessage("Style", "IDE0047:Remove unnecessary parentheses", Justification = "Parentheses clarify intent.")]
         public static Matrix operator /(Matrix matrix, double scalar)
             => (1 / scalar) * matrix;
 

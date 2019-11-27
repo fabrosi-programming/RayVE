@@ -202,7 +202,7 @@ namespace RayVE.LinearAlgebra.Tests
             var matrix = Matrix.Identity(3);
 
             //act-assert
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => matrix.ScaleColumn(100, 0.5d));
+            _ = Assert.ThrowsException<ArgumentOutOfRangeException>(() => matrix.ScaleColumn(100, 0.5d));
         }
 
         [TestMethod]
@@ -215,7 +215,7 @@ namespace RayVE.LinearAlgebra.Tests
                 new double[] { 2.0d, -1.0d },
                 new double[] { 3.0d, 4.0d }
             });
-            static double transform(uint i, uint j) => 2.0d * i + j;
+            static double transform(uint i, uint j) => (2.0d * i) + j;
 
             //act
             var transformed = matrix.Transform(transform);
@@ -240,7 +240,7 @@ namespace RayVE.LinearAlgebra.Tests
                 new double[] { 2.0d, -1.0d },
                 new double[] { 3.0d, 4.0d }
             });
-            static double transform(uint i, uint j) => 2.0d * i + j;
+            static double transform(uint i, uint j) => (2.0d * i) + j;
             static bool predicate(uint i, uint j) => i <= j;
 
             //act

@@ -1,10 +1,8 @@
-﻿using RayVE.Extensions;
-using RayVE.LightSources;
+﻿using RayVE.LightSources;
 using RayVE.LinearAlgebra;
 using RayVE.Materials;
 using RayVE.Surfaces;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -33,14 +31,14 @@ namespace RayVE.SphereDrawing
             var lightSource = new PointLightSource(lightPosition, lightColor);
 
             var hits = rays.AsParallel()
-                           .Select(r => (r.Index, r.Ray, Hit: sphere.Intersect(r.Ray).GetHit()));
+                           .Select(r => (r.Index, r.Ray, Hit: sphere.Intersect(r.Ray).GetNearestHit()));
 
             var canvas = new Canvas(canvasSize, canvasSize);
 
             foreach (var hit in hits)
             {
-                var xPixel = hit.Index.x + canvasSize / 2;
-                var yPixel = -hit.Index.y + canvasSize / 2;
+                var xPixel = hit.Index.x + (canvasSize / 2);
+                var yPixel = -hit.Index.y + (canvasSize / 2);
 
                 if (!hit.Hit.HasValue)
                     canvas[xPixel, yPixel] = ambientColor;

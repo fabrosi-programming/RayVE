@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace RayVE.LinearAlgebra
 {
     [Serializable]
-    internal class DimensionMismatchException : Exception
+    public class DimensionMismatchException : Exception
     {
         public DimensionMismatchException()
         {

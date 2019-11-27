@@ -1,5 +1,6 @@
 ﻿using RayVE.LightSources;
 using RayVE.LinearAlgebra;
+using System;
 using static System.Math;
 
 namespace RayVE.Materials
@@ -27,6 +28,9 @@ namespace RayVE.Materials
 
         public Color Illuminate(Point3D point, ILightSource lightSource, Vector3D eyeVector, Vector3D normalVector)
         {
+            if (lightSource is null)
+                throw new ArgumentNullException(nameof(lightSource));
+
             var lightVector = GetLightVector(point, lightSource);
             var illuminationColor = _color * lightSource.Color;
             var lightDotNormal = lightVector * normalVector;
@@ -53,7 +57,7 @@ namespace RayVE.Materials
         }
 
         private Vector GetLightVector(Point3D point, ILightSource lightSource)
-            => new Vector3D((lightSource.Position - point)).Normalize();
+            => new Vector3D(lightSource.Position - point).Normalize();
 
         private static Vector GetReflectionVector(Vector3D normalVector, Vector lightVector)
             => (-lightVector).Reflect(normalVector);
