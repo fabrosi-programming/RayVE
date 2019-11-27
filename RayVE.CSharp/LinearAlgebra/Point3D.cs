@@ -18,10 +18,10 @@ namespace RayVE.LinearAlgebra
         #region Operators
 
         public static Vector3D operator -(Point3D left, Point3D right)
-            => new Vector3D((Vector)left - (Vector)right);
+            => new Vector3D((Vector)left - right);
 
         public static Point3D operator +(Point3D point, Vector3D vector)
-            => new Point3D((Vector)point + (Vector)vector);
+            => new Point3D((Vector)point + vector);
 
         #endregion Operators
     }
