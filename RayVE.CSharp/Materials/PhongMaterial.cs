@@ -5,7 +5,7 @@ using static System.Math;
 
 namespace RayVE.Materials
 {
-    public class PhongMaterial : IMaterial
+    public class PhongMaterial : IMaterial, IEquatable<PhongMaterial>
     {
         private readonly Color _color;
 
@@ -26,6 +26,42 @@ namespace RayVE.Materials
             _shininess = shininess;
         }
 
+        #region Operators
+        public static bool operator ==(PhongMaterial left, PhongMaterial right)
+        {
+            if (ReferenceEquals(left, right))
+                return true;
+
+            if (left is null || right is null)
+                return false;
+
+            return left._color == right._color
+                && left._ambience == right._ambience
+                && left._diffusion == right._diffusion
+                && left._specularity == right._specularity
+                && left._shininess == right._shininess;
+        }
+
+        public static bool operator !=(PhongMaterial left, PhongMaterial right)
+            => !(left == right);
+        #endregion
+
+        #region Equals
+        public override bool Equals(object? obj)
+        {
+            if (obj is PhongMaterial phongMaterial)
+                return Equals(phongMaterial);
+
+            return false;
+        }
+        #endregion
+
+        #region IEquatable<PhongMaterial>
+        public bool Equals(PhongMaterial other)
+            => this == other;
+        #endregion
+
+        #region IMaterial
         public Color Illuminate(Point3D point, ILightSource lightSource, Vector3D eyeVector, Vector3D normalVector)
         {
             if (lightSource is null)
@@ -61,5 +97,6 @@ namespace RayVE.Materials
 
         private static Vector GetReflectionVector(Vector3D normalVector, Vector lightVector)
             => (-lightVector).Reflect(normalVector);
+        #endregion
     }
 }

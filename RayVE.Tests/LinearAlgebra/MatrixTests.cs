@@ -976,7 +976,7 @@ namespace RayVE.LinearAlgebra.Tests
         public void Scale_MultipliedByPoint_ExpectCorrectNewPoint()
         {
             //arrange
-            var scale = Matrix.Scale(new Vector(new[] { 2.0d, 3.0d, 4.0d }));
+            var scale = Matrix.Scale(new Vector(2.0d, 3.0d, 4.0d));
             var point = new Point3D(-4.0d, 6.0d, 8.0d);
 
             //act
@@ -990,7 +990,7 @@ namespace RayVE.LinearAlgebra.Tests
         public void Scale_MultipliedByVector_ExpectCorrectNewPoint()
         {
             //arrange
-            var scale = Matrix.Scale(new Vector(new[] { 2.0d, 3.0d, 4.0d }));
+            var scale = Matrix.Scale(new Vector(2.0d, 3.0d, 4.0d));
             var point = new Vector3D(-4.0d, 6.0d, 8.0d);
 
             //act
@@ -1004,7 +1004,7 @@ namespace RayVE.LinearAlgebra.Tests
         public void Scale_InvertedAndMultipliedByPoint_ExpectCorrectNewPoint()
         {
             //arrange
-            var scale = Matrix.Scale(new Vector(new[] { 2.0d, 3.0d, 4.0d })).Inverse;
+            var scale = Matrix.Scale(new Vector(2.0d, 3.0d, 4.0d)).Inverse;
             var point = new Point3D(-4.0d, 6.0d, 8.0d);
 
             //act
@@ -1018,7 +1018,7 @@ namespace RayVE.LinearAlgebra.Tests
         public void Scale_WithScalarsOfOne_ExpectNoChangeToThePoint()
         {
             //arrange
-            var scale = Matrix.Scale(new Vector(new[] { 1.0d, 1.0d, 1.0d }));
+            var scale = Matrix.Scale(new Vector(1.0d, 1.0d, 1.0d));
             var point = new Point3D(-4.0d, 6.0d, 8.0d);
 
             //act

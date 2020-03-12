@@ -1,11 +1,12 @@
 ﻿using Functional.Option;
 using MoreLinq;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace RayVE
 {
-    public class Intersections
+    public class Intersections : IEnumerable<Intersection>
     {
         private readonly List<Intersection> _intersections;
 
@@ -19,11 +20,20 @@ namespace RayVE
             => _intersections.Contains(intersection);
 
         public Intersections(IEnumerable<Intersection> intersections)
-            => _intersections = intersections.ToList(); // sacrifice laziness; prevent multiple enumeration
+            => _intersections = intersections.OrderBy(i => i.Distance) // ordering required for reflections, refraction, and constructive geometry
+                                             .ToList(); // sacrifice laziness; prevent multiple enumeration
 
         public Option<Intersection> GetNearestHit()
             => _intersections.Where(i => i.Distance > 0)
                              .MinBy(i => i.Distance)
                              .FirstOrDefault() ?? Option<Intersection>.None;
+        
+        #region IEnumerable<Intersection>
+        public IEnumerator<Intersection> GetEnumerator()
+            => ((IEnumerable<Intersection>)_intersections).GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => ((IEnumerable<Intersection>)_intersections).GetEnumerator();
+        #endregion
     }
 }

@@ -1,13 +1,15 @@
 ﻿using RayVE.LinearAlgebra;
 using RayVE.Materials;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static System.Math;
 
 namespace RayVE.Surfaces
 {
-    public class Sphere : ISurface
+    public class Sphere : ISurface, IEquatable<Sphere>
     {
         private readonly Point3D _center;
 
@@ -66,8 +68,25 @@ namespace RayVE.Surfaces
             }.ToImmutableList();
         }
 
-        #region ISurface
+        #region Operators
+        public static bool operator ==(Sphere left, Sphere right)
+        {
+            if (ReferenceEquals(left, right))
+                return true;
 
+            if (left is null || right is null)
+                return false;
+
+            return left._center == right._center
+                && left._inverseTransformation == right._inverseTransformation
+                && left.Material.Equals(right.Material); // no support for custom == operator on interfaces
+        }
+
+        public static bool operator !=(Sphere left, Sphere right)
+            => !(left == right);
+        #endregion
+
+        #region ISurface
         public IMaterial Material { get; }
 
         public Intersections Intersect(Ray ray)
@@ -80,7 +99,21 @@ namespace RayVE.Surfaces
             var objectNormal = objectPoint - _center;
             return new Vector3D(_transposeInverseTransformation * objectNormal, true);
         }
-
         #endregion ISurface
+
+        #region Equals
+        public override bool Equals(object? obj)
+        {
+            if (obj is Sphere sphere)
+                return Equals(sphere);
+
+            return false;
+        }
+        #endregion
+
+        #region IEquatable<Sphere>
+        public bool Equals(Sphere other)
+            => this == other;
+        #endregion
     }
 }
