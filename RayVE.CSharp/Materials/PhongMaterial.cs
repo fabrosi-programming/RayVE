@@ -17,6 +17,10 @@ namespace RayVE.Materials
 
         private readonly UDouble _shininess;
 
+        public PhongMaterial(Color? color = null, double ambience = 0.1, double diffusion = 0.9, double specularity = 0.9, double shininess = 200.0)
+            : this(color ?? new Color(1, 1, 1), new UDouble(ambience), new UDouble(diffusion), new UDouble(specularity), new UDouble(shininess))
+        { }
+
         public PhongMaterial(Color color, UDouble ambience, UDouble diffusion, UDouble specularity, UDouble shininess)
         {
             _color = color;
@@ -62,7 +66,7 @@ namespace RayVE.Materials
         #endregion
 
         #region IMaterial
-        public Color Illuminate(Point3D point, ILightSource lightSource, Vector3D eyeVector, Vector3D normalVector)
+        public Color Illuminate(Point3D point, Vector3D eyeVector, Vector3D normalVector, ILightSource lightSource)
         {
             if (lightSource is null)
                 throw new ArgumentNullException(nameof(lightSource));
@@ -82,7 +86,7 @@ namespace RayVE.Materials
 
                 if (reflectionDotEye > 0)
                 {
-                    var specularFactor = Pow(reflectionDotEye, _shininess);
+                    var specularFactor = Pow(reflectionDotEye, _shininess.AsDouble());
                     specularity = lightSource.Color * _specularity * specularFactor;
                 }
             }
@@ -91,6 +95,9 @@ namespace RayVE.Materials
 
             return ambience + diffusion + specularity;
         }
+
+        public Color Illuminate(Intersection intersection, ILightSource lightSource)
+            => Illuminate(intersection.Position, intersection.EyeVector, intersection.NormalVector, lightSource);
 
         private Vector GetLightVector(Point3D point, ILightSource lightSource)
             => new Vector3D(lightSource.Position - point).Normalize();

@@ -52,6 +52,9 @@ namespace RayVE
         public static Color operator *(Color color, double scalar)
             => new Color(color.R * scalar, color.G * scalar, color.B * scalar);
 
+        public static Color operator *(Color color, UDouble scalar)
+            => color * scalar.AsDouble();
+
         public static Color operator *(Color left, Color right)
             => new Color(left.R * right.R, left.G * right.G, left.B * right.B);
 

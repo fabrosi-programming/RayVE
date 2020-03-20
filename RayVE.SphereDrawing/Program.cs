@@ -49,7 +49,7 @@ namespace RayVE.SphereDrawing
                     var normalVector = surface.GetNormal(point);
                     var eyeVector = -hit.Ray.Direction;
 
-                    canvas[xPixel, yPixel] = surface.Material.Illuminate(point, lightSource, eyeVector, normalVector);
+                    canvas[xPixel, yPixel] = surface.Material.Illuminate(point, eyeVector, normalVector, lightSource);
                 }
             }
 

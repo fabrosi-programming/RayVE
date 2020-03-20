@@ -5,7 +5,10 @@ namespace RayVE.Materials
 {
     public class NoMaterial : IMaterial
     {
-        public Color Illuminate(Point3D point, ILightSource lightSource, Vector3D eyeVector, Vector3D reflectionVector)
+        public Color Illuminate(Point3D point, Vector3D eyeVector, Vector3D reflectionVector, ILightSource lightSource)
+            => Color.Black;
+
+        public Color Illuminate(Intersection intersection, ILightSource lightSource)
             => Color.Black;
 
         #region Equals

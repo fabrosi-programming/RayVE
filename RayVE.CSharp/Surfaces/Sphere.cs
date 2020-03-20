@@ -22,11 +22,11 @@ namespace RayVE.Surfaces
         { }
 
         public Sphere(Point3D center)
-            : this(center, Matrix.Identity(center.Length), new NoMaterial())
+            : this(center, Matrix.Identity(center.Length), new PhongMaterial())
         { }
 
         public Sphere(Matrix transformation)
-            : this(new Point3D(0, 0, 0), transformation, new NoMaterial())
+            : this(new Point3D(0, 0, 0), transformation, new PhongMaterial())
         { }
 
         public Sphere(IMaterial material)

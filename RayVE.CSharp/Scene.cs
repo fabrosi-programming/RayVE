@@ -15,6 +15,18 @@ namespace RayVE.CSharp
 
         public IEnumerable<ILightSource> LightSources { get; }
 
+        public Scene(ISurface surface, ILightSource lightSource)
+            : this(new[] { surface }, lightSource)
+        { }
+
+        public Scene(IEnumerable<ISurface> surfaces, ILightSource lightSource)
+            : this(surfaces, new[] { lightSource })
+        { }
+
+        public Scene(ISurface surface, IEnumerable<ILightSource> lightSources)
+            : this(new[] { surface }, lightSources)
+        { }
+
         public Scene(IEnumerable<ISurface> surfaces, IEnumerable<ILightSource> lightSources)
         {
             Surfaces = surfaces;
@@ -25,16 +37,17 @@ namespace RayVE.CSharp
             => new Intersections(
                 Surfaces.SelectMany(s => s.Intersect(ray)));
 
+        public Color Shade(Intersection intersection)
+            => LightSources.Select(l => intersection.Surface.Material.Illuminate(intersection, l))
+                           .Aggregate((c1, c2) => c1 + c2);
+
         public static Scene Default
             => new Scene(
                 new[]
                 {
-                    new Sphere(new PhongMaterial(new Color(0.8, 1.0, 0.6), 0, 0.7, 0.2, 0)),
+                    new Sphere(new PhongMaterial(new Color(0.8, 1.0, 0.6), diffusion: 0.7, specularity: 0.2)),
                     new Sphere(Matrix.Scale(new Vector(0.5, 0.5, 0.5)))
                 },
-                new[]
-                {
-                    new PointLightSource(new Point3D(-10, 10, -10), new Color(1, 1, 1))
-                });
+                new PointLightSource(new Point3D(-10, 10, -10), new Color(1, 1, 1)));
     }
 }

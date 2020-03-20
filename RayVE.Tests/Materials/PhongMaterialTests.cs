@@ -22,7 +22,7 @@ namespace RayVE.Materials.Tests
             var lightSource = new PointLightSource(lightPosition, lightIntensity);
 
             //act
-            var illuminatedColor = material.Illuminate(illuminatedPoint, lightSource, eyeVector, normalVector);
+            var illuminatedColor = material.Illuminate(illuminatedPoint, eyeVector, normalVector, lightSource);
 
             //assert
             Assert.AreEqual(new Color(1.9, 1.9, 1.9), illuminatedColor);
@@ -43,7 +43,7 @@ namespace RayVE.Materials.Tests
             var lightSource = new PointLightSource(lightPosition, lightIntensity);
 
             //act
-            var illuminatedColor = material.Illuminate(illuminatedPoint, lightSource, eyeVector, normalVector);
+            var illuminatedColor = material.Illuminate(illuminatedPoint, eyeVector, normalVector, lightSource);
 
             //assert
             Assert.AreEqual(new Color(1.0, 1.0, 1.0), illuminatedColor);
@@ -63,7 +63,7 @@ namespace RayVE.Materials.Tests
             var lightSource = new PointLightSource(lightPosition, lightIntensity);
 
             //act
-            var illuminatedColor = material.Illuminate(illuminatedPoint, lightSource, eyeVector, normalVector);
+            var illuminatedColor = material.Illuminate(illuminatedPoint, eyeVector, normalVector, lightSource);
 
             //assert
             Assert.AreEqual(new Color(0.73639610, 0.73639610, 0.73639610), illuminatedColor);
@@ -84,7 +84,7 @@ namespace RayVE.Materials.Tests
             var lightSource = new PointLightSource(lightPosition, lightIntensity);
 
             //act
-            var illuminatedColor = material.Illuminate(illuminatedPoint, lightSource, eyeVector, normalVector);
+            var illuminatedColor = material.Illuminate(illuminatedPoint, eyeVector, normalVector, lightSource);
 
             //assert
             Assert.AreEqual(new Color(1.63639610, 1.63639610, 1.63639610), illuminatedColor);
@@ -104,7 +104,7 @@ namespace RayVE.Materials.Tests
             var lightSource = new PointLightSource(lightPosition, lightIntensity);
 
             //act
-            var illuminatedColor = material.Illuminate(illuminatedPoint, lightSource, eyeVector, normalVector);
+            var illuminatedColor = material.Illuminate(illuminatedPoint, eyeVector, normalVector, lightSource);
 
             //assert
             Assert.AreEqual(new Color(0.1, 0.1, 0.1), illuminatedColor);
