@@ -21,8 +21,8 @@ namespace RayVE.Surfaces.Tests
 
             //assert
             Assert.AreEqual(2, intersections.Count);
-            Assert.IsTrue(intersections.Contains(new Intersection(4.0d, sphere)));
-            Assert.IsTrue(intersections.Contains(new Intersection(6.0d, sphere)));
+            Assert.IsTrue(intersections.Contains(new Intersection(4.0d, sphere, ray)));
+            Assert.IsTrue(intersections.Contains(new Intersection(6.0d, sphere, ray)));
         }
 
         [TestMethod]
@@ -39,8 +39,8 @@ namespace RayVE.Surfaces.Tests
 
             //assert
             Assert.AreEqual(2, intersections.Count);
-            Assert.AreEqual(new Intersection(5.0d, sphere), intersections[0]);
-            Assert.AreEqual(new Intersection(5.0d, sphere), intersections[1]);
+            Assert.AreEqual(new Intersection(5.0d, sphere, ray), intersections[0]);
+            Assert.AreEqual(new Intersection(5.0d, sphere, ray), intersections[1]);
         }
 
         [TestMethod]
@@ -73,8 +73,8 @@ namespace RayVE.Surfaces.Tests
 
             //assert
             Assert.AreEqual(2, intersections.Count);
-            Assert.IsTrue(intersections.Contains(new Intersection(-1.0d, sphere)));
-            Assert.IsTrue(intersections.Contains(new Intersection(1.0d, sphere)));
+            Assert.IsTrue(intersections.Contains(new Intersection(-1.0d, sphere, ray)));
+            Assert.IsTrue(intersections.Contains(new Intersection(1.0d, sphere, ray)));
         }
 
         [TestMethod]
@@ -91,8 +91,8 @@ namespace RayVE.Surfaces.Tests
 
             //assert
             Assert.AreEqual(2, intersections.Count);
-            Assert.IsTrue(intersections.Contains(new Intersection(-6.0d, sphere)));
-            Assert.IsTrue(intersections.Contains(new Intersection(-4.0d, sphere)));
+            Assert.IsTrue(intersections.Contains(new Intersection(-6.0d, sphere, ray)));
+            Assert.IsTrue(intersections.Contains(new Intersection(-4.0d, sphere, ray)));
         }
 
         [TestMethod]
@@ -110,8 +110,8 @@ namespace RayVE.Surfaces.Tests
 
             //assert
             Assert.AreEqual(2, intersections.Count);
-            Assert.IsTrue(intersections.Contains(new Intersection(3.0d, sphere)));
-            Assert.IsTrue(intersections.Contains(new Intersection(7.0d, sphere)));
+            Assert.IsTrue(intersections.Contains(new Intersection(3.0d, sphere, ray)));
+            Assert.IsTrue(intersections.Contains(new Intersection(7.0d, sphere, ray)));
         }
 
         [TestMethod]

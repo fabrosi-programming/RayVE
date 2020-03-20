@@ -1,6 +1,7 @@
 ﻿using RayVE.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static RayVE.Constants;
@@ -8,6 +9,7 @@ using static System.Math;
 
 namespace RayVE.LinearAlgebra
 {
+    [DebuggerDisplay("({System.String.Join(\", \", _values),nq})")]
     public class Vector : IEquatable<Vector>
     {
         private readonly double[] _values;

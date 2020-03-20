@@ -91,7 +91,7 @@ namespace RayVE.Surfaces
 
         public Intersections Intersect(Ray ray)
             => new Intersections(
-                GetIntersections(ray).Select(i => new Intersection(i, this)));
+                GetIntersections(ray).Select(i => new Intersection(i, this, ray)));
 
         public Vector3D GetNormal(Point3D point)
         {

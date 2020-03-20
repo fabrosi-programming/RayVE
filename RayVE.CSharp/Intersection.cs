@@ -1,4 +1,5 @@
-﻿using RayVE.Surfaces;
+﻿using RayVE.LinearAlgebra;
+using RayVE.Surfaces;
 using System;
 
 namespace RayVE
@@ -9,10 +10,30 @@ namespace RayVE
 
         public ISurface Surface { get; }
 
-        public Intersection(double distance, ISurface surface)
+        public Ray Ray { get; }
+
+        public Point3D Position { get; }
+
+        public Vector3D EyeVector { get; }
+        
+        public Vector3D NormalVector { get; }
+
+        public bool IsInsideSurface { get; }
+
+        public Intersection(double distance, ISurface surface, Ray ray)
         {
             Distance = distance;
             Surface = surface;
+            Ray = ray;
+            
+            Position = ray.GetPosition(distance);
+            EyeVector = -ray.Direction;
+            
+            var candidateNormalVector = surface.GetNormal(Position);
+            IsInsideSurface = candidateNormalVector * EyeVector < 0;
+            NormalVector = IsInsideSurface
+                ? -candidateNormalVector
+                : candidateNormalVector;
         }
 
         #region Operators

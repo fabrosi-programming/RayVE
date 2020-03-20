@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 
 namespace RayVE.LinearAlgebra
 {
+    [DebuggerDisplay("({this[0]}, {this[1]}, {this[2]})")]
     public sealed class Point3D : Vector
     {
         public Point3D(double x, double y, double z)
