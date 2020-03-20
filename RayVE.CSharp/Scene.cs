@@ -41,6 +41,12 @@ namespace RayVE.CSharp
             => LightSources.Select(l => intersection.Surface.Material.Illuminate(intersection, l))
                            .Aggregate((c1, c2) => c1 + c2);
 
+        public Color Shade(Ray ray)
+            => Shade(
+                Intersect(ray)
+                .GetNearestHit()
+                .ValueOr(new Intersection(0.0, NullSurface.Instance, ray)));
+
         public static Scene Default
             => new Scene(
                 new[]

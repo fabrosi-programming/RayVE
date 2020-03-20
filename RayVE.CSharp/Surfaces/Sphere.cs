@@ -12,9 +12,8 @@ namespace RayVE.Surfaces
     public class Sphere : ISurface, IEquatable<Sphere>
     {
         private readonly Point3D _center;
-
+        private readonly Matrix _transformation;
         private readonly Matrix _inverseTransformation;
-
         private readonly Matrix _transposeInverseTransformation;
 
         public Sphere()
@@ -44,8 +43,9 @@ namespace RayVE.Surfaces
         public Sphere(Point3D center, Matrix transformation, IMaterial material)
         {
             _center = center;
-            _inverseTransformation = transformation.Inverse;
-            _transposeInverseTransformation = transformation.Inverse.Transpose;
+            _transformation = transformation;
+            _inverseTransformation = _transformation.Inverse;
+            _transposeInverseTransformation = _transformation.Inverse.Transpose;
             Material = material;
         }
 
@@ -99,6 +99,9 @@ namespace RayVE.Surfaces
             var objectNormal = objectPoint - _center;
             return new Vector3D(_transposeInverseTransformation * objectNormal, true);
         }
+
+        public ISurface WithMaterial(IMaterial material)
+            => new Sphere(_center, _transformation, material);
         #endregion ISurface
 
         #region Equals

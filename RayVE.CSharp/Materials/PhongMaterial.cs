@@ -7,7 +7,7 @@ namespace RayVE.Materials
 {
     public class PhongMaterial : IMaterial, IEquatable<PhongMaterial>
     {
-        private readonly Color _color;
+        public Color Color { get; }
 
         private readonly UDouble _ambience;
 
@@ -23,7 +23,7 @@ namespace RayVE.Materials
 
         public PhongMaterial(Color color, UDouble ambience, UDouble diffusion, UDouble specularity, UDouble shininess)
         {
-            _color = color;
+            Color = color;
             _ambience = ambience;
             _diffusion = diffusion;
             _specularity = specularity;
@@ -39,7 +39,7 @@ namespace RayVE.Materials
             if (left is null || right is null)
                 return false;
 
-            return left._color == right._color
+            return left.Color == right.Color
                 && left._ambience == right._ambience
                 && left._diffusion == right._diffusion
                 && left._specularity == right._specularity
@@ -72,7 +72,7 @@ namespace RayVE.Materials
                 throw new ArgumentNullException(nameof(lightSource));
 
             var lightVector = GetLightVector(point, lightSource);
-            var illuminationColor = _color * lightSource.Color;
+            var illuminationColor = Color * lightSource.Color;
             var lightDotNormal = lightVector * normalVector;
 
             var diffusion = new Color(0, 0, 0);

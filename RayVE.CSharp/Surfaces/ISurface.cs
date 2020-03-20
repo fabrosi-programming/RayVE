@@ -10,5 +10,7 @@ namespace RayVE.Surfaces
         Intersections Intersect(Ray ray);
 
         Vector3D GetNormal(Point3D point);
+
+        ISurface WithMaterial(IMaterial material);
     }
 }

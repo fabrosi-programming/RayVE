@@ -106,5 +106,61 @@ namespace RayVE.Tests
             //assert
             Assert.AreEqual(new Color(0.9049844720832575, 0.9049844720832575, 0.9049844720832575), color);
         }
+
+        [TestMethod]
+        public void Shade_WithNonIntersectingRay_ExpectBlack()
+        {
+            //arrange
+            var scene = Scene.Default;
+            var ray = new Ray(new Point3D(0, 0, -5), new Vector3D(0, 1, 0));
+
+            //act
+            var color = scene.Shade(ray);
+
+            //assert
+            Assert.AreEqual(Color.Black, color);
+        }
+
+        [TestMethod]
+        public void Shade_WithIntersectingRay_ExpectCorrectColor()
+        {
+            //arrange
+            var scene = Scene.Default;
+            var ray = new Ray(new Point3D(0, 0, -5), new Vector3D(0, 0, 1));
+
+            //act
+            var color = scene.Shade(ray);
+
+            //assert
+            Assert.AreEqual(new Color(0.38066119308103435, 0.47582649135129296, 0.28549589481077575), color);
+        }
+
+        [TestMethod]
+        public void Shade_WithRayCastOnInnerSphere_ExpectCorrectColor()
+        {
+            //arrange
+            var outerMaterial = new PhongMaterial(new Color(0.8, 1.0, 0.6), ambience: 1.0, diffusion: 0.7, specularity: 0.2);
+            var innerMaterial = new PhongMaterial(ambience: 1.0);
+            var surfaces = new[]
+            {
+                Scene.Default
+                    .Surfaces
+                    .First()
+                    .WithMaterial(outerMaterial),
+                Scene.Default
+                    .Surfaces
+                    .Skip(1)
+                    .First()
+                    .WithMaterial(innerMaterial)
+            };
+            var scene = new Scene(surfaces, Scene.Default.LightSources);
+            var ray = new Ray(new Point3D(0, 0, 0.75), new Vector3D(0, 0, -1));
+
+            //act
+            var color = scene.Shade(ray);
+
+            //assert
+            Assert.AreEqual(innerMaterial.Color, color);
+        }
     }
 }
