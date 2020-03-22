@@ -8,5 +8,8 @@ namespace RayVE.LinearAlgebra
         public Vector2D(double x, double y)
             : base(x, y, 0.0d)
         { }
+
+        public override Vector AsVector()
+            => new Vector(Take(2));
     }
 }

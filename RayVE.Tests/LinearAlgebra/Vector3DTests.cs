@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RayVE.LinearAlgebra;
 
-namespace RayVE.Tests.LinearAlgebra
+namespace RayVE.LinearAlgebra.Tests
 {
     [TestClass]
     public class Vector3DTests

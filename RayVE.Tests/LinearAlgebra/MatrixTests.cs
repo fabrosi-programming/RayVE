@@ -931,7 +931,7 @@ namespace RayVE.LinearAlgebra.Tests
         public void Translation_WithVectorValues_ExpectMultipliesToCorrectPoint()
         {
             //arrange
-            var vector = new Vector(new[] { 5.0d, -3.0d, 2.0d });
+            var vector = new Vector3D(5.0d, -3.0d, 2.0d);
             var translation = Matrix.Translation(vector);
             var point = new Point3D(-3.0d, 4.0d, 5.0d);
 
@@ -946,7 +946,7 @@ namespace RayVE.LinearAlgebra.Tests
         public void Translation_WithInverseOfTranslationMatrix_ExpectMultipliesToCorrectPoint()
         {
             //arrange
-            var vector = new Vector(new[] { 5.0d, -3.0d, 2.0d });
+            var vector = new Vector3D(5.0d, -3.0d, 2.0d);
             var translation = Matrix.Translation(vector).Inverse;
             var point = new Point3D(-3.0d, 4.0d, 5.0d);
 
@@ -961,7 +961,7 @@ namespace RayVE.LinearAlgebra.Tests
         public void Translation_WithVectorValues_ExpectMultipliesWithVectorToNoChange()
         {
             //arrange
-            var translationVector = new Vector(new[] { 5.0d, -3.0d, 2.0d });
+            var translationVector = new Vector3D(5.0d, -3.0d, 2.0d);
             var translation = Matrix.Translation(translationVector);
             var vector = new Vector3D(-3.0d, 4.0d, 5.0d);
 

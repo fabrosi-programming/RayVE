@@ -1,5 +1,6 @@
 ﻿using RayVE.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -88,6 +89,14 @@ namespace RayVE.LinearAlgebra
             : this(matrix.RowCount, matrix.ColumnCount, (i, j) => matrix[i, j])
         { }
 
+        public Matrix(IEnumerable<Vector> rows)
+            : this(rows.ToArray())
+        { }
+
+        private Matrix(Vector[] rows)
+            : this((uint)rows.Length, rows[0].Length, (i, j) => rows[i][j])
+        { }
+
         internal Matrix(uint rows, uint columns, Func<uint, uint, double> valueSource)
         {
             _values = GetRectangularArray(rows, columns);
@@ -165,12 +174,18 @@ namespace RayVE.LinearAlgebra
             => new Matrix(size, size, (i, j) => i == j ? 1.0d : 0.0d);
 
         public static Matrix Translation(Vector vector)
+            => TranslationInternal(vector.AsVector());
+
+        private static Matrix TranslationInternal(Vector vector)
             => Identity(vector.Length + 1)
                + new Matrix(vector.Length + 1, vector.Length + 1, (i, j) => i != j && j == vector.Length
                                                                             ? vector[i]
                                                                             : 0.0d);
 
         public static Matrix Scale(Vector scalars)
+            => ScaleInternal(scalars.AsVector());
+
+        private static Matrix ScaleInternal(Vector scalars)
             => new Matrix(scalars.Length + 1, scalars.Length + 1, (i, j) => i != j
                                                                             ? 0.0d
                                                                             : (i == scalars.Length

@@ -14,6 +14,9 @@ namespace RayVE.LinearAlgebra
     {
         private readonly double[] _values;
 
+        public virtual Vector AsVector()
+            => this;
+
         public uint Length
             => Convert.ToUInt32(_values.Length);
 

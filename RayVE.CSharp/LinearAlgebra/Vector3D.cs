@@ -3,9 +3,18 @@ using System.Linq;
 
 namespace RayVE.LinearAlgebra
 {
-    [DebuggerDisplay("({this[0]}, {this[1]}, {this[2]})")]
+    [DebuggerDisplay("(X}, {Y}, {Z)")]
     public sealed class Vector3D : Vector
     {
+        public double X
+            => this[0];
+
+        public double Y
+            => this[1];
+
+        public double Z
+            => this[2];
+
         public Vector3D(double x, double y, double z, bool normalize = false)
             : this(new Vector(x, y, z, 0.0d), normalize)
         { }
@@ -23,13 +32,16 @@ namespace RayVE.LinearAlgebra
                             (this[2] * other[0]) - (this[0] * other[2]),
                             (this[0] * other[1]) - (this[1] * other[0]));
 
+        public override Vector AsVector()
+            => new Vector(Take(3));
+
         #region Operators
 
         public static Vector3D operator *(double scalar, Vector3D vector)
             => new Vector3D(scalar * (Vector)vector);
 
         public static Vector3D operator -(Vector3D vector)
-            => new Vector3D(-(Vector)vector);
+            => new Vector3D(-vector.AsVector());
 
         #endregion Operators
     }
