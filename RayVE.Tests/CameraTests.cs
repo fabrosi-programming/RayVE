@@ -99,7 +99,7 @@ namespace RayVE.Tests
             var width = 201u;
             var height = 101u;
             var fieldOfView = Math.PI / 2;
-            var transformation = Matrix.Rotation(Dimension.Y, Math.PI / 2) * Matrix.Translation(new Vector(0, -2, 5));
+            var transformation = Matrix.Rotation(Dimension.Y, Math.PI / 4) * Matrix.Translation(new Vector(0, -2, 5));
             var camera = new Camera(width, height, fieldOfView, transformation);
 
             //act
