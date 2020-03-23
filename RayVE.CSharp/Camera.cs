@@ -6,5 +6,11 @@ namespace RayVE.CSharp
 {
     public class Camera
     {
+        private ViewTransformation _viewTransformation;
+
+        public Camera(ViewTransformation viewTransformation)
+        {
+            _viewTransformation = viewTransformation;
+        }
     }
 }
