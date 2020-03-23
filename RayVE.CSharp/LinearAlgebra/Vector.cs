@@ -138,7 +138,7 @@ namespace RayVE.LinearAlgebra
                 return false;
 
             for (uint i = 0; i < left.Length; i++)
-                if (Abs(left[i] - right[i]) > EPSILON)
+                if (Abs(left[i] - right[i]) > Epsilon)
                     return false;
 
             return true;
@@ -168,7 +168,7 @@ namespace RayVE.LinearAlgebra
 
         #endregion Equality
 
-        public static Vector Zero(uint size)
+        public static Vector Zeros(uint size)
             => new Vector(Enumerable.Repeat(0, Convert.ToInt32(size))
                                     .ToArray());
     }

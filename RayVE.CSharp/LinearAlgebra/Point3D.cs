@@ -29,6 +29,9 @@ namespace RayVE.LinearAlgebra
         public override Vector AsVector()
             => new Vector(Take(3));
 
+        public static Point3D Zero
+            => new Point3D(0, 0, 0);
+
         #region Operators
 
         public static Point3D operator -(Point3D point)

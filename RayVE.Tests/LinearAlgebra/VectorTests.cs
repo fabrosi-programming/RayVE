@@ -60,14 +60,14 @@ namespace RayVE.LinearAlgebra.Tests
             var magnitude = vector.Magnitude;
 
             //assert
-            Assert.IsTrue(Abs(6.76313536 - magnitude) < EPSILON);
+            Assert.IsTrue(Abs(6.76313536 - magnitude) < Epsilon);
         }
 
         [TestMethod]
         public void Magnitude_WithZeroVector_ExpectZero()
         {
             //arrange
-            var vector = Vector.Zero(3);
+            var vector = Vector.Zeros(3);
 
             //act
             var magnitude = vector.Magnitude;
@@ -86,16 +86,16 @@ namespace RayVE.LinearAlgebra.Tests
             var normalized = vector.Normalize();
 
             //assert
-            Assert.IsTrue(Abs(0.63579978 - normalized[0]) < EPSILON);
-            Assert.IsTrue(Abs(-0.62101374 - normalized[1]) < EPSILON);
-            Assert.IsTrue(Abs(0.45836729 - normalized[2]) < EPSILON);
+            Assert.IsTrue(Abs(0.63579978 - normalized[0]) < Epsilon);
+            Assert.IsTrue(Abs(-0.62101374 - normalized[1]) < Epsilon);
+            Assert.IsTrue(Abs(0.45836729 - normalized[2]) < Epsilon);
         }
 
         [TestMethod]
         public void Normalize_WithZeroVector_ExpectNaNVector()
         {
             //arrange
-            var vector = Vector.Zero(3);
+            var vector = Vector.Zeros(3);
 
             //act
             var normalized = vector.Normalize();
@@ -138,7 +138,7 @@ namespace RayVE.LinearAlgebra.Tests
         {
             //arrange
             var vector1 = new Vector(4.3d, -4.2d, 3.1d);
-            var vector2 = Vector.Zero(3);
+            var vector2 = Vector.Zeros(3);
 
             //act
             var sum = vector1 + vector2;
@@ -166,7 +166,7 @@ namespace RayVE.LinearAlgebra.Tests
         {
             //arrange
             var point = new Vector(4.3d, -4.2d, 3.1d);
-            var vector = Vector.Zero(3);
+            var vector = Vector.Zeros(3);
 
             //act
             var sum = point + vector;
@@ -196,7 +196,7 @@ namespace RayVE.LinearAlgebra.Tests
         {
             //arrange
             var vector1 = new Vector(4.3d, -4.2d, 3.1d);
-            var vector2 = Vector.Zero(3);
+            var vector2 = Vector.Zeros(3);
 
             //act
             var sum = vector1 - vector2;
@@ -224,7 +224,7 @@ namespace RayVE.LinearAlgebra.Tests
         {
             //arrange
             var point = new Vector(4.3d, -4.2d, 3.1d);
-            var vector = Vector.Zero(3);
+            var vector = Vector.Zeros(3);
 
             //act
             var sum = point - vector;
@@ -254,7 +254,7 @@ namespace RayVE.LinearAlgebra.Tests
         {
             //arrange
             var vector1 = new Vector(4.3d, -4.2d, 3.1d);
-            var vector2 = Vector.Zero(3);
+            var vector2 = Vector.Zeros(3);
 
             //act
             var product = vector1 * vector2;
@@ -274,7 +274,7 @@ namespace RayVE.LinearAlgebra.Tests
             var product = vector1 * vector2;
 
             //assert
-            Assert.IsTrue((0.0d - product) < EPSILON);
+            Assert.IsTrue((0.0d - product) < Epsilon);
         }
 
         [TestMethod]
@@ -316,7 +316,7 @@ namespace RayVE.LinearAlgebra.Tests
             var scaled = scalar * vector;
 
             //assert
-            Assert.AreEqual(Vector.Zero(3), scaled);
+            Assert.AreEqual(Vector.Zeros(3), scaled);
         }
 
         [TestMethod]
@@ -404,7 +404,7 @@ namespace RayVE.LinearAlgebra.Tests
         public void NegateOperator_WithZeroVector_ExpectZeroVector()
         {
             //arrange
-            var vector = Vector.Zero(3);
+            var vector = Vector.Zeros(3);
 
             //act
             var negated = -vector;
@@ -522,7 +522,7 @@ namespace RayVE.LinearAlgebra.Tests
         public void Zero_GetValue_ExpectCorrectVector()
         {
             //arrange-act
-            var vector = Vector.Zero(3);
+            var vector = Vector.Zeros(3);
 
             //assert
             Assert.AreEqual(new Vector(0.0d, 0.0d, 0.0d), vector);

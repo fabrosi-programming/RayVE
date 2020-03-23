@@ -17,7 +17,7 @@ namespace RayVE.ProjectileSimulation
 
             foreach (var projectile in Projectiles)
             {
-                if (projectile.Velocity == Vector.Zero(2))
+                if (projectile.Velocity == Vector2D.Zero)
                 {
                     updatedProjectiles.Add(projectile);
                     break;

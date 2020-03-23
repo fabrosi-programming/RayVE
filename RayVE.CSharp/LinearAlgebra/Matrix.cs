@@ -265,7 +265,7 @@ namespace RayVE.LinearAlgebra
 
             for (uint i = 0; i < left.RowCount; i++)
                 for (uint j = 0; j < left.ColumnCount; j++)
-                    if (Abs(left[i, j] - right[i, j]) > EPSILON)
+                    if (Abs(left[i, j] - right[i, j]) > Epsilon)
                         return false;
 
             return true;

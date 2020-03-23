@@ -11,7 +11,7 @@ namespace RayVE.Tests
     public class ViewTransformationTests
     {
         [TestMethod]
-        public void Constructor_WithDefaultInputs_ExpectTransformationIsIdentityMatrix()
+        public void Constructor_WithDefaultInputs_ExpectMatrixIsIdentityMatrix()
         {
             //arrange
             var position = new Point3D(0, 0, 0);
@@ -22,11 +22,11 @@ namespace RayVE.Tests
             var camera = new ViewTransformation(position, target, up);
 
             //assert
-            Assert.AreEqual(Matrix.Identity(4), camera.Transformation);
+            Assert.AreEqual(Matrix.Identity(4), camera.Matrix);
         }
 
         [TestMethod]
-        public void Constructor_WithInvertedTargetDirection_ExpectTransformationIsScaleMatrix()
+        public void Constructor_WithInvertedTargetDirection_ExpectMatrixIsScaleMatrix()
         {
             //arrange
             var position = new Point3D(0, 0, 0);
@@ -37,11 +37,11 @@ namespace RayVE.Tests
             var camera = new ViewTransformation(position, target, up);
 
             //assert
-            Assert.AreEqual(Matrix.Scale(new Vector(-1, 1, -1)), camera.Transformation);
+            Assert.AreEqual(Matrix.Scale(new Vector(-1, 1, -1)), camera.Matrix);
         }
 
         [TestMethod]
-        public void Constructor_WithNonOriginPosition_ExpectTransformationIsTranslationMatrix()
+        public void Constructor_WithNonOriginPosition_ExpectMatrixIsTranslationMatrix()
         {
             //arrange
             var position = new Point3D(0, 0, 8);
@@ -52,11 +52,11 @@ namespace RayVE.Tests
             var camera = new ViewTransformation(position, target, up);
 
             //assert
-            Assert.AreEqual(Matrix.Translation(new Vector(0, 0, -8)), camera.Transformation);
+            Assert.AreEqual(Matrix.Translation(new Vector(0, 0, -8)), camera.Matrix);
         }
 
         [TestMethod]
-        public void Constructor_WithArbitraryInputs_ExpectCorrectTranslationMatrix()
+        public void Constructor_WithArbitraryInputs_ExpectCorrectMatrix()
         {
             //arrange
             var position = new Point3D(1, 3, 2);
@@ -74,7 +74,7 @@ namespace RayVE.Tests
                 new[] { -0.35856858280031811, 0.59761430466719678, -0.71713716560063623, 0.0},
                 new[] { 0.0, 0.0, 0.0, 1.0 }
             });
-            Assert.AreEqual(expected, camera.Transformation);
+            Assert.AreEqual(expected, camera.Matrix);
         }
     }
 }

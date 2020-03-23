@@ -11,5 +11,8 @@ namespace RayVE.LinearAlgebra
 
         public override Vector AsVector()
             => new Vector(Take(2));
+
+        public static Point2D Zero
+            => new Point2D(0, 0);
     }
 }

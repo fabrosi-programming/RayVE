@@ -25,13 +25,13 @@ namespace RayVE.LinearAlgebra.Tests
         {
             //arrange
             var vector1 = new Vector3D(4.3d, -4.2d, 3.1d);
-            var vector2 = new Vector3D(Vector.Zero(3));
+            var vector2 = Vector3D.Zero;
 
             //act
             var crossProduct = vector1.Cross(vector2);
 
             //assert
-            Assert.AreEqual(crossProduct, new Vector3D(Vector.Zero(3)));
+            Assert.AreEqual(crossProduct, Vector3D.Zero);
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace RayVE.LinearAlgebra.Tests
             var crossProduct = vector1.Cross(vector2);
 
             //assert
-            Assert.AreEqual(crossProduct, new Vector3D(Vector.Zero(3)));
+            Assert.AreEqual(crossProduct, Vector3D.Zero);
         }
     }
 }

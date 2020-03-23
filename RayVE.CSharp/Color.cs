@@ -70,9 +70,9 @@ namespace RayVE
                 && left.B == right.B)
                 return true;
 
-            if (Abs(left.R - right.R) < EPSILON
-                && Abs(left.G - right.G) < EPSILON
-                && Abs(left.B - right.B) < EPSILON)
+            if (Abs(left.R - right.R) < Epsilon
+                && Abs(left.G - right.G) < Epsilon
+                && Abs(left.B - right.B) < Epsilon)
                 return true;
 
             return false;

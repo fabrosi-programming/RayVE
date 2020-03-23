@@ -14,7 +14,7 @@ namespace RayVE.CSharp
         private readonly Vector3D _left;
         private readonly Vector3D _trueUp;
 
-        public Matrix Transformation
+        public Matrix Matrix
             => new Matrix(new[]
                 {
                     _left,

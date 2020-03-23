@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace RayVE.LinearAlgebra
 {
-    [DebuggerDisplay("(X}, {Y}, {Z)")]
+    [DebuggerDisplay("({X}, {Y}, {Z})")]
     public sealed class Vector3D : Vector
     {
         public double X
@@ -34,6 +34,9 @@ namespace RayVE.LinearAlgebra
 
         public override Vector AsVector()
             => new Vector(Take(3));
+
+        public static Vector3D Zero
+            => new Vector3D(0, 0, 0);
 
         #region Operators
 
