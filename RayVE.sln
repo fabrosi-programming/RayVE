@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayVE.SphereDrawing", "RayV
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayVE.Tests", "RayVE.Tests\RayVE.Tests.csproj", "{CB18B70D-778E-43E8-8FE0-DB46F66A7EB8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayVE.SimpleScene", "RayVE.SimpleScene\RayVE.SimpleScene.csproj", "{AB4158BE-A304-476F-AFE0-C518F603473E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{CB18B70D-778E-43E8-8FE0-DB46F66A7EB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB18B70D-778E-43E8-8FE0-DB46F66A7EB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB18B70D-778E-43E8-8FE0-DB46F66A7EB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB4158BE-A304-476F-AFE0-C518F603473E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB4158BE-A304-476F-AFE0-C518F603473E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB4158BE-A304-476F-AFE0-C518F603473E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB4158BE-A304-476F-AFE0-C518F603473E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

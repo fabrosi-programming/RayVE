@@ -7,11 +7,14 @@ using System.Text;
 
 namespace RayVE.CSharp
 {
-    public class Camera
+    public class Camera : ICamera
     {
         public uint Width { get; }
+
         public uint Height { get; }
+
         public double FieldOfView { get; }
+
         public Matrix InverseTransformation { get; }
 
         private double HalfFieldOfViewWidth { get; }
@@ -62,7 +65,7 @@ namespace RayVE.CSharp
             return new Ray(origin, direction);
         }
 
-        public Canvas Render(Scene scene)
+        public Canvas Render(IScene scene)
             => new Canvas(Width, Height, (x, y) =>
             {
                 var ray = GetRay(x, y);

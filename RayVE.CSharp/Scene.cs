@@ -9,7 +9,7 @@ using System.Text;
 
 namespace RayVE.CSharp
 {
-    public class Scene
+    public class Scene : IScene
     {
         public IEnumerable<ISurface> Surfaces { get; }
 
@@ -47,7 +47,7 @@ namespace RayVE.CSharp
                 .GetNearestHit()
                 .ValueOr(new Intersection(0.0, NullSurface.Instance, ray)));
 
-        public static Scene Default
+        public static IScene Default
             => new Scene(
                 new[]
                 {
