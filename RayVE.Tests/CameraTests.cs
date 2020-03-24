@@ -109,5 +109,20 @@ namespace RayVE.Tests
             Assert.AreEqual(new Point3D(0, 2, -5), ray.Origin);
             Assert.AreEqual(new Vector3D(Math.Sqrt(2) / 2, 0, -Math.Sqrt(2) / 2), ray.Direction);
         }
+
+        [TestMethod]
+        public void Render_WithDefaultScene_ExpectCorrectCenterPixelColor()
+        {
+            //arrange
+            var scene = Scene.Default;
+            var viewTransformation = new ViewTransformation(new Point3D(0, 0, -5), new Point3D(0, 0, 0), new Vector3D(0, 1, 0));
+            var camera = new Camera(11, 11, Math.PI / 2, viewTransformation);
+
+            //act
+            var image = camera.Render(scene);
+
+            //assert
+            Assert.AreEqual(new Color(0.38066119308103435, 0.47582649135129296, 0.28549589481077575), image[5, 5]);
+        }
     }
 }

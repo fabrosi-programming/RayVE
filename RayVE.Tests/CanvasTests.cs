@@ -13,8 +13,8 @@ namespace RayVE.Tests
             var canvas = new Canvas(10, 20);
 
             //assert
-            Assert.AreEqual(10, canvas.Width);
-            Assert.AreEqual(20, canvas.Height);
+            Assert.AreEqual(10u, canvas.Width);
+            Assert.AreEqual(20u, canvas.Height);
         }
 
         [TestMethod]

@@ -54,8 +54,8 @@ namespace RayVE.ProjectileSimulation
             {
                 foreach (var projectile in simulation.Projectiles)
                 {
-                    var x = (int)projectile.Position[0] - 1;
-                    var y = canvas.Height - (int)projectile.Position[1] - 1;
+                    var x = (uint)projectile.Position[0] - 1;
+                    var y = canvas.Height - (uint)projectile.Position[1] - 1;
                     canvas[x, y] += projectile.Color;
                 }
 

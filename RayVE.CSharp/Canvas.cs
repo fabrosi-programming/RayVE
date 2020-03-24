@@ -9,11 +9,11 @@ namespace RayVE
         [SuppressMessage("Performance", "CA1814:Prefer jagged arrays over multidimensional", Justification = "Multidimensional array does not waste space since all values are needed to represent a rectangular image.")]
         private readonly Color[,] _pixels;
 
-        public int Width
-            => _pixels.GetUpperBound(0) + 1;
+        public uint Width
+            => Convert.ToUInt32(_pixels.GetUpperBound(0) + 1);
 
-        public int Height
-            => _pixels.GetUpperBound(1) + 1;
+        public uint Height
+            => Convert.ToUInt32(_pixels.GetUpperBound(1) + 1);
 
         private IEnumerable<string> GetPPMHeader(int maxValue)
             => new List<string>()
@@ -23,7 +23,7 @@ namespace RayVE
                 $"{maxValue}"
             };
 
-        public Color this[int x, int y]
+        public Color this[uint x, uint y]
         {
             get
             {
@@ -39,9 +39,31 @@ namespace RayVE
             }
         }
 
-        [SuppressMessage("Performance", "CA1814:Prefer jagged arrays over multidimensional", Justification = "Multidimensional array does not waste space since all values are needed to represent a rectangular image.")]
+        public Color this[int x, int y]
+        {
+            get => this[Convert.ToUInt32(x), Convert.ToUInt32(y)];
+            set => this[Convert.ToUInt32(x), Convert.ToUInt32(y)] = value;
+        }
+
         public Canvas(int width, int height)
+            : this(Convert.ToUInt32(width), Convert.ToUInt32(height))
+        { }
+
+        [SuppressMessage("Performance", "CA1814:Prefer jagged arrays over multidimensional", Justification = "Multidimensional array does not waste space since all values are needed to represent a rectangular image.")]
+        public Canvas(uint width, uint height)
             => _pixels = new Color[width, height];
+
+        [SuppressMessage("Performance", "CA1814:Prefer jagged arrays over multidimensional", Justification = "Multidimensional array does not waste space since all values are needed to represent a rectangular image.")]
+        public Canvas(uint width, uint height, Func<uint, uint, Color> fillFunction)
+        {
+            _pixels = new Color[width, height];
+
+            for (uint x = 0; x < Width; x++)
+                for (uint y = 0; y < Height; y++)
+                {
+                    this[x, y] = fillFunction(x, y);
+                }
+        }
 
         public void Fill(Color color)
         {
@@ -50,9 +72,12 @@ namespace RayVE
                     _pixels[i, j] = color;
         }
 
-        public bool ContainsPoint(int x, int y)
+        public bool ContainsPoint(uint x, uint y)
             => x >= 0 && x < Width
             && y >= 0 && y < Height;
+
+        public bool ContainsPoint(int x, int y)
+            => ContainsPoint(Convert.ToUInt32(x), Convert.ToUInt32(y));
 
         public string ToPPM(int maxValue)
         {

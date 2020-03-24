@@ -1,6 +1,8 @@
-﻿using RayVE.LinearAlgebra;
+﻿using MoreLinq;
+using RayVE.LinearAlgebra;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace RayVE.CSharp
@@ -59,5 +61,12 @@ namespace RayVE.CSharp
 
             return new Ray(origin, direction);
         }
+
+        public Canvas Render(Scene scene)
+            => new Canvas(Width, Height, (x, y) =>
+            {
+                var ray = GetRay(x, y);
+                return scene.Shade(ray);
+            });
     }
 }
