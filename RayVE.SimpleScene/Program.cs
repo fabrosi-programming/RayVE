@@ -32,7 +32,7 @@ namespace RayVE.SimpleScene
                 },
                 new[]
                 {
-                    GetLightSource(lightX)
+                    GetLightSource()
                 });
 
         public static ISurface GetFloor()
