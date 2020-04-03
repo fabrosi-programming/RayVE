@@ -99,10 +99,10 @@ namespace RayVE.Materials
         public Color Illuminate(Intersection intersection, ILightSource lightSource)
             => Illuminate(intersection.Position, intersection.EyeVector, intersection.NormalVector, lightSource);
 
-        private Vector GetLightVector(Point3D point, ILightSource lightSource)
-            => new Vector3D(lightSource.Position - point).Normalize();
+        private Vector3D GetLightVector(Point3D point, ILightSource lightSource)
+            => (lightSource.Position - point).Normalize();
 
-        private static Vector GetReflectionVector(Vector3D normalVector, Vector lightVector)
+        private static Vector3D GetReflectionVector(Vector3D normalVector, Vector3D lightVector)
             => (-lightVector).Reflect(normalVector);
         #endregion
     }

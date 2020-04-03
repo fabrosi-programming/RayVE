@@ -29,7 +29,7 @@ namespace RayVE
             var transformedDirection = ray.Direction * matrix;
 
             return new Ray(new Point3D(transformedOrigin[0], transformedOrigin[1], transformedOrigin[2]),
-                           new Vector3D(transformedDirection[0], transformedDirection[1], transformedDirection[2]));
+                           transformedDirection);
         }
 
         public static Ray operator *(Matrix matrix, Ray ray)
@@ -41,7 +41,7 @@ namespace RayVE
             var transformedDirection = matrix * ray.Direction;
 
             return new Ray(new Point3D(transformedOrigin[0], transformedOrigin[1], transformedOrigin[2]),
-                           new Vector3D(transformedDirection[0], transformedDirection[1], transformedDirection[2]));
+                           transformedDirection);
         }
     }
 }

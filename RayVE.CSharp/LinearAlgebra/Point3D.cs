@@ -41,7 +41,7 @@ namespace RayVE.LinearAlgebra
             => new Vector3D((Vector)left - right);
 
         public static Point3D operator +(Point3D point, Vector3D vector)
-            => new Point3D((Vector)point + vector);
+            => new Point3D(point.AsVector() + vector.AsVector());
 
         #endregion Operators
     }

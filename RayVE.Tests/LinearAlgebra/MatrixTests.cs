@@ -932,7 +932,7 @@ namespace RayVE.LinearAlgebra.Tests
         {
             //arrange
             var vector = new Vector3D(5.0d, -3.0d, 2.0d);
-            var translation = Matrix.Translation(vector);
+            var translation = Matrix.Translation(vector.AsVector());
             var point = new Point3D(-3.0d, 4.0d, 5.0d);
 
             //act
@@ -947,7 +947,7 @@ namespace RayVE.LinearAlgebra.Tests
         {
             //arrange
             var vector = new Vector3D(5.0d, -3.0d, 2.0d);
-            var translation = Matrix.Translation(vector).Inverse;
+            var translation = Matrix.Translation(vector.AsVector()).Inverse;
             var point = new Point3D(-3.0d, 4.0d, 5.0d);
 
             //act
@@ -962,7 +962,7 @@ namespace RayVE.LinearAlgebra.Tests
         {
             //arrange
             var translationVector = new Vector3D(5.0d, -3.0d, 2.0d);
-            var translation = Matrix.Translation(translationVector);
+            var translation = Matrix.Translation(translationVector.AsVector());
             var vector = new Vector3D(-3.0d, 4.0d, 5.0d);
 
             //act

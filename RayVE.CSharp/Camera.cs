@@ -60,7 +60,7 @@ namespace RayVE.CSharp
 
             var pixel = new Point3D(InverseTransformation * new Point3D(worldX, worldY, -1));
             var origin = new Point3D(InverseTransformation * Point3D.Zero);
-            var direction = new Vector3D((pixel - origin).Normalize());
+            var direction = (pixel - origin).Normalize();
 
             return new Ray(origin, direction);
         }

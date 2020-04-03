@@ -51,7 +51,7 @@ namespace RayVE.CSharp
         {
             var shadowVector = lightSource.Position - point;
             var distance = shadowVector.Magnitude;
-            var ray = new Ray(point, new Vector3D(shadowVector, true));
+            var ray = new Ray(point, shadowVector.Normalize());
             var intersections = Intersect(ray);
             var nearestHit = intersections.GetNearestHit()
                 .ValueOr(new Intersection(Double.PositiveInfinity, NullSurface.Instance, ray));

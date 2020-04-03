@@ -546,7 +546,7 @@ namespace RayVE.LinearAlgebra.Tests
         public void Scale_MultipliedByVector_ExpectCorrectNewPoint()
         {
             //arrange
-            var scalars = new Vector(2.0d, 3.0d, 4.0d);
+            var scalars = new Vector3D(2.0d, 3.0d, 4.0d);
             var point = new Vector3D(-4.0d, 6.0d, 8.0d);
 
             //act

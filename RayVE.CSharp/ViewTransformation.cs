@@ -17,9 +17,9 @@ namespace RayVE.CSharp
         public Matrix Matrix
             => new Matrix(new[]
                 {
-                    _left,
-                    _trueUp,
-                    -_forward,
+                    new Vector(_left.X, _left.Y, _left.Z, 0.0),
+                    new Vector(_trueUp.X, _trueUp.Y, _trueUp.Z, 0.0),
+                    new Vector(-_forward.X, -_forward.Y, -_forward.Z, 0.0),
                     new Vector(0.0, 0.0, 0.0, 1.0)
                 })
             * Matrix.Translation(-_position);
@@ -28,8 +28,8 @@ namespace RayVE.CSharp
         {
             _position = position;
             _target = target;
-            _up = new Vector3D(up.Normalize());
-            _forward = new Vector3D((_target - _position).Normalize());
+            _up = up.Normalize();
+            _forward = (_target - _position).Normalize();
             _left = _forward.Cross(_up);
             _trueUp = _left.Cross(_forward);
         }
