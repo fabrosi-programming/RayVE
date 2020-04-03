@@ -25,8 +25,8 @@ namespace RayVE.ProjectileSimulation
 
                 var position = projectile.Position + (granularity * projectile.Velocity);
 
-                Vector velocity;
-                if (projectile.Position[1] == 0)
+                Vector2D velocity;
+                if (projectile.Position.Y == 0)
                     velocity = projectile.Velocity + (granularity * Environment.Wind);
                 else
                     velocity = projectile.Velocity + (granularity * Environment.TotalEffect);

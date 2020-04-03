@@ -4,13 +4,13 @@ namespace RayVE.ProjectileSimulation
 {
     public class Environment
     {
-        public readonly Vector Gravity;
-        public readonly Vector Wind;
+        public readonly Vector2D Gravity;
+        public readonly Vector2D Wind;
 
-        public Vector TotalEffect
+        public Vector2D TotalEffect
             => Gravity + Wind;
 
-        public Environment(Vector gravity, Vector wind)
+        public Environment(Vector2D gravity, Vector2D wind)
         {
             Gravity = gravity;
             Wind = wind;
