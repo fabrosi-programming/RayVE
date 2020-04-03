@@ -55,7 +55,7 @@ namespace RayVE.LinearAlgebra
             => new Point3D(-point.AsVector());
 
         public static Vector3D operator -(Point3D left, Point3D right)
-            => left - right;
+            => new Vector3D(left._vector - right._vector);
 
         public static Point3D operator +(Point3D point, Vector3D vector)
             => new Point3D(point.AsVector() + vector.AsVector());

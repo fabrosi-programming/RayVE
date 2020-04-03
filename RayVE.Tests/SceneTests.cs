@@ -164,6 +164,30 @@ namespace RayVE.Tests
         }
 
         [TestMethod]
+        public void Shade_WithIntersectionInShadow_ExpectCorrectColor()
+        {
+            //arrange
+            var lightSources = new[]
+            {
+                new PointLightSource(new Point3D(0, 0, -10), new Color(1, 1, 1))
+            };
+            var surfaces = new[]
+            {
+                new Sphere(),
+                new Sphere(Matrix.Translation(new Vector(0, 0, 10)))
+            };
+            var scene = new Scene(surfaces, lightSources);
+            var ray = new Ray(new Point3D(0, 0, 5), new Vector3D(0, 0, 1));
+            var intersection = new Intersection(4, surfaces[1], ray);
+
+            //act
+            var color = scene.Shade(intersection);
+
+            //assert
+            Assert.AreEqual(new Color(0.1, 0.1, 0.1), color);
+        }
+
+        [TestMethod]
         public void IsInShadow_WithPointNotInShadow_ExpectFalse()
         {
             //arrange

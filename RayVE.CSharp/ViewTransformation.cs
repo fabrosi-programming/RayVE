@@ -22,7 +22,7 @@ namespace RayVE.CSharp
                     new Vector(-_forward.X, -_forward.Y, -_forward.Z, 0.0),
                     new Vector(0.0, 0.0, 0.0, 1.0)
                 })
-            * Matrix.Translation(-new Vector(_position.X, _position.Y, _position.Z, 1.0));
+            * Matrix.Translation(-new Vector(_position.X, _position.Y, _position.Z));
 
         public ViewTransformation(Point3D position, Point3D target, Vector3D up)
         {

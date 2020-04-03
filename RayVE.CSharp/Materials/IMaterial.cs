@@ -7,6 +7,6 @@ namespace RayVE.Materials
     {
         Color Illuminate(Point3D point, Vector3D eyeVector, Vector3D reflectionVector, ILightSource lightSource, bool isInShadow = false);
 
-        Color Illuminate(Intersection intersection, ILightSource lightSource);
+        Color Illuminate(Intersection intersection, ILightSource lightSource, bool isInShadow = false);
     }
 }

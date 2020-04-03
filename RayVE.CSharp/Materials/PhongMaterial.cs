@@ -93,11 +93,14 @@ namespace RayVE.Materials
 
             var ambience = illuminationColor * _ambience;
 
+            if (isInShadow)
+                return ambience;
+
             return ambience + diffusion + specularity;
         }
 
-        public Color Illuminate(Intersection intersection, ILightSource lightSource)
-            => Illuminate(intersection.Position, intersection.EyeVector, intersection.NormalVector, lightSource);
+        public Color Illuminate(Intersection intersection, ILightSource lightSource, bool isInShadow = false)
+            => Illuminate(intersection.Position, intersection.EyeVector, intersection.NormalVector, lightSource, isInShadow);
 
         private Vector3D GetLightVector(Point3D point, ILightSource lightSource)
             => (lightSource.Position - point).Normalize();
