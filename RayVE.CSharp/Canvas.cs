@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 
 namespace RayVE
 {
@@ -54,15 +55,30 @@ namespace RayVE
             => _pixels = new Color[width, height];
 
         [SuppressMessage("Performance", "CA1814:Prefer jagged arrays over multidimensional", Justification = "Multidimensional array does not waste space since all values are needed to represent a rectangular image.")]
-        public Canvas(uint width, uint height, Func<uint, uint, Color> fillFunction)
+        public Canvas(uint width, uint height, Func<uint, uint, Color> fillFunction, bool parallel = true)
         {
             _pixels = new Color[width, height];
 
+            if (parallel)
+                FillParallel(fillFunction);
+            else
+                FillNonParallel(fillFunction);
+        }
+
+        private void FillNonParallel(Func<uint, uint, Color> fillFunction)
+        {
             for (uint x = 0; x < Width; x++)
                 for (uint y = 0; y < Height; y++)
-                {
                     this[x, y] = fillFunction(x, y);
-                }
+        }
+
+        private void FillParallel(Func<uint, uint, Color> fillFunction)
+        {
+            Parallel.For(0, Width, x =>
+            {
+                for (uint y = 0; y < Height; y++)
+                    this[(uint)x, y] = fillFunction((uint)x, y);
+            });
         }
 
         public void Fill(Color color)

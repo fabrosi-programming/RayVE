@@ -94,8 +94,8 @@ namespace RayVE.SimpleScene
 
         public static ICamera GetCamera()
             => new Camera(
-                192,
-                108,
+                1920,
+                1080,
                 Math.PI / 3,
                 new ViewTransformation(
                     new Point3D(0, 1.5, -5),
