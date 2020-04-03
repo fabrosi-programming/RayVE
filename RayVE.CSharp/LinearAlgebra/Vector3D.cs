@@ -6,6 +6,8 @@ namespace RayVE.LinearAlgebra
     [DebuggerDisplay("({X}, {Y}, {Z})")]
     public sealed class Vector3D : Vector
     {
+        //private Vector _vector;
+
         public double X
             => this[0];
 
@@ -25,7 +27,9 @@ namespace RayVE.LinearAlgebra
 
         public Vector3D(Vector vector)
             : base(vector.Take(3).Append(0.0d))
-        { }
+        {
+            //_vector = new Vector(vector.Take(3).Append(0.0d));
+        }
 
         public Vector3D Cross(Vector3D other)
             => new Vector3D((this[1] * other[2]) - (this[2] * other[1]),

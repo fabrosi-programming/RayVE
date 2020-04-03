@@ -1,4 +1,5 @@
 ﻿using RayVE.LightSources;
+using RayVE.LinearAlgebra;
 using RayVE.Surfaces;
 using System.Collections.Generic;
 
@@ -12,5 +13,6 @@ namespace RayVE.CSharp
         Intersections Intersect(Ray ray);
         Color Shade(Intersection intersection);
         Color Shade(Ray ray);
+        bool IsInShadow(Point3D point, ILightSource lightSource);
     }
 }

@@ -66,7 +66,7 @@ namespace RayVE.Materials
         #endregion
 
         #region IMaterial
-        public Color Illuminate(Point3D point, Vector3D eyeVector, Vector3D normalVector, ILightSource lightSource)
+        public Color Illuminate(Point3D point, Vector3D eyeVector, Vector3D normalVector, ILightSource lightSource, bool isInShadow = false)
         {
             if (lightSource is null)
                 throw new ArgumentNullException(nameof(lightSource));

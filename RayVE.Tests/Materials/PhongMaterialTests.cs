@@ -29,6 +29,27 @@ namespace RayVE.Materials.Tests
         }
 
         [TestMethod]
+        public void Illuminate_WithLightBehindCameraAndIlluminatedPointInShadow_ExpectAmbientColor()
+        {
+            //arrange
+            var color = new Color(1, 1, 1);
+            var material = new PhongMaterial(color, 0.1, 0.9, 0.9, 200.0);
+            var illuminatedPoint = new Point3D(0, 0, 0);
+            var eyeVector = new Vector3D(0, 0, -1);
+            var normalVector = new Vector3D(0, 0, -1);
+            var lightPosition = new Point3D(0, 0, -10);
+            var lightIntensity = new Color(1, 1, 1);
+            var lightSource = new PointLightSource(lightPosition, lightIntensity);
+            var isInShadow = true;
+
+            //act
+            var illuminatedColor = material.Illuminate(illuminatedPoint, eyeVector, normalVector, lightSource, isInShadow);
+
+            //assert
+            Assert.AreEqual(new Color(0.1, 0.1, 0.1), illuminatedColor);
+        }
+
+        [TestMethod]
         public void Illuminate_WithCameraOffsetBy45Degrees_ExpectCorrectIlluminatedColor()
         {
             //arrange

@@ -47,6 +47,21 @@ namespace RayVE.CSharp
                 .GetNearestHit()
                 .ValueOr(new Intersection(0.0, NullSurface.Instance, ray)));
 
+        public bool IsInShadow(Point3D point, ILightSource lightSource)
+        {
+            var shadowVector = lightSource.Position - point;
+            var distance = shadowVector.Magnitude;
+            var ray = new Ray(point, new Vector3D(shadowVector, true));
+            var intersections = Intersect(ray);
+            var nearestHit = intersections.GetNearestHit()
+                .ValueOr(new Intersection(Double.PositiveInfinity, NullSurface.Instance, ray));
+
+            if (nearestHit.Distance < distance)
+                return true;
+            
+            return false;
+        }
+
         public static IScene Default
             => new Scene(
                 new[]

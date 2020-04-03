@@ -162,5 +162,65 @@ namespace RayVE.Tests
             //assert
             Assert.AreEqual(innerMaterial.Color, color);
         }
+
+        [TestMethod]
+        public void IsInShadow_WithPointNotInShadow_ExpectFalse()
+        {
+            //arrange
+            var scene = Scene.Default;
+            var point = new Point3D(0, 10, 0);
+            var lightSource = scene.LightSources.First();
+
+            //act
+            var isInShadow = scene.IsInShadow(point, lightSource);
+
+            //assert
+            Assert.IsFalse(isInShadow);
+        }
+
+        [TestMethod]
+        public void IsInShadow_WhenPointIsBehindSphere_ExpectTrue()
+        {
+            //arrange
+            var scene = Scene.Default;
+            var point = new Point3D(10, -10, 10);
+            var lightSource = scene.LightSources.First();
+
+            //act
+            var isInShadow = scene.IsInShadow(point, lightSource);
+
+            //assert
+            Assert.IsTrue(isInShadow);
+        }
+
+        [TestMethod]
+        public void IsInShadow_WhenLightIsBetweenPointAndSphere_ExpectFalse()
+        {
+            //arrange
+            var scene = Scene.Default;
+            var point = new Point3D(-20, 20, -20);
+            var lightSource = scene.LightSources.First();
+
+            //act
+            var isInShadow = scene.IsInShadow(point, lightSource);
+
+            //assert
+            Assert.IsFalse(isInShadow);
+        }
+
+        [TestMethod]
+        public void IsInShadow_WhenPointIsBetweenLightAndSphere_ExpectFalse()
+        {
+            //arrange
+            var scene = Scene.Default;
+            var point = new Point3D(-2, 2, -2);
+            var lightSource = scene.LightSources.First();
+
+            //act
+            var isInShadow = scene.IsInShadow(point, lightSource);
+
+            //assert
+            Assert.IsFalse(isInShadow);
+        }
     }
 }
