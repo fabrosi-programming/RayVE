@@ -579,8 +579,8 @@ namespace RayVE.LinearAlgebra.Tests
 
             //act
             var transformedPoint = point.Rotate(Dimension.X, PI / 2)
-                                        .Scale(new Vector(5, 5, 5))
-                                        .Translate(new Vector(10, 5, 7));
+                                        .Scale(new Vector3D(5, 5, 5))
+                                        .Translate(new Vector3D(10, 5, 7));
 
             //assert
             Assert.AreEqual(new Point3D(15, 0, 7), transformedPoint);

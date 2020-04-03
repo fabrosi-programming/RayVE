@@ -10,9 +10,6 @@ namespace RayVE
 
         public Ray(Point3D origin, Vector3D direction)
         {
-            if (origin.Length != direction.Length)
-                throw new DimensionMismatchException();
-
             Origin = origin;
             Direction = direction;
         }
@@ -22,26 +19,24 @@ namespace RayVE
 
         public static Ray operator *(Ray ray, Matrix matrix)
         {
-            if (matrix.ColumnCount != ray.Origin.Length)
+            if (matrix.ColumnCount != 4)
                 throw new DimensionMismatchException();
 
             var transformedOrigin = ray.Origin * matrix;
             var transformedDirection = ray.Direction * matrix;
 
-            return new Ray(new Point3D(transformedOrigin[0], transformedOrigin[1], transformedOrigin[2]),
-                           transformedDirection);
+            return new Ray(transformedOrigin, transformedDirection);
         }
 
         public static Ray operator *(Matrix matrix, Ray ray)
         {
-            if (matrix.ColumnCount != ray.Origin.Length)
+            if (matrix.ColumnCount != 4)
                 throw new DimensionMismatchException();
 
             var transformedOrigin = matrix * ray.Origin;
             var transformedDirection = matrix * ray.Direction;
 
-            return new Ray(new Point3D(transformedOrigin[0], transformedOrigin[1], transformedOrigin[2]),
-                           transformedDirection);
+            return new Ray(transformedOrigin, transformedDirection);
         }
     }
 }

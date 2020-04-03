@@ -17,9 +17,6 @@ namespace RayVE.LinearAlgebra
         public double Z
             => _vector[2];
 
-        public uint Length
-            => _vector.Length;
-
         public double Magnitude
             => _vector.Magnitude;
 
@@ -77,9 +74,6 @@ namespace RayVE.LinearAlgebra
                 return true;
 
             if (left is null || right is null)
-                return false;
-
-            if (left.Length != right.Length)
                 return false;
 
             if (left._vector != right._vector)

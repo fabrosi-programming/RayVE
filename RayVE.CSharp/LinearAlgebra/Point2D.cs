@@ -3,14 +3,17 @@
 namespace RayVE.LinearAlgebra
 {
     [DebuggerDisplay("({this[0]}, {this[1]})")]
-    public sealed class Point2D : Vector
+    public sealed class Point2D
     {
-        public Point2D(double x, double y)
-            : base(x, y, 1.0d)
-        { }
+        private Vector _vector;
 
-        public override Vector AsVector()
-            => new Vector(Take(2));
+        public Point2D(double x, double y)
+        {
+            _vector = new Vector(x, y, 1.0d);
+        }
+
+        public Vector AsVector()
+            => new Vector(_vector.Take(2));
 
         public static Point2D Zero
             => new Point2D(0, 0);

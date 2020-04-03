@@ -21,7 +21,7 @@ namespace RayVE.Surfaces
         { }
 
         public Sphere(Point3D center)
-            : this(center, Matrix.Identity(center.Length), new PhongMaterial())
+            : this(center, Matrix.Identity(4), new PhongMaterial())
         { }
 
         public Sphere(Matrix transformation)
@@ -33,7 +33,7 @@ namespace RayVE.Surfaces
         { }
 
         public Sphere(Point3D center, IMaterial material)
-            : this(center, Matrix.Identity(center.Length), material)
+            : this(center, Matrix.Identity(4), material)
         { }
 
         public Sphere(Matrix transformation, IMaterial material)
@@ -97,7 +97,7 @@ namespace RayVE.Surfaces
         {
             var objectPoint = _inverseTransformation * point;
             var objectNormal = objectPoint - _center;
-            return new Vector3D(_transposeInverseTransformation * objectNormal, true);
+            return (_transposeInverseTransformation * objectNormal).Normalize();
         }
 
         public ISurface WithMaterial(IMaterial material)

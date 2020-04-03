@@ -27,6 +27,9 @@ namespace RayVE.LinearAlgebra
         public Vector2D Normalize()
             => new Vector2D(_vector.Normalize());
 
+        public Vector2D Scale(Vector2D scalars)
+            => new Vector2D(_vector.Scale(scalars.AsVector()));
+
         #region Operators
 
         public static Vector2D operator *(double scalar, Vector2D vector)

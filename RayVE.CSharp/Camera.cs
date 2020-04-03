@@ -58,8 +58,8 @@ namespace RayVE.CSharp
             var worldX = HalfFieldOfViewWidth - xOffset;
             var worldY = HalfFieldOfViewHeight - yOffset;
 
-            var pixel = new Point3D(InverseTransformation * new Point3D(worldX, worldY, -1));
-            var origin = new Point3D(InverseTransformation * Point3D.Zero);
+            var pixel = InverseTransformation * new Point3D(worldX, worldY, -1);
+            var origin = InverseTransformation * Point3D.Zero;
             var direction = (pixel - origin).Normalize();
 
             return new Ray(origin, direction);
