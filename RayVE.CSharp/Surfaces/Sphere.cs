@@ -1,4 +1,5 @@
-﻿using RayVE.LinearAlgebra;
+﻿using RayVE.Surfaces;
+using RayVE.LinearAlgebra;
 using RayVE.Materials;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,9 @@ using static System.Math;
 
 namespace RayVE.Surfaces
 {
-    public class Sphere : ISurface, IEquatable<Sphere>
+    public class Sphere : SurfaceBase, IEquatable<Sphere>
     {
         private readonly Point3D _center;
-        private readonly Matrix _transformation;
-        private readonly Matrix _inverseTransformation;
-        private readonly Matrix _transposeInverseTransformation;
 
         public Sphere()
             : this(new Point3D(0, 0, 0))
@@ -41,20 +39,36 @@ namespace RayVE.Surfaces
         { }
 
         public Sphere(Point3D center, Matrix transformation, IMaterial material)
+            : base(transformation, material)
         {
             _center = center;
-            _transformation = transformation;
-            _inverseTransformation = _transformation.Inverse;
-            _transposeInverseTransformation = _transformation.Inverse.Transpose;
-            Material = material;
         }
 
-        private IEnumerable<double> GetIntersections(Ray ray)
+        #region Operators
+        public static bool operator ==(Sphere left, Sphere right)
         {
-            var transformedRay = _inverseTransformation * ray;
-            var connectOrigins = transformedRay.Origin - _center;
-            var a = transformedRay.Direction * transformedRay.Direction; // more precise than Pow(ray.Direction.Magnitude, 2)
-            var b = 2 * transformedRay.Direction * connectOrigins;
+            if (ReferenceEquals(left, right))
+                return true;
+
+            if (left is null || right is null)
+                return false;
+
+            return left._center == right._center
+                && left.InverseTransformation == right.InverseTransformation
+                && left.Material.Equals(right.Material); // no support for custom == operator on interfaces
+        }
+
+        public static bool operator !=(Sphere left, Sphere right)
+            => !(left == right);
+        #endregion
+
+        #region SurfaceBase
+
+        internal override IEnumerable<double> GetIntersectionsLocal(Ray localizedRay)
+        {
+            var connectOrigins = localizedRay.Origin - _center;
+            var a = localizedRay.Direction * localizedRay.Direction; // more precise than Pow(ray.Direction.Magnitude, 2)
+            var b = 2 * localizedRay.Direction * connectOrigins;
             var c = (connectOrigins * connectOrigins) - 1; // more precise than Pow(connectOrigins.Direction.Magnitude, 2)
             var discriminant = Algebra.Discriminant(a, b, c);
 
@@ -68,41 +82,12 @@ namespace RayVE.Surfaces
             }.ToImmutableList();
         }
 
-        #region Operators
-        public static bool operator ==(Sphere left, Sphere right)
-        {
-            if (ReferenceEquals(left, right))
-                return true;
+        internal override Vector3D GetNormalLocal(Point3D localizedPoint)
+            => localizedPoint - _center;
 
-            if (left is null || right is null)
-                return false;
-
-            return left._center == right._center
-                && left._inverseTransformation == right._inverseTransformation
-                && left.Material.Equals(right.Material); // no support for custom == operator on interfaces
-        }
-
-        public static bool operator !=(Sphere left, Sphere right)
-            => !(left == right);
+        public override ISurface WithMaterial(IMaterial material)
+            => new Sphere(_center, Transformation, material);
         #endregion
-
-        #region ISurface
-        public IMaterial Material { get; }
-
-        public Intersections Intersect(Ray ray)
-            => new Intersections(
-                GetIntersections(ray).Select(i => new Intersection(i, this, ray)));
-
-        public Vector3D GetNormal(Point3D point)
-        {
-            var objectPoint = _inverseTransformation * point;
-            var objectNormal = objectPoint - _center;
-            return (_transposeInverseTransformation * objectNormal).Normalize();
-        }
-
-        public ISurface WithMaterial(IMaterial material)
-            => new Sphere(_center, _transformation, material);
-        #endregion ISurface
 
         #region Equals
         public override bool Equals(object? obj)

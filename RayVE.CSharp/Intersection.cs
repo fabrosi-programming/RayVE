@@ -56,6 +56,9 @@ namespace RayVE
             if (left.Surface != right.Surface)
                 return false;
 
+            if (left.Ray != right.Ray)
+                return false;
+
             return true;
         }
 
