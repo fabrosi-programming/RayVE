@@ -14,6 +14,8 @@ namespace RayVE
 
         public Point3D Position { get; }
 
+        public Point3D OverPosition { get; }
+
         public Vector3D EyeVector { get; }
         
         public Vector3D NormalVector { get; }
@@ -34,6 +36,8 @@ namespace RayVE
             NormalVector = IsInsideSurface
                 ? -candidateNormalVector
                 : candidateNormalVector;
+
+            OverPosition = Position + (NormalVector * Constants.Epsilon);
         }
 
         #region Operators

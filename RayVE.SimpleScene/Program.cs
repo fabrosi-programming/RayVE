@@ -4,7 +4,10 @@ using RayVE.LinearAlgebra;
 using RayVE.Materials;
 using RayVE.Surfaces;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace RayVE.SimpleScene
 {
@@ -12,32 +15,42 @@ namespace RayVE.SimpleScene
     {
         public static void Main()
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             var scene = GetScene();
             var camera = GetCamera();
             var canvas = camera.Render(scene);
 
             var filePath = $"C:\\temp\\RayVE\\SimpleScene\\{DateTime.Now:yyyyMMdd_HHmmss}.ppm";
-            File.WriteAllText(filePath, canvas.ToPPM(255));
+            File.WriteAllText(filePath, canvas.ToPPM(511));
+
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
+            Console.ReadLine();
         }
 
         private static IScene GetScene()
             => new Scene(new[]
                 {
                     GetFloor(),
-                    GetLeftWall(),
-                    GetRightWall(),
+                    //GetLeftWall(),
+                    //GetRightWall(),
                     GetLargestSphere(),
-                    GetMediumSphere(),
-                    GetSmallSphere()
+                    //GetMediumSphere(),
+                    //GetSmallSphere()
                 },
-                new[]
-                {
-                    GetLightSource()
-                });
+                //new[]
+                //{
+                    //GetLightSource1(),
+                    //GetLightSource2(),
+                    //GetLightSource3(),
+                //}
+                GetLightSourceGrid());
 
         public static ISurface GetFloor()
             => new Sphere(
-                Matrix.Scale(new Vector(10, 0.01, 10)),
+                Matrix.Scale(new Vector(1000, 0.01, 1000)),
                 GetMatteMaterial());
 
         public static ISurface GetLeftWall()
@@ -87,10 +100,27 @@ namespace RayVE.SimpleScene
                     new Color(1, 0.9, 0.9),
                     specularity: 0);
 
-        public static ILightSource GetLightSource()
+        public static ILightSource GetLightSource1()
             => new PointLightSource(
                 new Point3D(10, 10, -10),
-                new Color(1, 1, 1));
+                new Color(0.6, 0.3, 0.3));
+
+        public static ILightSource GetLightSource2()
+            => new PointLightSource(
+                new Point3D(0, 10, -10),
+                new Color(0.3, 0.6, 0.3));
+
+        public static ILightSource GetLightSource3()
+            => new PointLightSource(
+                new Point3D(-10, 10, -10),
+                new Color(0.3, 0.3, 0.6));
+
+        public static IEnumerable<ILightSource> GetLightSourceGrid()
+            => from x in Enumerable.Range(-2, 5).Select(i => Convert.ToDouble(i))
+               from y in Enumerable.Range(-2, 5).Select(i => Convert.ToDouble(i))
+               select new PointLightSource(
+                    new Point3D(6 + (x/10), 6 + (y/10), -10),
+                    new Color(0.035, 0.035, 0.035));
 
         public static ICamera GetCamera()
             => new Camera(

@@ -56,6 +56,9 @@ namespace RayVE.LinearAlgebra
         public static Vector3D operator *(double scalar, Vector3D vector)
             => new Vector3D(scalar * vector._vector);
 
+        public static Vector3D operator *(Vector3D vector, double scalar)
+            => scalar * vector;
+
         public static double operator *(Vector3D left, Vector3D right)
             => left.AsVector() * right.AsVector();
 

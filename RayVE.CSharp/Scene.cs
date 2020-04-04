@@ -38,7 +38,7 @@ namespace RayVE.CSharp
                 Surfaces.SelectMany(s => s.Intersect(ray)));
 
         public Color Shade(Intersection intersection)
-            => LightSources.Select(l => intersection.Surface.Material.Illuminate(intersection, l, IsInShadow(intersection.Position, l)))
+            => LightSources.Select(l => intersection.Surface.Material.Illuminate(intersection, l, IsInShadow(intersection.OverPosition, l)))
                            .Aggregate((c1, c2) => c1 + c2);
 
         public Color Shade(Ray ray)
