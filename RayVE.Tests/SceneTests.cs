@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using RayVE.CSharp;
+using RayVE;
 using RayVE.LightSources;
 using RayVE.LinearAlgebra;
 using RayVE.Materials;

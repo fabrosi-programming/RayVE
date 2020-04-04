@@ -3,7 +3,7 @@ using RayVE.LinearAlgebra;
 using RayVE.Surfaces;
 using System.Collections.Generic;
 
-namespace RayVE.CSharp
+namespace RayVE
 {
     public interface IScene
     {

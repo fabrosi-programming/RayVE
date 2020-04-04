@@ -2,17 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <AssemblyName>RayVE.CSharp</AssemblyName>
-    <RootNamespace>RayVE.CSharp</RootNamespace>
+    <AssemblyName>RayVE</AssemblyName>
+    <RootNamespace>RayVE</RootNamespace>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>RayVE.CSharp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>RayVE.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet>RayVE.CSharp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>RayVE.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsAsErrors>CS8625</WarningsAsErrors>
   </PropertyGroup>

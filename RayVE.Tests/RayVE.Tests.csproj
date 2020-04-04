@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RayVE.CSharp\RayVE.CSharp.csproj" />
+    <ProjectReference Include="..\RayVE.CSharp\RayVE.csproj" />
   </ItemGroup>
 
 </Project>

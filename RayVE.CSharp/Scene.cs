@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RayVE.CSharp
+namespace RayVE
 {
     public class Scene : IScene
     {

@@ -2,7 +2,7 @@
 using RayVE.Materials;
 using RayVE.Surfaces;
 
-namespace RayVE.CSharp
+namespace RayVE
 {
     public class NullSurface : ISurface
     {

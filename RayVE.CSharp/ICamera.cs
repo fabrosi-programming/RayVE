@@ -1,6 +1,6 @@
 ﻿using RayVE.LinearAlgebra;
 
-namespace RayVE.CSharp
+namespace RayVE
 {
     public interface ICamera
     {

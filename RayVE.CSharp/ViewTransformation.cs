@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace RayVE.CSharp
+namespace RayVE
 {
     public class ViewTransformation
     {

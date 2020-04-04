@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayVE.CSharp", "RayVE.CSharp\RayVE.CSharp.csproj", "{C543E73F-AC7D-47FF-BEBA-EE9EBB48F294}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayVE", "RayVE.CSharp\RayVE.csproj", "{C543E73F-AC7D-47FF-BEBA-EE9EBB48F294}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "RayVE.FSharp", "RayVE.FSharp\RayVE.FSharp.fsproj", "{9E63F9A1-E08F-47C4-A386-46A1A73A3A90}"
 EndProject
@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayVE.SphereDrawing", "RayV
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayVE.Tests", "RayVE.Tests\RayVE.Tests.csproj", "{CB18B70D-778E-43E8-8FE0-DB46F66A7EB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayVE.SimpleScene", "RayVE.SimpleScene\RayVE.SimpleScene.csproj", "{AB4158BE-A304-476F-AFE0-C518F603473E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RayVE.SimpleScene", "RayVE.SimpleScene\RayVE.SimpleScene.csproj", "{AB4158BE-A304-476F-AFE0-C518F603473E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

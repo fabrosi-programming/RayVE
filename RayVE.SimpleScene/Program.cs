@@ -1,4 +1,4 @@
-﻿using RayVE.CSharp;
+﻿using RayVE;
 using RayVE.LightSources;
 using RayVE.LinearAlgebra;
 using RayVE.Materials;
