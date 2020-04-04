@@ -12,7 +12,15 @@ namespace RayVE.Surfaces
     public class Plane : SurfaceBase
     {
         public Plane()
-            : base(Matrix.Identity(4), new PhongMaterial())
+            : this(Matrix.Identity(4), new PhongMaterial())
+        { }
+
+        public Plane(Matrix transformation)
+            : this(transformation, new PhongMaterial())
+        { }
+
+        public Plane(IMaterial material)
+            : this(Matrix.Identity(4), material)
         { }
 
         public Plane(Matrix transformation, IMaterial material)

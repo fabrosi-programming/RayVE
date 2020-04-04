@@ -19,7 +19,7 @@ namespace RayVE.SimpleScene
             stopwatch.Start();
 
             var scene = GetScene();
-            var camera = GetCamera();
+            var camera = GetCamera(640, 480);
             var canvas = camera.Render(scene);
 
             var filePath = $"C:\\temp\\RayVE\\SimpleScene\\{DateTime.Now:yyyyMMdd_HHmmss}.ppm";
@@ -37,36 +37,33 @@ namespace RayVE.SimpleScene
                     //GetLeftWall(),
                     //GetRightWall(),
                     GetLargestSphere(),
-                    //GetMediumSphere(),
-                    //GetSmallSphere()
+                    GetMediumSphere(),
+                    GetSmallSphere()
                 },
-                //new[]
-                //{
+                new[]
+                {
+                    GetLightSource()
                     //GetLightSource1(),
                     //GetLightSource2(),
                     //GetLightSource3(),
-                //}
-                GetLightSourceGrid());
+                });
+        //GetLightSourceGrid());
 
         public static ISurface GetFloor()
-            => new Sphere(
-                Matrix.Scale(new Vector(1000, 0.01, 1000)),
-                GetMatteMaterial());
+            => new Plane(GetMatteMaterial());
 
         public static ISurface GetLeftWall()
-            => new Sphere(
+            => new Plane(
                 Matrix.Translation(new Vector(0, 0, 5))
                     * Matrix.Rotation(Dimension.Y, -Math.PI / 4)
-                    * Matrix.Rotation(Dimension.X, Math.PI / 2)
-                    * Matrix.Scale(new Vector(10, 0.01, 10)),
+                    * Matrix.Rotation(Dimension.X, Math.PI / 2),
                 GetMatteMaterial());
 
         public static ISurface GetRightWall()
-            => new Sphere(
+            => new Plane(
                 Matrix.Translation(new Vector(0, 0, 5))
                     * Matrix.Rotation(Dimension.Y, Math.PI / 4)
-                    * Matrix.Rotation(Dimension.X, Math.PI / 2)
-                    * Matrix.Scale(new Vector(10, 0.01, 10)),
+                    * Matrix.Rotation(Dimension.X, Math.PI / 2),
                 GetMatteMaterial());
 
         public static ISurface GetLargestSphere()
@@ -100,6 +97,11 @@ namespace RayVE.SimpleScene
                     new Color(1, 0.9, 0.9),
                     specularity: 0);
 
+        public static ILightSource GetLightSource()
+            => new PointLightSource(
+                new Point3D(10, 10, -10),
+                new Color(0.8, 0.8, 0.8));
+
         public static ILightSource GetLightSource1()
             => new PointLightSource(
                 new Point3D(10, 10, -10),
@@ -115,17 +117,17 @@ namespace RayVE.SimpleScene
                 new Point3D(-10, 10, -10),
                 new Color(0.3, 0.3, 0.6));
 
-        public static IEnumerable<ILightSource> GetLightSourceGrid()
-            => from x in Enumerable.Range(-2, 5).Select(i => Convert.ToDouble(i))
-               from y in Enumerable.Range(-2, 5).Select(i => Convert.ToDouble(i))
-               select new PointLightSource(
-                    new Point3D(6 + (x/10), 6 + (y/10), -10),
-                    new Color(0.035, 0.035, 0.035));
+        //public static IEnumerable<ILightSource> GetLightSourceGrid()
+        //    => from x in Enumerable.Range(-2, 5).Select(i => Convert.ToDouble(i))
+        //       from y in Enumerable.Range(-2, 5).Select(i => Convert.ToDouble(i))
+        //       select new PointLightSource(
+        //            new Point3D(6 + (x/10), 6 + (y/10), -10),
+        //            new Color(0.035, 0.035, 0.035));
 
-        public static ICamera GetCamera()
+        public static ICamera GetCamera(uint x, uint y)
             => new Camera(
-                1920,
-                1080,
+                x,
+                y,
                 Math.PI / 3,
                 new ViewTransformation(
                     new Point3D(0, 1.5, -5),
