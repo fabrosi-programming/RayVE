@@ -1,7 +1,6 @@
 ﻿namespace RayVE
 
 open System
-open System.Diagnostics
 
 type Matrix(values: double[][]) =
     do if values = null then raise (ArgumentNullException "values")
@@ -85,68 +84,6 @@ type Matrix(values: double[][]) =
     override __.ToString() =
         String.Format("Rows={0}, Columns={1}", values.Length, values.[0].Length)
 
-    member this.Determinant
-        with get() =
-            match (this.RowCount, this.ColumnCount) with
-            | (2, 2) -> this.[0, 0] * this.[1, 1] - this.[0, 1] * this.[1, 0]
-            | _ -> Vector(values.[0]) * Vector(this.GetCofactors 0)
-
-    member this.IsInvertible
-        with get() = this.Determinant <> 0.0
-
-    member this.Cofactors =
-        let cofactorMatrix = Array2D.init this.RowCount this.ColumnCount this.GetCofactor
-                             |> Matrix
-        cofactorMatrix.Transpose()
-
-    member this.Inverse
-        with get() = this.Cofactors / this.Determinant
-
-    member __.SwapRows row1 row2 =
-        let valueSource r c =
-            if r = row1 then values.[row2].[c]
-            elif r = row2 then values.[row1].[c]
-            else values.[r].[c]
-        Matrix(__.RowCount, __.ColumnCount, valueSource)
-
-    member __.ScaleColumn column factor =
-        match column with
-        | c when c > __.ColumnCount -> raise (ArgumentOutOfRangeException("column"))
-        | _ -> let valueSource r c =
-                   if c = column then values.[r].[c] * factor
-                   else values.[r].[c]
-               Matrix(__.RowCount, __.ColumnCount, valueSource)
-
-    member __.Transform (transform: int -> int -> float) =
-        Matrix(__.RowCount, __.ColumnCount, transform)
-
-    member __.Transform (transform: int -> int -> float, predicate: int -> int -> bool) = 
-        let valueSource r c =
-            if predicate r c then transform r c
-            else values.[r].[c]
-        Matrix(__.RowCount, __.ColumnCount, valueSource)
-
-    member this.GetSubMatrix r c : Matrix =
-        fun i j ->
-            let newRow = if i < r then i else i + 1
-            let newColumn = if j < c then j else j + 1
-            this.[newRow, newColumn]
-        |> Array2D.init (this.RowCount - 1) (this.ColumnCount - 1)
-        |> Matrix
-
-    member this.GetMinor row column =
-        (this.GetSubMatrix row column).Determinant
-
-    member this.GetCofactor r c : float =
-        let sign = match (r + c) % 2 with
-                   | 0 -> 1
-                   | _ -> -1
-        (float sign) * this.GetMinor r c
-
-    member this.GetCofactors r : float[] =
-        [| 0 .. (this.ColumnCount - 1) |]
-        |> Array.map (fun c -> this.GetCofactor r c)
-
     override this.Equals other =
         match other with
         | :? Matrix as m ->
@@ -154,34 +91,93 @@ type Matrix(values: double[][]) =
                 false
             else
                 seq { for r in 0 .. this.RowCount - 1 do
-                          for c in 0 .. this.ColumnCount - 1 do
-                              if Math.Abs (this.[r, c] - m.[r, c]) > Constants.EPSILON then
-                                  yield false }
+                            for c in 0 .. this.ColumnCount - 1 do
+                                if Math.Abs (this.[r, c] - m.[r, c]) > Constants.EPSILON then
+                                    yield false }
                 |> Seq.forall id
         | _ -> false
 
-    static member Identity(size: int) =
+module Matrix =
+    let subMatrix (matrix:Matrix) r c : Matrix =
+        fun i j ->
+            let newRow = if i < r then i else i + 1
+            let newColumn = if j < c then j else j + 1
+            matrix.[newRow, newColumn]
+        |> Array2D.init (matrix.RowCount - 1) (matrix.ColumnCount - 1)
+        |> Matrix
+
+    let rec determinant (matrix: Matrix) =
+        match (matrix.RowCount, matrix.ColumnCount) with
+        | (2, 2) -> matrix.[0, 0] * matrix.[1, 1] - matrix.[0, 1] * matrix.[1, 0]
+        | _ -> Vector(matrix.Values.[0]) * Vector(cofactors matrix 0)
+    and minor (matrix:Matrix) row column =
+        determinant (subMatrix matrix row column)
+    and cofactor (matrix: Matrix) r c =
+        let sign = match (r + c) % 2 with
+                   | 0 -> 1
+                   | _ -> -1
+        (float sign) * minor matrix r c
+    and cofactors (matrix: Matrix) r : float[] =
+        [| 0 .. (matrix.ColumnCount - 1) |]
+        |> Array.map (fun c -> cofactor matrix r c)
+
+    let isInvertible (matrix: Matrix) =
+        determinant matrix <> 0.0
+
+    let cofactorMatrix (matrix: Matrix) =
+        let cofactorMatrix = Array2D.init matrix.RowCount matrix.ColumnCount (cofactor matrix)
+                             |> Matrix
+        cofactorMatrix.Transpose()
+
+    let invert (matrix: Matrix) =
+        (cofactorMatrix matrix) / (determinant matrix)
+
+    let swapRows (matrix: Matrix) row1 row2 =
+        let valueSource r c =
+            if r = row1 then matrix.Values.[row2].[c]
+            elif r = row2 then matrix.Values.[row1].[c]
+            else matrix.Values.[r].[c]
+        Matrix(matrix.RowCount, matrix.ColumnCount, valueSource)
+
+    let scaleColumn (matrix: Matrix) column factor =
+        match column with
+        | c when c > matrix.ColumnCount -> raise (ArgumentOutOfRangeException("column"))
+        | _ -> let valueSource r c =
+                   if c = column then matrix.Values.[r].[c] * factor
+                   else matrix.Values.[r].[c]
+               Matrix(matrix.RowCount, matrix.ColumnCount, valueSource)
+
+    let transform (matrix: Matrix, transform: int -> int -> float) =
+        Matrix(matrix.RowCount, matrix.ColumnCount, transform)
+
+    let transformWhere (matrix: Matrix, transform: int -> int -> float, predicate: int -> int -> bool) = 
+        let valueSource r c =
+            if predicate r c then transform r c
+            else matrix.Values.[r].[c]
+        Matrix(matrix.RowCount, matrix.ColumnCount, valueSource)
+
+    let identity(size: int) =
         fun r c -> if r = c then 1.0
                    else 0.0
         |> Array2D.init size size
         |> Matrix
 
-    static member Zero rows columns =
+    let zero rows columns =
         Array2D.zeroCreate rows columns
         |> Matrix
 
-    static member Translation (vector: Vector) =
-        Matrix.Identity (vector.Length + 1)
+    let translation (vector: Vector) =
+        identity (vector.Length + 1)
         + Matrix(vector.Length + 1, vector.Length + 1, fun r c -> if r <> c && c = vector.Length
                                                                   then vector.[r]
                                                                   else 0.0)
 
-    static member Scale (vector: Vector) =
+    let scaling (vector: Vector) =
         Matrix(vector.Length + 1, vector.Length + 1, fun r c -> if r <> c then 0.0
                                                                 elif r = vector.Length then 1.0
                                                                 else vector.[r])
 
-    static member Rotation (dimension: Dimension) (radians: float) =
+    let rotation (dimension: Dimension) (radians: float) =
         match dimension with
         | Dimension.X -> [| [| 1.0; 0.0;          0.0;           0.0 |];
                             [| 0.0; cos(radians); -sin(radians); 0.0 |];
@@ -199,9 +195,9 @@ type Matrix(values: double[][]) =
                             [| 0.0;          0.0;           1.0; 0.0 |];
                             [| 0.0;          0.0;           0.0; 1.0 |] |]
                          |> Matrix
-        | _ -> Matrix.Zero 4 4
+        | _ -> zero 4 4
 
-    static member Shear (shearDimension: Dimension) (inProportionTo: Dimension) (amount: float) =
+    let shear (shearDimension: Dimension) (inProportionTo: Dimension) (amount: float) =
         Matrix(4, 4, fun r c -> if r = (LanguagePrimitives.EnumToValue shearDimension) && c = (LanguagePrimitives.EnumToValue inProportionTo)
                                 then amount
-                                else Matrix.Identity(4).[r, c])
+                                else identity(4).[r, c])
