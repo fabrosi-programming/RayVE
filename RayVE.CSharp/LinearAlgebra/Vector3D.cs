@@ -6,7 +6,7 @@ namespace RayVE.LinearAlgebra
     [DebuggerDisplay("({X}, {Y}, {Z})")]
     public sealed class Vector3D
     {
-        private Vector _vector;
+        private readonly Vector _vector;
 
         public double X
             => _vector[0];
@@ -32,44 +32,62 @@ namespace RayVE.LinearAlgebra
             => _vector = new Vector(vector.Take(3).Append(0.0d));
 
         public Vector3D Cross(Vector3D other)
-            => new Vector3D((_vector[1] * other._vector[2]) - (_vector[2] * other._vector[1]),
-                            (_vector[2] * other._vector[0]) - (_vector[0] * other._vector[2]),
-                            (_vector[0] * other._vector[1]) - (_vector[1] * other._vector[0]));
+            => new((_vector[1] * other._vector[2]) - (_vector[2] * other._vector[1]),
+                   (_vector[2] * other._vector[0]) - (_vector[0] * other._vector[2]),
+                   (_vector[0] * other._vector[1]) - (_vector[1] * other._vector[0]));
 
         public Vector AsVector()
-            => new Vector(_vector.Take(3));
+            => new(_vector.Take(3));
 
         public Vector3D Normalize()
-            => new Vector3D(_vector.Normalize());
+            => new(_vector.Normalize());
 
         public Vector3D Reflect(Vector3D normal)
-            => new Vector3D(AsVector().Reflect(normal.AsVector()));
+            => new(AsVector().Reflect(normal.AsVector()));
 
         public Vector3D Scale(Vector3D scalars)
-            => new Vector3D(_vector.Scale(scalars.AsVector()));
+            => new(_vector.Scale(scalars.AsVector()));
 
         public static Vector3D Zero
-            => new Vector3D(0, 0, 0);
+            => new(0, 0, 0);
 
         #region Operators
 
+        public static Vector3D Multiply(double scalar, Vector3D vector)
+            => new(scalar * vector._vector);
+
         public static Vector3D operator *(double scalar, Vector3D vector)
-            => new Vector3D(scalar * vector._vector);
+            => Multiply(scalar, vector);    
+
+        public static Vector3D Multiply(Vector3D vector, double scalar)
+            => Multiply(scalar, vector);
 
         public static Vector3D operator *(Vector3D vector, double scalar)
-            => scalar * vector;
+            => Multiply(scalar, vector);
 
-        public static double operator *(Vector3D left, Vector3D right)
+        public static double Multiply(Vector3D left, Vector3D right)
             => left.AsVector() * right.AsVector();
 
-        public static Vector3D operator *(Matrix left, Vector3D right)
-            => new Vector3D(left * right._vector);
+        public static double operator *(Vector3D left, Vector3D right)
+            => Multiply(left, right);
+
+        public static Vector3D Multiply(Matrix matrix, Vector3D vector)
+            => new(matrix * vector._vector);
+
+        public static Vector3D operator *(Matrix matrix, Vector3D vector)
+            => Multiply(matrix, vector);
+
+        public static Vector3D Multiply(Vector3D vector, Matrix matrix)
+            => new(vector._vector * matrix);
 
         public static Vector3D operator *(Vector3D left, Matrix right)
-            => new Vector3D(left._vector * right);
+            => Multiply(left, right);
+
+        public static Vector3D Negate(Vector3D vector)
+            => new(-vector.AsVector());
 
         public static Vector3D operator -(Vector3D vector)
-            => new Vector3D(-vector.AsVector());
+            => Negate(vector);    
 
         public static bool operator ==(Vector3D left, Vector3D right)
         {

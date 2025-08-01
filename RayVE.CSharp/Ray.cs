@@ -17,7 +17,9 @@ namespace RayVE
         public Point3D GetPosition(double distance)
             => Origin + (distance * Direction);
 
-        public static Ray operator *(Ray ray, Matrix matrix)
+        #region Operators
+
+        public static Ray Multiply(Ray ray, Matrix matrix)
         {
             if (matrix.ColumnCount != 4)
                 throw new DimensionMismatchException();
@@ -28,7 +30,10 @@ namespace RayVE
             return new Ray(transformedOrigin, transformedDirection);
         }
 
-        public static Ray operator *(Matrix matrix, Ray ray)
+        public static Ray operator *(Ray ray, Matrix matrix)
+            => Multiply(ray, matrix);
+
+        public static Ray Multiply(Matrix matrix, Ray ray)
         {
             if (matrix.ColumnCount != 4)
                 throw new DimensionMismatchException();
@@ -38,5 +43,9 @@ namespace RayVE
 
             return new Ray(transformedOrigin, transformedDirection);
         }
-    }
+
+        public static Ray operator *(Matrix matrix, Ray ray)
+            => Multiply(matrix, ray);
+        #endregion
+}
 }

@@ -10,9 +10,9 @@ namespace RayVE.Surfaces
 {
     public abstract class SurfaceBase : ISurface
     {
-        protected Matrix Transformation { get; }
+        public Matrix Transformation { get; }
 
-        protected Matrix InverseTransformation { get; }
+        public Matrix InverseTransformation { get; }
 
         protected Matrix TransposeInverseTransformation { get; }
 
@@ -29,8 +29,8 @@ namespace RayVE.Surfaces
 
         public abstract ISurface WithMaterial(IMaterial material);
 
-        public Intersections Intersect(Ray ray)
-            => new Intersections(
+        public IntersectionCollection Intersect(Ray ray)
+            => new(
                 GetIntersections(ray).Select(i => new Intersection(i, this, ray)));
 
         private IEnumerable<double> GetIntersections(Ray ray)

@@ -10,7 +10,7 @@ namespace RayVE
         IEnumerable<ILightSource> LightSources { get; }
         IEnumerable<ISurface> Surfaces { get; }
 
-        Intersections Intersect(Ray ray);
+        IntersectionCollection Intersect(Ray ray);
         Color Shade(Intersection intersection);
         Color Shade(Ray ray);
         bool IsInShadow(Point3D point, ILightSource lightSource);

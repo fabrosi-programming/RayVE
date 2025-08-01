@@ -66,7 +66,7 @@ namespace RayVE
         }
 
         public Canvas Render(IScene scene)
-            => new Canvas(Width, Height, (x, y) =>
+            => new(Width, Height, (x, y) =>
             {
                 var ray = GetRay(x, y);
                 return scene.Shade(ray);

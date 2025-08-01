@@ -6,7 +6,7 @@ using System.Linq;
 namespace RayVE.LinearAlgebra
 {
     [DebuggerDisplay("({X}, {Y}, {Z})")]
-    public sealed class Point3D
+    public sealed class Point3D : IEquatable<Point3D>
     {
         private Vector _vector;
 
@@ -32,35 +32,44 @@ namespace RayVE.LinearAlgebra
             => AsVector().Magnitude;
 
         public Vector AsVector()
-            => new Vector(_vector.Take(3));
+            => new(_vector.Take(3));
 
         public Point3D Translate(Vector translation)
-            => new Point3D(_vector.Translate(translation));
+            => new(_vector.Translate(translation));
         
         public Point3D Rotate(Dimension dimension, double angle)
-            => new Point3D(_vector.Rotate(dimension, angle));
+            => new(_vector.Rotate(dimension, angle));
 
         public Point3D Scale(Vector3D scalars)
-            => new Point3D(_vector.Scale(scalars.AsVector()));
+            => new(_vector.Scale(scalars.AsVector()));
 
         public Point3D Translate(Vector3D translation)
-            => new Point3D(_vector.Translate(translation.AsVector()));
+            => new(_vector.Translate(translation.AsVector()));
 
         public static Point3D Zero
-            => new Point3D(0, 0, 0);
+            => new(0, 0, 0);
 
         #region Operators
 
+        public static Point3D Negate(Point3D point)
+            => new(-point.AsVector());
+
         public static Point3D operator -(Point3D point)
-            => new Point3D(-point.AsVector());
+            => Negate(point);
+
+        public static Vector3D Subtract(Point3D left, Point3D right)
+            => new(left._vector - right._vector);
 
         public static Vector3D operator -(Point3D left, Point3D right)
-            => new Vector3D(left._vector - right._vector);
+            => Subtract(left, right);
+
+        public static Point3D Add(Point3D point, Vector3D vector)
+            => new(point.AsVector() + vector.AsVector());
 
         public static Point3D operator +(Point3D point, Vector3D vector)
-            => new Point3D(point.AsVector() + vector.AsVector());
+            => Add(point, vector);
 
-        public static Point3D operator *(Matrix left, Point3D right)
+        public static Point3D Multiply(Matrix left, Point3D right)
         {
             if (left.ColumnCount != 4)
                 throw new DimensionMismatchException("Left matrix column count does not match right vector length.");
@@ -73,7 +82,10 @@ namespace RayVE.LinearAlgebra
             return new Point3D(vector);
         }
 
-        public static Point3D operator *(Point3D left, Matrix right)
+        public static Point3D operator *(Matrix left, Point3D right)
+            => Multiply(left, right);
+
+        public static Point3D Multiply(Point3D left, Matrix right)
         {
             if (right.RowCount != 4)
                 throw new DimensionMismatchException("Left vector length does not match right matrix row count.");
@@ -85,6 +97,9 @@ namespace RayVE.LinearAlgebra
 
             return new Point3D(vector);
         }
+
+        public static Point3D operator *(Point3D left, Matrix right)
+            => Multiply(left, right);
 
         public static bool operator ==(Point3D left, Point3D right)
         {
@@ -115,12 +130,15 @@ namespace RayVE.LinearAlgebra
             return false;
         }
 
-        public bool Equals(Point3D other)
-            => this == other;
-
         public override int GetHashCode()
             => _vector.GetHashCode();
 
+        #endregion
+
+        #region IEquatable<Point3D>
+        public bool Equals(Point3D? other)
+            => other is not null
+            && this == other;
         #endregion
     }
 }

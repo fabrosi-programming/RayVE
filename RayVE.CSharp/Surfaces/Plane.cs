@@ -12,11 +12,11 @@ namespace RayVE.Surfaces
     public class Plane : SurfaceBase
     {
         public Plane()
-            : this(Matrix.Identity(4), new PhongMaterial())
+            : this(Matrix.Identity(4), PhongMaterial.Default)
         { }
 
         public Plane(Matrix transformation)
-            : this(transformation, new PhongMaterial())
+            : this(transformation, PhongMaterial.Default)
         { }
 
         public Plane(IMaterial material)
@@ -41,7 +41,7 @@ namespace RayVE.Surfaces
             };
 
         internal override Vector3D GetNormalLocal(Point3D localizedPoint)
-            => new Vector3D(0, 1, 0);
+            => new(0, 1, 0);
 
         #endregion
     }

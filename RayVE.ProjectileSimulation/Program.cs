@@ -1,4 +1,5 @@
 ﻿using RayVE.LinearAlgebra;
+using RayVE.Output;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -64,8 +65,9 @@ namespace RayVE.ProjectileSimulation
 
             Debug.WriteLine("Writing to file.");
 
+            var document = new PPMDocument(canvas, 255);
             var filePath = $"C:\\temp\\RayVE\\ProjectileSimulation\\{DateTime.Now:yyyyMMdd_HHmmss}.ppm";
-            File.WriteAllText(filePath, canvas.ToPPM(255));
+            File.WriteAllText(filePath, document.ToString());
 
             Debug.WriteLine("Done.");
         }

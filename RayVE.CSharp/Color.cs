@@ -1,6 +1,4 @@
-﻿using RayVE.Extensions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using static RayVE.Constants;
 using static System.Math;
 
@@ -23,46 +21,41 @@ namespace RayVE
             : this(color.R, color.G, color.B)
         { }
 
-        public IEnumerable<string> ToPPM(int maxValue)
-            => new List<string>()
-            {
-                $"{GetPPMValue(R, maxValue)}",
-                $"{GetPPMValue(G, maxValue)}",
-                $"{GetPPMValue(B, maxValue)}"
-            };
-
-        private static int GetPPMValue(double rawValue, int maxValue)
-            => Convert.ToInt32((rawValue * maxValue).Clamp(0.0d, maxValue));
-
         public override string ToString()
             => $"R:{R} G:{G} B:{B}";
 
         #region Operators
+        public static Color Add(Color left, Color right)
+            => new(left.R + right.R,
+                   left.G + right.G,
+                   left.B + right.B);
 
         public static Color operator +(Color left, Color right)
-            => new Color(left.R + right.R,
-                         left.G + right.G,
-                         left.B + right.B);
+            => Add(left, right);
+
+        public static Color Subtract(Color left, Color right)
+            => new(left.R - right.R,
+                   left.G - right.G,
+                   left.B - right.B);
 
         public static Color operator -(Color left, Color right)
-            => new Color(left.R - right.R,
-                         left.G - right.G,
-                         left.B - right.B);
+            => Subtract(left, right);
+
+        public static Color Multiply(Color color, double scalar)
+            => new(color.R * scalar, color.G * scalar, color.B * scalar);
 
         public static Color operator *(Color color, double scalar)
-            => new Color(color.R * scalar, color.G * scalar, color.B * scalar);
+            => Multiply(color, scalar);
 
         public static Color operator *(Color color, UDouble scalar)
             => color * scalar.AsDouble();
 
         public static Color operator *(Color left, Color right)
-            => new Color(left.R * right.R, left.G * right.G, left.B * right.B);
+            => new(left.R * right.R, left.G * right.G, left.B * right.B);
 
         public static bool operator ==(Color left, Color right)
         {
-            if (ReferenceEquals(left, right))
-                return true;
-
+            // no reference equals check because color is a struct
             // no null check because Color is a struct
 
             if (left.R == right.R
@@ -103,16 +96,16 @@ namespace RayVE
 
         #endregion Equality
 
-        #region FixedColors
+        #region Fixed Colors
 
-        public static Color Black => new Color(0, 0, 0);
-        public static Color White => new Color(1, 1, 1);
-        public static Color Red => new Color(1, 0, 0);
-        public static Color Green => new Color(0, 1, 0);
-        public static Color Blue => new Color(0, 0, 1);
-        public static Color Cyan => new Color(0, 1, 1);
-        public static Color Magenta => new Color(1, 0, 1);
-        public static Color Yellow => new Color(1, 1, 0);
+        public static Color Black => new(0, 0, 0);
+        public static Color White => new(1, 1, 1);
+        public static Color Red => new(1, 0, 0);
+        public static Color Green => new(0, 1, 0);
+        public static Color Blue => new(0, 0, 1);
+        public static Color Cyan => new(0, 1, 1);
+        public static Color Magenta => new(1, 0, 1);
+        public static Color Yellow => new(1, 1, 0);
 
         #endregion FixedColors
     }

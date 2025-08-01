@@ -54,7 +54,6 @@ type Matrix(values: double[][]) =
                              |> Matrix
         cofactorMatrix.Transpose()
 
-    //TODO: implement
     member this.Inverse
         with get() = this.Cofactors / this.Determinant
 
@@ -118,6 +117,9 @@ type Matrix(values: double[][]) =
                                   yield false }
                 |> Seq.forall id
         | _ -> false
+
+    override __.GetHashCode() =
+        values.GetHashCode()
 
     override __.ToString() =
         String.Format("Rows={0}, Columns={1}", values.Length, values.[0].Length)
@@ -198,6 +200,7 @@ type Matrix(values: double[][]) =
                             [| 0.0;          0.0;           1.0; 0.0 |];
                             [| 0.0;          0.0;           0.0; 1.0 |] |]
                          |> Matrix
+        | _ -> Matrix.Zero 4 4
 
     static member Shear (shearDimension: Dimension) (inProportionTo: Dimension) (amount: float) =
         Matrix(4, 4, fun r c -> if r = (LanguagePrimitives.EnumToValue shearDimension) && c = (LanguagePrimitives.EnumToValue inProportionTo)

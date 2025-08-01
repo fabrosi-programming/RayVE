@@ -17,8 +17,7 @@ namespace RayVE.LinearAlgebra
         public virtual Vector AsVector()
             => this;
 
-        public uint Length
-            => Convert.ToUInt32(_values.Length);
+        public uint Length { get; }
 
         public double this[uint i]
             => _values[i];
@@ -28,7 +27,10 @@ namespace RayVE.LinearAlgebra
         { }
 
         public Vector(IEnumerable<double> values)
-            => _values = values.ToArray();
+        {
+            _values = values.ToArray();
+            Length = Convert.ToUInt32(_values.Length); // pre-calculate since this is definitely going to be called
+        }
 
         public Vector(Vector vector)
             => _values = vector._values.ToArray();
@@ -72,35 +74,69 @@ namespace RayVE.LinearAlgebra
             if (left.Length != right.Length)
                 throw new DimensionMismatchException();
 
-            return Enumerable.Range(0, (int)left.Length)
-                             .Select(i => Convert.ToUInt32(i))
-                             .Select(i => combine(left[i], right[i]))
-                             .ToVector();
+            // Method 1 appears to perform marginally better than Method 2
+            return CombineElementWise_Method1(left, right, combine);
         }
 
-        #region Operators
+        private static Vector CombineElementWise_Method1(Vector left, Vector right, Func<double, double, double> combine)
+        {
+            var values = new double[left.Length];
 
-        public static Vector operator +(Vector left, Vector right)
+            for (uint i = 0; i < left.Length; i++)
+                values[i] = combine(left[i], right[i]);
+
+            return new Vector(values);
+        }
+
+        private static Vector CombineElementWise_Method2(Vector left, Vector right, Func<double, double, double> combine)
+            => MoreEnumerable
+                .UIntRange(0, left.Length)
+                .Select(i => combine(left[i], right[i]))
+                .ToVector();
+
+        #region Operators
+        public static Vector Add(Vector left, Vector right)
             => CombineElementWise(left, right, (l, r) => l + r);
 
-        public static Vector operator -(Vector left, Vector right)
+        public static Vector operator +(Vector left, Vector right)
+            => Add(left, right);
+
+        public static Vector Subtract(Vector left, Vector right)
             => left + (-right);
 
+        public static Vector operator -(Vector left, Vector right)
+            => Subtract(left, right);
+
+        public static Vector Negate(Vector vector)
+            => new(
+                vector
+                ._values
+                .Select(v => -v)
+                .ToArray());
+
         public static Vector operator -(Vector vector)
-            => new Vector(vector._values.Select(v => -v)
-                                        .ToArray());
+            => Negate(vector);
+
+        public static Vector Multiply(double scalar, Vector vector)
+            => new(
+                vector
+                ._values
+                .Select(v => v * scalar)
+                .ToArray());
 
         public static Vector operator *(double scalar, Vector vector)
-            => new Vector(vector._values.Select(v => v * scalar)
-                                        .ToArray());
+            => Multiply(scalar, vector);
 
         public static Vector operator *(Vector vector, double scalar)
-            => scalar * vector;
+            => Multiply(scalar, vector);
 
-        public static double operator *(Vector left, Vector right)
+        public static double Multiply(Vector left, Vector right)
             => CombineElementWise(left, right, (l, r) => l * r).Sum();
 
-        public static Vector operator *(Matrix left, Vector right)
+        public static double operator *(Vector left, Vector right)
+            => Multiply(left, right);
+
+        public static Vector Multiply(Matrix left, Vector right)
         {
             if (left.ColumnCount != right.Length)
                 throw new DimensionMismatchException("Left matrix column count does not match right vector length.");
@@ -111,7 +147,10 @@ namespace RayVE.LinearAlgebra
                              .ToVector();
         }
 
-        public static Vector operator *(Vector left, Matrix right)
+        public static Vector operator *(Matrix left, Vector right)
+            => Multiply(left, right);
+
+        public static Vector Multiply(Vector left, Matrix right)
         {
             if (left.Length != right.RowCount)
                 throw new DimensionMismatchException("Left vector length does not match right matrix row count.");
@@ -122,9 +161,15 @@ namespace RayVE.LinearAlgebra
                              .ToVector();
         }
 
+        public static Vector operator *(Vector left, Matrix right)
+            => Multiply(left, right);
+
         [SuppressMessage("Style", "IDE0047:Remove unnecessary parentheses", Justification = "Parentheses aid clarity of intent.")]
-        public static Vector operator /(Vector vector, double scalar)
+        public static Vector Divide(Vector vector, double scalar)
             => (1 / scalar) * vector;
+
+        public static Vector operator /(Vector vector, double scalar)
+            => Divide(vector, scalar);
 
         public static bool operator ==(Vector left, Vector right)
         {
@@ -159,17 +204,19 @@ namespace RayVE.LinearAlgebra
             return false;
         }
 
-        public bool Equals(Vector other)
-            => this == other;
-
         public override int GetHashCode()
             => _values.Sum()
                       .GetHashCode();
 
         #endregion Equality
 
+        #region IEquatable<Vector>
+        public bool Equals(Vector? other)
+            => other is not null
+            && this == other;
+        #endregion
+
         public static Vector Zeros(uint size)
-            => new Vector(Enumerable.Repeat(0, Convert.ToInt32(size))
-                                    .ToArray());
+            => new(Enumerable.Repeat(0, Convert.ToInt32(size)).ToArray());
     }
 }

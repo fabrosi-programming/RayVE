@@ -1,8 +1,6 @@
 ﻿namespace RayVE
 
 open System
-open System.Collections
-open System.Collections.Generic
 
 type Vector([<ParamArray>] values: double[]) =
     member __.Values =
@@ -27,10 +25,10 @@ type Vector([<ParamArray>] values: double[]) =
         values |> Array.map (fun e -> e / __.Magnitude)
                |> Vector
 
-    member vector1.Cross (vector2: Vector) =
-        [| (vector1.[1] * vector2.[2]) - (vector1.[2] * vector2.[1])
-           (vector1.[2] * vector2.[0]) - (vector1.[0] * vector2.[2])
-           (vector1.[0] * vector2.[1]) - (vector1.[1] * vector2.[0]) |]
+    member v1.Cross (v2: Vector) =
+        [| (v1.[1] * v2.[2]) - (v1.[2] * v2.[1])
+           (v1.[2] * v2.[0]) - (v1.[0] * v2.[2])
+           (v1.[0] * v2.[1]) - (v1.[1] * v2.[0]) |]
         |> Vector
                                    
     override this.Equals other =

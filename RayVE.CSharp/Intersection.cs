@@ -77,8 +77,9 @@ namespace RayVE
             return false;
         }
 
-        public bool Equals(Intersection other)
-            => this == other;
+        public bool Equals(Intersection? other)
+            => other is not null
+            && this == other;
 
         public override int GetHashCode()
             => Distance.GetHashCode() + Surface.GetHashCode();

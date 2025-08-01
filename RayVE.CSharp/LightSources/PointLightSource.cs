@@ -40,11 +40,15 @@ namespace RayVE.LightSources
 
             return false;
         }
+
+        public override int GetHashCode()
+            => (Position, Color).GetHashCode();
         #endregion
 
         #region IEquatable<PointLightSource>
-        public bool Equals(PointLightSource other)
-            => this == other;
+        public bool Equals(PointLightSource? other)
+            => other is not null
+            && this == other;
         #endregion
     }
 }

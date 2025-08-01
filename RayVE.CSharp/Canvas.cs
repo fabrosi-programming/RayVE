@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
@@ -15,14 +14,6 @@ namespace RayVE
 
         public uint Height
             => Convert.ToUInt32(_pixels.GetUpperBound(1) + 1);
-
-        private IEnumerable<string> GetPPMHeader(int maxValue)
-            => new List<string>()
-            {
-                "P3",
-                $"{Width} {Height}",
-                $"{maxValue}"
-            };
 
         public Color this[uint x, uint y]
         {
@@ -74,11 +65,18 @@ namespace RayVE
 
         private void FillParallel(Func<uint, uint, Color> fillFunction)
         {
-            Parallel.For(0, Width, x =>
-            {
-                for (uint y = 0; y < Height; y++)
-                    this[(uint)x, y] = fillFunction((uint)x, y);
-            });
+            Parallel.For(
+                0,
+                Width,
+                //new ParallelOptions()
+                //{
+                //    MaxDegreeOfParallelism = 8 //Environment.ProcessorCount
+                //},
+                x =>
+                {
+                    for (uint y = 0; y < Height; y++)
+                        this[(uint)x, y] = fillFunction((uint)x, y);
+                });
         }
 
         public void Fill(Color color)
@@ -95,42 +93,7 @@ namespace RayVE
         public bool ContainsPoint(int x, int y)
             => ContainsPoint(Convert.ToUInt32(x), Convert.ToUInt32(y));
 
-        public string ToPPM(int maxValue)
-        {
-            var rows = new List<string>();
-            rows.AddRange(GetPPMHeader(maxValue));
-
-            for (var i = 0; i < Height; i++)
-                rows.AddRange(GetRowPPM(i, maxValue));
-
-            return String.Join(Environment.NewLine, rows) + Environment.NewLine;
-        }
-
-        private IEnumerable<string> GetRowPPM(int row, int maxValue)
-        {
-            var rowValues = new List<string>();
-
-            for (var i = 0; i < Width; i++)
-                rowValues.AddRange(_pixels[i, row].ToPPM(maxValue));
-
-            var subRowValues = new List<string>();
-            var subRowLength = 0;
-
-            foreach (var value in rowValues)
-            {
-                if (subRowLength + value.Length + subRowValues.Count > 70)
-                {
-                    yield return String.Join(" ", subRowValues);
-                    subRowValues = new List<string>();
-                    subRowLength = 0;
-                }
-
-                subRowValues.Add(value);
-                subRowLength += value.Length;
-            }
-
-            if (subRowValues.Count > 0)
-                yield return String.Join(" ", subRowValues);
-        }
+        [SuppressMessage("Performance", "CA1814:Prefer jagged arrays over multidimensional", Justification = "Multidimensional array does not waste space since all values are needed to represent a rectangular image.")]
+        public Color[,] GetPixels() => (Color[,])_pixels.Clone();
     }
 }

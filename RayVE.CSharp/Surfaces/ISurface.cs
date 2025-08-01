@@ -7,7 +7,11 @@ namespace RayVE.Surfaces
     {
         IMaterial Material { get; }
 
-        Intersections Intersect(Ray ray);
+        Matrix InverseTransformation { get; }
+
+        Matrix Transformation { get; }
+
+        IntersectionCollection Intersect(Ray ray);
 
         Vector3D GetNormal(Point3D point);
 

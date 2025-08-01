@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace RayVE
 {
-    public class Intersections : IEnumerable<Intersection>
+    public class IntersectionCollection : IEnumerable<Intersection>
     {
         private readonly List<Intersection> _intersections;
 
@@ -18,14 +18,15 @@ namespace RayVE
         public bool Contains(Intersection intersection)
             => _intersections.Contains(intersection);
 
-        public Intersections(IEnumerable<Intersection> intersections)
+        public IntersectionCollection(IEnumerable<Intersection> intersections)
             => _intersections = intersections.OrderBy(i => i.Distance) // ordering required for reflections, refraction, and constructive geometry
                                              .ToList(); // sacrifice laziness; prevent multiple enumeration
 
         public Option<Intersection> GetNearestHit()
             => _intersections.Where(i => i.Distance > 0)
-                             .MinBy(i => i.Distance) ?? Option<Intersection>.None;
-
+                             .MinBy(i => i.Distance)
+            ?? Option<Intersection>.None;
+        
         #region IEnumerable<Intersection>
         public IEnumerator<Intersection> GetEnumerator()
             => ((IEnumerable<Intersection>)_intersections).GetEnumerator();

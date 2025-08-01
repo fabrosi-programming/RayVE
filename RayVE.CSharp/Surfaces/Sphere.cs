@@ -19,11 +19,11 @@ namespace RayVE.Surfaces
         { }
 
         public Sphere(Point3D center)
-            : this(center, Matrix.Identity(4), new PhongMaterial())
+            : this(center, Matrix.Identity(4), PhongMaterial.Default)
         { }
 
         public Sphere(Matrix transformation)
-            : this(new Point3D(0, 0, 0), transformation, new PhongMaterial())
+            : this(new Point3D(0, 0, 0), transformation, PhongMaterial.Default)
         { }
 
         public Sphere(IMaterial material)
@@ -97,11 +97,14 @@ namespace RayVE.Surfaces
 
             return false;
         }
+
+        public override int GetHashCode() => (_center, Transformation, Material).GetHashCode();
         #endregion
 
         #region IEquatable<Sphere>
-        public bool Equals(Sphere other)
-            => this == other;
+        public bool Equals(Sphere? other)
+            => other is not null
+            && this == other;
         #endregion
     }
 }

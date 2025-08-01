@@ -52,7 +52,7 @@ namespace RayVE.Tests
             var ray = new Ray(new Point3D(0, 0, 1), new Vector3D(0, 0, 1));
             var intersection1 = new Intersection(1, sphere, ray);
             var intersection2 = new Intersection(2, sphere, ray);
-            var intersections = new Intersections(
+            var intersections = new IntersectionCollection(
                 new List<Intersection>()
                 {
                     intersection1,
@@ -74,7 +74,7 @@ namespace RayVE.Tests
             var ray = new Ray(new Point3D(0, 0, 1), new Vector3D(0, 0, 1));
             var intersection1 = new Intersection(-1, sphere, ray);
             var intersection2 = new Intersection(1, sphere, ray);
-            var intersections = new Intersections(
+            var intersections = new IntersectionCollection(
                 new List<Intersection>()
                 {
                     intersection1,
@@ -98,7 +98,7 @@ namespace RayVE.Tests
             var intersection2 = new Intersection(7, sphere, ray);
             var intersection3 = new Intersection(-3, sphere, ray);
             var intersection4 = new Intersection(2, sphere, ray);
-            var intersections = new Intersections(
+            var intersections = new IntersectionCollection(
                 new List<Intersection>()
                 {
                     intersection1,
@@ -122,7 +122,7 @@ namespace RayVE.Tests
             var ray = new Ray(new Point3D(0, 0, 1), new Vector3D(0, 0, 1));
             var intersection1 = new Intersection(-2, sphere, ray);
             var intersection2 = new Intersection(-1, sphere, ray);
-            var intersections = new Intersections(
+            var intersections = new IntersectionCollection(
                 new List<Intersection>()
                 {
                     intersection1,

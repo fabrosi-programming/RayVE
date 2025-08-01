@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace RayVE.LinearAlgebra
@@ -22,25 +23,31 @@ namespace RayVE.LinearAlgebra
             => _vector = new Vector(vector.Take(3).Append(0.0));
 
         public Vector AsVector()
-            => new Vector(_vector.Take(2));
+            => new(_vector.Take(2));
 
         public Vector2D Normalize()
-            => new Vector2D(_vector.Normalize());
+            => new(_vector.Normalize());
 
         public Vector2D Scale(Vector2D scalars)
-            => new Vector2D(_vector.Scale(scalars.AsVector()));
+            => new(_vector.Scale(scalars.AsVector()));
 
         #region Operators
 
+        public static Vector2D Multiply(double scalar, Vector2D vector)
+            => new(scalar * vector._vector);
+
         public static Vector2D operator *(double scalar, Vector2D vector)
-            => new Vector2D(scalar * vector._vector);
+            => Multiply(scalar, vector);
+
+        public static Vector2D Add(Vector2D left, Vector2D right)
+            => new(left._vector + right._vector);
 
         public static Vector2D operator +(Vector2D left, Vector2D right)
-            => new Vector2D(left._vector + right._vector);
+            => Add(left, right);
 
         #endregion
 
         public static Vector2D Zero
-            => new Vector2D(0, 0);
+            => new(0, 0);
     }
 }

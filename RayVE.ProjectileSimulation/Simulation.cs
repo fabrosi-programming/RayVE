@@ -6,7 +6,7 @@ namespace RayVE.ProjectileSimulation
     public class Simulation
     {
         public readonly Environment Environment;
-        public List<Projectile> Projectiles = new List<Projectile>(); // TODO: consider keeping a history of projectile positions
+        public List<Projectile> Projectiles = new(); // TODO: consider keeping a history of projectile positions
 
         public Simulation(Environment environment)
             => Environment = environment;

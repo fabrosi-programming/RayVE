@@ -1,5 +1,6 @@
 ﻿using RayVE.LightSources;
 using RayVE.LinearAlgebra;
+using RayVE.Surfaces;
 using System;
 using static System.Math;
 
@@ -7,7 +8,7 @@ namespace RayVE.Materials
 {
     public class PhongMaterial : IMaterial, IEquatable<PhongMaterial>
     {
-        public Color Color { get; }
+        private readonly IPattern _pattern;
 
         private readonly UDouble _ambience;
 
@@ -17,13 +18,30 @@ namespace RayVE.Materials
 
         private readonly UDouble _shininess;
 
-        public PhongMaterial(Color? color = null, double ambience = 0.1, double diffusion = 0.9, double specularity = 0.9, double shininess = 200.0)
-            : this(color ?? new Color(1, 1, 1), new UDouble(ambience), new UDouble(diffusion), new UDouble(specularity), new UDouble(shininess))
+        public PhongMaterial(Color color, double ambience, double diffusion, double specularity, double shininess)
+            : this(color, new UDouble(ambience), new UDouble(diffusion), new UDouble(specularity), new UDouble(shininess))
+        { }
+
+        public PhongMaterial(IPattern pattern, double ambience, double diffusion, double specularity, double shininess)
+            : this(pattern, new UDouble(ambience), new UDouble(diffusion), new UDouble(specularity), new UDouble(shininess))
         { }
 
         public PhongMaterial(Color color, UDouble ambience, UDouble diffusion, UDouble specularity, UDouble shininess)
+            : this(new SolidPattern(color), ambience, diffusion, specularity, shininess)
+        { }
+
+        public PhongMaterial(PhongMaterial source, IPattern? pattern = null, UDouble? ambience = null, UDouble? diffusion = null, UDouble? specularity = null, UDouble? shininess = null)
+            : this(
+                  pattern ?? source._pattern,
+                  ambience ?? source._ambience,
+                  diffusion ?? source._diffusion,
+                  specularity ?? source._specularity,
+                  shininess ?? source._shininess)
+        { }
+
+        public PhongMaterial(IPattern pattern, UDouble ambience, UDouble diffusion, UDouble specularity, UDouble shininess)
         {
-            Color = color;
+            _pattern = pattern ?? new SolidPattern(Color.White);
             _ambience = ambience;
             _diffusion = diffusion;
             _specularity = specularity;
@@ -39,7 +57,7 @@ namespace RayVE.Materials
             if (left is null || right is null)
                 return false;
 
-            return left.Color == right.Color
+            return left._pattern.Equals(right._pattern) // no support for custom == operator on interfaces
                 && left._ambience == right._ambience
                 && left._diffusion == right._diffusion
                 && left._specularity == right._specularity
@@ -58,21 +76,24 @@ namespace RayVE.Materials
 
             return false;
         }
+
+        public override int GetHashCode() => (_pattern, _ambience, _diffusion, _specularity, _shininess).GetHashCode();
         #endregion
 
         #region IEquatable<PhongMaterial>
-        public bool Equals(PhongMaterial other)
-            => this == other;
+        public bool Equals(PhongMaterial? other)
+            => other is not null
+            && this == other;
         #endregion
 
         #region IMaterial
-        public Color Illuminate(Point3D point, Vector3D eyeVector, Vector3D normalVector, ILightSource lightSource, bool isInShadow = false)
+        public Color Illuminate(Point3D point, Color patternColor, Vector3D eyeVector, Vector3D normalVector, ILightSource lightSource, bool isInShadow = false)
         {
             if (lightSource is null)
                 throw new ArgumentNullException(nameof(lightSource));
 
             var lightVector = GetLightVector(point, lightSource);
-            var illuminationColor = Color * lightSource.Color;
+            var illuminationColor = patternColor * lightSource.Color;
             var lightDotNormal = lightVector * normalVector;
 
             var diffusion = new Color(0, 0, 0);
@@ -99,8 +120,11 @@ namespace RayVE.Materials
             return ambience + diffusion + specularity;
         }
 
+        public Color Illuminate(Point3D point, ISurface surface, Vector3D eyeVector, Vector3D normalVector, ILightSource lightSource, bool isInShadow = false)
+            => Illuminate(point, _pattern.ColorAt(point, surface), eyeVector, normalVector, lightSource, isInShadow);
+
         public Color Illuminate(Intersection intersection, ILightSource lightSource, bool isInShadow = false)
-            => Illuminate(intersection.Position, intersection.EyeVector, intersection.NormalVector, lightSource, isInShadow);
+            => Illuminate(intersection.Position, intersection.Surface, intersection.EyeVector, intersection.NormalVector, lightSource, isInShadow);
 
         private Vector3D GetLightVector(Point3D point, ILightSource lightSource)
             => (lightSource.Position - point).Normalize();
@@ -108,5 +132,13 @@ namespace RayVE.Materials
         private static Vector3D GetReflectionVector(Vector3D normalVector, Vector3D lightVector)
             => (-lightVector).Reflect(normalVector);
         #endregion
+
+        public static PhongMaterial Default
+            => new PhongMaterial(
+                new SolidPattern(Color.White),
+                0.1,
+                0.9,
+                0.9,
+                200);
     }
 }

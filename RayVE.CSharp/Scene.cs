@@ -33,13 +33,20 @@ namespace RayVE
             LightSources = lightSources;
         }
 
-        public Intersections Intersect(Ray ray)
-            => new Intersections(
+        public IntersectionCollection Intersect(Ray ray)
+            => new(
                 Surfaces.SelectMany(s => s.Intersect(ray)));
 
         public Color Shade(Intersection intersection)
-            => LightSources.Select(l => intersection.Surface.Material.Illuminate(intersection, l, IsInShadow(intersection.OverPosition, l)))
-                           .Aggregate((c1, c2) => c1 + c2);
+            => LightSources
+            .Select(l => intersection
+                .Surface
+                .Material
+                .Illuminate(
+                    intersection,
+                    l,
+                    IsInShadow(intersection.OverPosition, l)))
+            .Aggregate((c1, c2) => c1 + c2);
 
         public Color Shade(Ray ray)
             => Shade(
@@ -66,9 +73,19 @@ namespace RayVE
             => new Scene(
                 new[]
                 {
-                    new Sphere(new PhongMaterial(new Color(0.8, 1.0, 0.6), diffusion: 0.7, specularity: 0.2)),
-                    new Sphere(Matrix.Scale(new Vector(0.5, 0.5, 0.5)))
+                    new Sphere(
+                        new PhongMaterial(
+                            PhongMaterial.Default,
+                            pattern: new SolidPattern(
+                                new Color(0.8, 1.0, 0.6)),
+                            diffusion: new UDouble(0.7),
+                            specularity: new UDouble(0.2))),
+                    new Sphere(
+                        Matrix.Scale(
+                            new Vector(0.5, 0.5, 0.5)))
                 },
-                new PointLightSource(new Point3D(-10, 10, -10), new Color(1, 1, 1)));
+                new PointLightSource(
+                    new Point3D(-10, 10, -10),
+                    new Color(1, 1, 1)));
     }
 }

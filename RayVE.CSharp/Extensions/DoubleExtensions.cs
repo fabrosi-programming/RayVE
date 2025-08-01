@@ -10,6 +10,6 @@ namespace RayVE.Extensions
             => Min(Max(value, min), max);
 
         public static Vector ToVector(this IEnumerable<double> values)
-            => new Vector(values);
+            => new(values);
     }
 }

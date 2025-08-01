@@ -13,9 +13,9 @@ namespace RayVE.LinearAlgebra
         }
 
         public Vector AsVector()
-            => new Vector(_vector.Take(2));
+            => new(_vector.Take(2));
 
         public static Point2D Zero
-            => new Point2D(0, 0);
+            => new(0, 0);
     }
 }

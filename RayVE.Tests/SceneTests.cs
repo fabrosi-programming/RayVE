@@ -39,16 +39,26 @@ namespace RayVE.Tests
             //assert
             var expectedSurfaces = new[]
             {
-                new Sphere(new PhongMaterial(new Color(0.8, 1.0, 0.6), diffusion: 0.7, specularity: 0.2)),
-                new Sphere(Matrix.Scale(new Vector(0.5, 0.5, 0.5)))
+                new Sphere(
+                    new PhongMaterial(
+                        PhongMaterial.Default,
+                        new SolidPattern(
+                            new Color(0.8, 1.0, 0.6)),
+                        diffusion: new UDouble(0.7),
+                        specularity: new UDouble(0.2))),
+                new Sphere(
+                    Matrix.Scale(
+                        new Vector(0.5, 0.5, 0.5)))
             };
             var expectedLightSource = new[]
             {
-                new PointLightSource(new Point3D(-10, 10, -10), new Color(1, 1, 1))
+                new PointLightSource(
+                    new Point3D(-10, 10, -10),
+                    new Color(1, 1, 1))
             };
 
-            CollectionAssert.AreEqual(expectedSurfaces, scene.Surfaces.ToList()); 
-            CollectionAssert.AreEqual(expectedLightSource, scene.LightSources.ToList());
+            CollectionAssert.AreEquivalent(expectedSurfaces, scene.Surfaces.ToList()); 
+            CollectionAssert.AreEquivalent(expectedLightSource, scene.LightSources.ToList());
         }
 
         [TestMethod]
@@ -139,8 +149,16 @@ namespace RayVE.Tests
         public void Shade_WithRayCastOnInnerSphere_ExpectCorrectColor()
         {
             //arrange
-            var outerMaterial = new PhongMaterial(new Color(0.8, 1.0, 0.6), ambience: 1.0, diffusion: 0.7, specularity: 0.2);
-            var innerMaterial = new PhongMaterial(ambience: 1.0);
+            var outerMaterial = new PhongMaterial(
+                PhongMaterial.Default,
+                new SolidPattern(
+                    new Color(0.8, 1.0, 0.6)),
+                ambience: new UDouble(1.0),
+                diffusion: new UDouble(0.7),
+                specularity: new UDouble(0.2));
+            var innerMaterial = new PhongMaterial(
+                PhongMaterial.Default,
+                ambience: new UDouble(1.0));
             var surfaces = new[]
             {
                 Scene.Default
@@ -160,7 +178,7 @@ namespace RayVE.Tests
             var color = scene.Shade(ray);
 
             //assert
-            Assert.AreEqual(innerMaterial.Color, color);
+            Assert.AreEqual(Color.White, color);
         }
 
         [TestMethod]

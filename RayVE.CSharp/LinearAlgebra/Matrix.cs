@@ -19,7 +19,7 @@ namespace RayVE.LinearAlgebra
                 => _matrix = matrix;
 
             public Vector this[uint i]
-                => new Vector(_matrix._values[i]);
+                => new(_matrix._values[i]);
 
             public Vector this[int i]
                 => this[Convert.ToUInt32(i)];
@@ -76,11 +76,11 @@ namespace RayVE.LinearAlgebra
             => Cofactors / Determinant;
 
         public Matrix Transpose
-            => new Matrix(ColumnCount, RowCount, (i, j) => _values[j][i]);
+            => new(ColumnCount, RowCount, (i, j) => _values[j][i]);
 
-        internal RowCollection Rows => new RowCollection(this);
+        internal RowCollection Rows => new(this);
 
-        internal ColumnCollection Columns => new ColumnCollection(this);
+        internal ColumnCollection Columns => new(this);
 
         public Matrix(double[][] values)
             => _values = (double[][])values.Clone();
@@ -133,12 +133,12 @@ namespace RayVE.LinearAlgebra
             => Transform(transform, (i, j) => true);
 
         internal Matrix Transform(Func<uint, uint, double> transform, Func<uint, uint, bool> predicate)
-            => new Matrix(RowCount, ColumnCount, (i, j) => predicate(i, j)
+            => new(RowCount, ColumnCount, (i, j) => predicate(i, j)
                                  ? transform(i, j)
                                  : this[i, j]);
 
         public Matrix GetSubMatrix(uint row, uint column)
-            => new Matrix(RowCount - 1, ColumnCount - 1, (i, j) => this[i < row ? i : i + 1, j < column ? j : j + 1]);
+            => new(RowCount - 1, ColumnCount - 1, (i, j) => this[i < row ? i : i + 1, j < column ? j : j + 1]);
 
         public double GetMinor(uint row, uint column)
             => GetSubMatrix(row, column).Determinant;
@@ -147,7 +147,7 @@ namespace RayVE.LinearAlgebra
             => GetMinor(row, column) * ((row + column) % 2 == 0 ? 1 : -1);
 
         private Vector GetCofactors(uint row)
-            => new Vector(Enumerable.Range(0, Convert.ToInt32(ColumnCount))
+            => new(Enumerable.Range(0, Convert.ToInt32(ColumnCount))
                                     .Select(c => GetCofactor(row, Convert.ToUInt32(c))));
 
         public override string ToString()
@@ -168,10 +168,10 @@ namespace RayVE.LinearAlgebra
         #region Static Factory
 
         public static Matrix Zero(uint rows, uint columns)
-            => new Matrix(rows, columns, (i, j) => 0.0d);
+            => new(rows, columns, (i, j) => 0.0d);
 
         public static Matrix Identity(uint size)
-            => new Matrix(size, size, (i, j) => i == j ? 1.0d : 0.0d);
+            => new(size, size, (i, j) => i == j ? 1.0d : 0.0d);
 
         public static Matrix Translation(Vector vector)
             => TranslationInternal(vector.AsVector());
@@ -186,7 +186,7 @@ namespace RayVE.LinearAlgebra
             => ScaleInternal(scalars.AsVector());
 
         private static Matrix ScaleInternal(Vector scalars)
-            => new Matrix(scalars.Length + 1, scalars.Length + 1, (i, j) => i != j
+            => new(scalars.Length + 1, scalars.Length + 1, (i, j) => i != j
                                                                             ? 0.0d
                                                                             : (i == scalars.Length
                                                                                ? 1.0d
@@ -197,47 +197,65 @@ namespace RayVE.LinearAlgebra
             {
                 Dimension.X => new Matrix(new[]
                     {
-                                new[] { 1.0d, 0.0d,        0.0d,       0.0d },
-                                new[] { 0.0d, Cos(angle), -Sin(angle), 0.0d },
-                                new[] { 0.0d, Sin(angle),  Cos(angle), 0.0d },
-                                new[] { 0.0d, 0.0d,        0.0d,       1.0d }
+                        new[] { 1.0d, 0.0d,        0.0d,       0.0d },
+                        new[] { 0.0d, Cos(angle), -Sin(angle), 0.0d },
+                        new[] { 0.0d, Sin(angle),  Cos(angle), 0.0d },
+                        new[] { 0.0d, 0.0d,        0.0d,       1.0d }
                     }),
                 Dimension.Y => new Matrix(new[]
                     {
-                                new[] { Cos(angle),  0.0d,  Sin(angle), 0.0d },
-                                new[] { 0.0d,        1.0d,  0.0d,       0.0d },
-                                new[] { -Sin(angle), 0.0d,  Cos(angle), 0.0d },
-                                new[] { 0.0d,        0.0d,  0.0d,       1.0d }
+                        new[] { Cos(angle),  0.0d,  Sin(angle), 0.0d },
+                        new[] { 0.0d,        1.0d,  0.0d,       0.0d },
+                        new[] { -Sin(angle), 0.0d,  Cos(angle), 0.0d },
+                        new[] { 0.0d,        0.0d,  0.0d,       1.0d }
                     }),
                 Dimension.Z => new Matrix(new[]
                     {
-                                new[] { Cos(angle), -Sin(angle), 0.0d, 0.0d },
-                                new[] { Sin(angle),  Cos(angle), 0.0d, 0.0d },
-                                new[] { 0.0d,        0.0d,       1.0d, 0.0d },
-                                new[] { 0.0d,        0.0d,       0.0d, 1.0d }
+                        new[] { Cos(angle), -Sin(angle), 0.0d, 0.0d },
+                        new[] { Sin(angle),  Cos(angle), 0.0d, 0.0d },
+                        new[] { 0.0d,        0.0d,       1.0d, 0.0d },
+                        new[] { 0.0d,        0.0d,       0.0d, 1.0d }
                     }),
                 _ => throw new NotImplementedException("Rotation matrices are only implemented for 3D transformations."),
             };
 
         public static Matrix Shear(Dimension shearDimension, Dimension inProportionTo, double amount)
-            => new Matrix(4, 4, (r, c) => (r == (uint)shearDimension) && (c == (uint)inProportionTo)
-                                          ? amount
-                                          : Identity(4)[r, c]);
+            => new(
+                4,
+                4,
+                (r, c) => (r == (uint)shearDimension) && (c == (uint)inProportionTo)
+                    ? amount
+                    : Identity(4)[r, c]);
 
         #endregion Static Factory
 
         private static double[][] GetRectangularArray(uint rows, uint columns)
-            => Enumerable.Range(0, (int)rows)
-                         .Select(i => Convert.ToUInt32(i))
-                         .Select(i => new double[columns])
-                         .ToArray();
+            => Enumerable
+            .Range(0, (int)rows)
+            .Select(i => Convert.ToUInt32(i))
+            .Select(i => new double[columns])
+            .ToArray();
 
         #region Operators
 
-        public static Matrix operator +(Matrix left, Matrix right)
-            => new Matrix(left.RowCount, left.ColumnCount, (i, j) => left[i, j] + right[i, j]);
+        public static Matrix Add(Matrix left, Matrix right)
+        {
+            if (left.RowCount != right.RowCount)
+                throw new ArgumentException("Matrices have mismatched row counts.");
 
-        public static Matrix operator *(Matrix left, Matrix right)
+            if (left.ColumnCount != right.ColumnCount)
+                throw new ArgumentException("Matrices have mismatched column counts.");
+
+            return new(
+                left.RowCount,
+                left.ColumnCount,
+                (i, j) => left[i, j] + right[i, j]);
+        }
+
+        public static Matrix operator +(Matrix left, Matrix right)
+            => Add(left, right);
+
+        public static Matrix Multiply(Matrix left, Matrix right)
         {
             if (left.ColumnCount != right.RowCount)
                 throw new InvalidOperationException("The number of rows for the left matrix must equal the number of columns for the right matrix.");
@@ -245,12 +263,18 @@ namespace RayVE.LinearAlgebra
             return new Matrix(left.RowCount, right.ColumnCount, (i, j) => left.Rows[i] * right.Columns[j]);
         }
 
+        public static Matrix operator *(Matrix left, Matrix right)
+            => Multiply(left, right);
+
         public static Matrix operator *(double scalar, Matrix matrix)
-            => new Matrix(matrix.RowCount, matrix.ColumnCount, (i, j) => scalar * matrix[i, j]);
+            => new(matrix.RowCount, matrix.ColumnCount, (i, j) => scalar * matrix[i, j]);
 
         [SuppressMessage("Style", "IDE0047:Remove unnecessary parentheses", Justification = "Parentheses clarify intent.")]
-        public static Matrix operator /(Matrix matrix, double scalar)
+        public static Matrix Divide(Matrix matrix, double scalar)
             => (1 / scalar) * matrix;
+
+        public static Matrix operator /(Matrix matrix, double scalar)
+            => Divide(matrix, scalar);
 
         public static bool operator ==(Matrix left, Matrix right)
         {
@@ -286,8 +310,9 @@ namespace RayVE.LinearAlgebra
             return false;
         }
 
-        public bool Equals(Matrix other)
-            => this == other;
+        public bool Equals(Matrix? other)
+            => other is not null
+            && this == other;
 
         public override int GetHashCode()
             => _values.SelectMany(r => r.Select(v => v))
