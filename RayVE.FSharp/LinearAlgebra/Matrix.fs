@@ -35,10 +35,55 @@ type Matrix(values: double[][]) =
         values
         |> Array.map (fun v -> Vector v)
 
+    member __.Transpose() : Matrix =
+        Matrix(__.ColumnCount, __.RowCount, (fun r c -> values.[c].[r]))
+
     member this.ColumnVectors =
         let transpose = this.Transpose()
         transpose.RowVectors
-        
+    
+    static member (*) (left: Matrix, right: Matrix) =
+        let leftRows = left.RowVectors
+        let rightColumns = right.ColumnVectors
+        Array2D.init left.RowCount right.ColumnCount (fun r c -> leftRows.[r] * rightColumns.[c])
+        |> Matrix
+
+    static member (*) (matrix: Matrix, vector: Vector) =
+        matrix.RowVectors
+        |> Array.map (fun v -> v * vector)
+        |> Vector
+
+    static member (*) (vector: Vector, matrix: Matrix) =
+        matrix.ColumnVectors
+        |> Array.map (fun v -> vector * v)
+        |> Vector
+
+    static member (*) (scalar: float, matrix: Matrix) =
+        Array2D.init matrix.RowCount matrix.ColumnCount (fun r c -> matrix.[r, c] * scalar)
+        |> Matrix
+
+    static member (/) (matrix: Matrix, scalar: float) =
+        (1.0 / scalar) * matrix
+
+    static member (-) (left: Matrix, right: Matrix) : Matrix =
+        Array.map2 (-) left.RowVectors right.RowVectors
+        |> Matrix
+
+    static member (+) (left: Matrix, right: Matrix) : Matrix =
+        Array.map2 (+) left.RowVectors right.RowVectors
+        |> Matrix
+
+    static member op_Inequality (left: Matrix, right: Matrix) =
+        not(left.Equals right)
+
+    static member op_Equality (left: Matrix, right: Matrix) =
+        left.Equals right
+
+    override __.GetHashCode() =
+        values.GetHashCode()
+
+    override __.ToString() =
+        String.Format("Rows={0}, Columns={1}", values.Length, values.[0].Length)
 
     member this.Determinant
         with get() =
@@ -81,9 +126,6 @@ type Matrix(values: double[][]) =
             else values.[r].[c]
         Matrix(__.RowCount, __.ColumnCount, valueSource)
 
-    member __.Transpose() : Matrix =
-        Matrix(__.ColumnCount, __.RowCount, (fun r c -> values.[c].[r]))
-
     member this.GetSubMatrix r c : Matrix =
         fun i j ->
             let newRow = if i < r then i else i + 1
@@ -117,49 +159,6 @@ type Matrix(values: double[][]) =
                                   yield false }
                 |> Seq.forall id
         | _ -> false
-
-    override __.GetHashCode() =
-        values.GetHashCode()
-
-    override __.ToString() =
-        String.Format("Rows={0}, Columns={1}", values.Length, values.[0].Length)
-
-    static member (*) (left: Matrix, right: Matrix) =
-        let leftRows = left.RowVectors
-        let rightColumns = right.ColumnVectors
-        Array2D.init left.RowCount right.ColumnCount (fun r c -> leftRows.[r] * rightColumns.[c])
-        |> Matrix
-
-    static member (*) (matrix: Matrix, vector: Vector) =
-        matrix.RowVectors
-        |> Array.map (fun v -> v * vector)
-        |> Vector
-
-    static member (*) (vector: Vector, matrix: Matrix) =
-        matrix.ColumnVectors
-        |> Array.map (fun v -> vector * v)
-        |> Vector
-
-    static member (*) (scalar: float, matrix: Matrix) =
-        Array2D.init matrix.RowCount matrix.ColumnCount (fun r c -> matrix.[r, c] * scalar)
-        |> Matrix
-
-    static member (/) (matrix: Matrix, scalar: float) =
-        (1.0 / scalar) * matrix
-
-    static member (-) (left: Matrix, right: Matrix) : Matrix =
-        Array.map2 (-) left.RowVectors right.RowVectors
-        |> Matrix
-
-    static member (+) (left: Matrix, right: Matrix) : Matrix =
-        Array.map2 (+) left.RowVectors right.RowVectors
-        |> Matrix
-
-    static member op_Inequality (left: Matrix, right: Matrix) =
-        not(left.Equals right)
-
-    static member op_Equality (left: Matrix, right: Matrix) =
-        left.Equals right
 
     static member Identity(size: int) =
         fun r c -> if r = c then 1.0

@@ -6,16 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="LightSources\PointLightSource.fs" />
     <Compile Include="Constants.fs" />
     <Compile Include="Array2D.fs" />
     <Compile Include="Math.fs" />
     <Compile Include="String.fs" />
-    <Compile Include="Dimension.fs" />
-    <Compile Include="Vector.fs" />
-    <Compile Include="Matrix.fs" />
+    <Compile Include="LinearAlgebra\Dimension.fs" />
+    <Compile Include="LinearAlgebra\Vector.fs" />
+    <Compile Include="LinearAlgebra\Matrix.fs" />
+    <Compile Include="LinearAlgebra\Point3D.fs" />
+    <Compile Include="LinearAlgebra\Vector3D.fs" />
     <Compile Include="FSharpFuncUtil.fs" />
-    <Compile Include="Point3D.fs" />
-    <Compile Include="Vector3D.fs" />
     <Compile Include="Color.fs" />
     <Compile Include="Canvas.fs" />
   </ItemGroup>
