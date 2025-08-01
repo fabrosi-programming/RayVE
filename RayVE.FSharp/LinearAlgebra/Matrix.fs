@@ -92,8 +92,7 @@ type Matrix(values: double[][]) =
             else
                 seq { for r in 0 .. this.RowCount - 1 do
                             for c in 0 .. this.ColumnCount - 1 do
-                                if Math.Abs (this.[r, c] - m.[r, c]) > Constants.EPSILON then
-                                    yield false }
+                                Math.Abs (this.[r, c] - m.[r, c]) <= Constants.EPSILON }
                 |> Seq.forall id
         | _ -> false
 
@@ -147,57 +146,62 @@ module Matrix =
                    else matrix.Values.[r].[c]
                Matrix(matrix.RowCount, matrix.ColumnCount, valueSource)
 
-    let transform (matrix: Matrix, transform: int -> int -> float) =
+    let transform (matrix: Matrix) (transform: int -> int -> float) =
         Matrix(matrix.RowCount, matrix.ColumnCount, transform)
 
-    let transformWhere (matrix: Matrix, transform: int -> int -> float, predicate: int -> int -> bool) = 
+    let transformWhere (matrix: Matrix) (transform: int -> int -> float) (predicate: int -> int -> bool) = 
         let valueSource r c =
             if predicate r c then transform r c
             else matrix.Values.[r].[c]
         Matrix(matrix.RowCount, matrix.ColumnCount, valueSource)
 
-    let identity(size: int) =
-        fun r c -> if r = c then 1.0
-                   else 0.0
-        |> Array2D.init size size
-        |> Matrix
+    module Create =
+        let identity(size: int) =
+            fun r c -> if r = c then 1.0
+                        else 0.0
+            |> Array2D.init size size
+            |> Matrix
 
-    let zero rows columns =
-        Array2D.zeroCreate rows columns
-        |> Matrix
+        let zero rows columns =
+            Array2D.zeroCreate rows columns
+            |> Matrix
 
-    let translation (vector: Vector) =
-        identity (vector.Length + 1)
-        + Matrix(vector.Length + 1, vector.Length + 1, fun r c -> if r <> c && c = vector.Length
-                                                                  then vector.[r]
-                                                                  else 0.0)
+        let translation (vector: Vector) =
+            let l = Vector.length vector
+            identity (l + 1)
+            + Matrix(l + 1, l + 1, fun r c -> if r <> c && c = l
+                                                        then vector.[r]
+                                                        else 0.0)
 
-    let scaling (vector: Vector) =
-        Matrix(vector.Length + 1, vector.Length + 1, fun r c -> if r <> c then 0.0
-                                                                elif r = vector.Length then 1.0
-                                                                else vector.[r])
+        let scaling (vector: Vector) =
+            let l = Vector.length vector
+            Matrix(l + 1, l + 1, fun r c -> if r <> c then 0.0
+                                                        elif r = l then 1.0
+                                                        else vector.[r])
 
-    let rotation (dimension: Dimension) (radians: float) =
-        match dimension with
-        | Dimension.X -> [| [| 1.0; 0.0;          0.0;           0.0 |];
-                            [| 0.0; cos(radians); -sin(radians); 0.0 |];
-                            [| 0.0; sin(radians);  cos(radians); 0.0 |];
-                            [| 0.0; 0.0;           0.0;          1.0 |] |]
-                         |> Matrix
+        let rotation (dimension: Dimension) (radians: float) =
+            let cosR = cos(radians)
+            let sinR = sin(radians)
+            match dimension with
+            | Dimension.X -> [| [| 1.0; 0.0;   0.0;  0.0 |];
+                                [| 0.0; cosR; -sinR; 0.0 |];
+                                [| 0.0; sinR;  cosR; 0.0 |];
+                                [| 0.0; 0.0;   0.0;  1.0 |] |]
+                                |> Matrix
 
-        | Dimension.Y -> [| [| cos(radians);  0.0; sin(radians); 0.0 |];
-                            [| 0.0;           1.0; 0.0;          0.0 |];
-                            [| -sin(radians); 0.0; cos(radians); 0.0 |];
-                            [| 0.0;           0.0; 0.0;          1.0 |] |]
-                         |> Matrix
-        | Dimension.Z -> [| [| cos(radians); -sin(radians); 0.0; 0.0 |];
-                            [| sin(radians); cos(radians);  0.0; 0.0 |];
-                            [| 0.0;          0.0;           1.0; 0.0 |];
-                            [| 0.0;          0.0;           0.0; 1.0 |] |]
-                         |> Matrix
-        | _ -> zero 4 4
+            | Dimension.Y -> [| [|  cosR; 0.0; sinR; 0.0 |];
+                                [|  0.0;  1.0; 0.0;  0.0 |];
+                                [| -sinR; 0.0; cosR; 0.0 |];
+                                [|  0.0;  0.0; 0.0;  1.0 |] |]
+                                |> Matrix
+            | Dimension.Z -> [| [| cosR; -sinR; 0.0; 0.0 |];
+                                [| sinR;  cosR; 0.0; 0.0 |];
+                                [| 0.0;   0.0;  1.0; 0.0 |];
+                                [| 0.0;   0.0;  0.0; 1.0 |] |]
+                                |> Matrix
+            | _ -> zero 4 4
 
-    let shear (shearDimension: Dimension) (inProportionTo: Dimension) (amount: float) =
-        Matrix(4, 4, fun r c -> if r = (LanguagePrimitives.EnumToValue shearDimension) && c = (LanguagePrimitives.EnumToValue inProportionTo)
-                                then amount
-                                else identity(4).[r, c])
+        let shear (shearDimension: Dimension) (inProportionTo: Dimension) (amount: float) =
+            Matrix(4, 4, fun r c -> if r = (LanguagePrimitives.EnumToValue shearDimension) && c = (LanguagePrimitives.EnumToValue inProportionTo)
+                                    then amount
+                                    else identity(4).[r, c])

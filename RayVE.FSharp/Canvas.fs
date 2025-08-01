@@ -1,11 +1,10 @@
 ﻿namespace RayVE
 
 open System
-open RayVE.Math
 open RayVE.String
 
-type Canvas(width, height) =
-    let mutable pixels = Array2D.init width height (fun i j -> Color.Black)
+type Canvas(width, height, ppmMaxValue) =
+    let mutable pixels = Array2D.init width height (fun i j -> Color.Predefined.Black)
     
     member __.Width
         with get() = width
@@ -28,10 +27,10 @@ type Canvas(width, height) =
 
     member __.ToPPM (maxValue: int) =
         let maxChunkSize = 70
-        let data = Array2D.init __.Width __.Height (fun i j -> pixels.[i, j].ToPPM())
+        let data = Array2D.init __.Width __.Height (fun i j -> Color.toPPM pixels.[i, j] ppmMaxValue)
                    |> Array2D.toJagged
                    |> Array.transpose
-                   |> Array.map (Array.collect id)
+                   |> Array.map Array.concat
                    |> Array.map (chunkSplit maxChunkSize " ")
                    |> Seq.collect id
                    |> String.concat Environment.NewLine

@@ -2,7 +2,9 @@
 
 module String =
     let chunkSplit chunkSize joinCharacter (values: seq<string>) =
-        //TODO: figure out how to do this without a mutable accumulator
+        // contained mutation is probably more performant on large sequences
+        // of values than using recursion or folding would be, gives true
+        //streaming behavior
         let mutable acc = ""
         seq { for elem in values do
                   if acc.Length + elem.Length + 1 > chunkSize then
