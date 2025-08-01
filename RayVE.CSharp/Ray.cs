@@ -47,5 +47,5 @@ namespace RayVE
         public static Ray operator *(Matrix matrix, Ray ray)
             => Multiply(matrix, ray);
         #endregion
-}
+    }
 }

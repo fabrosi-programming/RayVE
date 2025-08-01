@@ -34,7 +34,7 @@ type Matrix(values: double[][]) =
         values
         |> Array.map (fun v -> Vector v)
 
-    member __.Transpose() : Matrix =
+    member private __.Transpose() : Matrix =
         Matrix(__.ColumnCount, __.RowCount, (fun r c -> values.[c].[r]))
 
     member this.ColumnVectors =
@@ -97,13 +97,16 @@ type Matrix(values: double[][]) =
         | _ -> false
 
 module Matrix =
-    let subMatrix (matrix:Matrix) r c : Matrix =
+    let subMatrix (matrix: Matrix) r c : Matrix =
         fun i j ->
             let newRow = if i < r then i else i + 1
             let newColumn = if j < c then j else j + 1
             matrix.[newRow, newColumn]
         |> Array2D.init (matrix.RowCount - 1) (matrix.ColumnCount - 1)
         |> Matrix
+
+    let transpose (matrix: Matrix) =
+        Matrix(matrix.ColumnCount, matrix.RowCount, (fun r c -> matrix.Values.[c].[r]))
 
     let rec determinant (matrix: Matrix) =
         match (matrix.RowCount, matrix.ColumnCount) with
@@ -126,7 +129,8 @@ module Matrix =
     let cofactorMatrix (matrix: Matrix) =
         let cofactorMatrix = Array2D.init matrix.RowCount matrix.ColumnCount (cofactor matrix)
                              |> Matrix
-        cofactorMatrix.Transpose()
+        cofactorMatrix
+        |> transpose
 
     let invert (matrix: Matrix) =
         (cofactorMatrix matrix) / (determinant matrix)

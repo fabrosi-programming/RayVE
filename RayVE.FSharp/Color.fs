@@ -6,11 +6,11 @@ open System
 type Color(red, green, blue) =
     let vector = Vector([| red; green; blue |])
 
-    member __.R = red
+    member __.R with get() = red
 
-    member __.G = green
+    member __.G with get() = green
 
-    member __.B = blue
+    member __.B with get() = blue
 
     member __.AsVector = vector
 

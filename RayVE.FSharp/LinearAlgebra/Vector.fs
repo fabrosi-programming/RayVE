@@ -3,8 +3,7 @@
 open System
 
 type Vector([<ParamArray>] values: double[]) =
-    member __.Values =
-        values
+    member __.Values = values
     
     new(vector: Vector) =
         Vector vector.Values
@@ -40,7 +39,7 @@ type Vector([<ParamArray>] values: double[]) =
         Array.map2 (*) left.Values right.Values
         |> Array.sum
 
-    static member (*) (scalar, vector: Vector) =
+    static member (*) (scalar: float, vector: Vector) =
         vector.Values
         |> Array.map (fun e -> e * scalar)
         |> Vector
