@@ -2,7 +2,7 @@
 
 type Ray (origin: Point3D, direction: Vector3D) =
     member __.Origin = origin
-    member __.Direction = direction
+    member __.Direction = Vector3D.normalize direction
 
     static member (*) (ray: Ray, matrix: Matrix) =
         if matrix.ColumnCount <> 4 then

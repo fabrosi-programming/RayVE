@@ -1,11 +1,7 @@
-﻿using RayVE.LightSources;
-using RayVE.LinearAlgebra;
-using RayVE.Materials;
-using RayVE.Output;
-using RayVE.Surfaces;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
+using RayVE;
 
 namespace RayVE.SphereDrawing
 {
@@ -21,24 +17,24 @@ namespace RayVE.SphereDrawing
 
             var rays = from x in Enumerable.Range(-canvasSize / 2, canvasSize)
                        from y in Enumerable.Range(-canvasSize / 2, canvasSize)
-                       select (Index: (x, y), Ray: new Ray(origin, new Vector3D(x * scale, y * scale, canvasDepth, true)));
+                       select (Index: (x, y), Ray: new Ray(origin, new Vector3D(x * scale, y * scale, canvasDepth)));
 
-            var sphereMaterial = new PhongMaterial(
-                new StripePattern(Color.Red, Color.Green),
+            var sphereMaterial = Material.NewPhong(
+                //new StripePattern(ColorModule.Predefined.Red, ColorModule.Predefined.Green),
                 0.1,
                 0.9,
                 0.9,
                 200.0);
-            var sphere = new Sphere(sphereMaterial);
+            var sphere = Surface.NewSphere(sphereMaterial);
 
             var lightPosition = new Point3D(-10, 10, -10);
-            var lightColor = Color.White;
-            var lightSource = new PointLightSource(lightPosition, lightColor);
+            var lightColor = ColorModule.Predefined.White;
+            var lightSource = LightSource.NewPointLightSource(lightPosition, lightColor);
 
             var hits = rays.AsParallel()
-                           .Select(r => (r.Index, r.Ray, Hit: sphere.Intersect(r.Ray).GetNearestHit()));
+                           .Select(r => (r.Index, r.Ray, Hit: SurfaceModule.intersect(sphere, r.Ray).GetNearestHit()));
 
-            var canvas = new Canvas(canvasSize, canvasSize);
+            var canvas = new Canvas(canvasSize, canvasSize, 255);
 
             foreach (var hit in hits)
             {

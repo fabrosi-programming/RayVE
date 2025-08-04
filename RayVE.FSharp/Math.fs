@@ -11,3 +11,6 @@ module Math =
         | v when v < minValue -> minValue
         | v when v > maxValue -> maxValue
         | _ -> value
+    
+    let discriminant a b c =
+        pown b 2 - 4.0 * a * c

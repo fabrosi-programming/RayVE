@@ -85,6 +85,10 @@ module Vector =
            (v1.[0] * v2.[1]) - (v1.[1] * v2.[0]) |]
         |> Vector
 
+    let reflect (vector1: Vector) (vector2: Vector) =
+        let normal = normalize vector2
+        vector1 - (normal * (2.0 * (vector1 * normal)))
+
     module Create =
         let zero(size: int) =
             Array.replicate size 0.0

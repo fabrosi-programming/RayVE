@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Compile Include="Constants.fs" />
-    <Compile Include="Algebra.fs" />
     <Compile Include="Array2D.fs" />
     <Compile Include="Math.fs" />
     <Compile Include="String.fs" />
@@ -18,17 +17,12 @@
     <Compile Include="LinearAlgebra\Point3D.fs" />
     <Compile Include="Color.fs" />
     <Compile Include="Ray.fs" />
-    <Compile Include="Surface.fs" />
-    <Compile Include="Intersection.fs" />
-    <Compile Include="SurfaceModule.fs" />
-    <Compile Include="IntersectionModule.fs" />
     <Compile Include="LightSources\PointLightSource.fs" />
+    <Compile Include="Surface.fs" />
     <Compile Include="FSharpFuncUtil.fs" />
     <Compile Include="Canvas.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Materials\" />
+    <Compile Include="Output\PPMColor.fs" />
+    <Compile Include="Output\PPMDocument.fs" />
   </ItemGroup>
 
 </Project>

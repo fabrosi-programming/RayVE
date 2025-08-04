@@ -43,7 +43,8 @@ type Vector3D(x: float, y: float, z: float) =
 
 module Vector3D =
     let normalize (vector: Vector3D) =
-        Vector.normalize vector
+        let v3d = Vector(vector.Values[..2])
+        Vector.normalize v3d
         |> Vector3D.fromVector
 
     let cross (v1: Vector3D) (v2: Vector3D) =
@@ -51,6 +52,12 @@ module Vector3D =
         let v2_3d = Vector(v2.Values[..2])
         let c = Vector.cross v1_3d v2_3d
         Vector3D(c.Values[0], c.Values[1], c.Values[2])
+
+    let reflect (vector: Vector3D) (normal: Vector3D) =
+        let v3d = Vector(vector.Values[..2])
+        let n3d = Vector(normal.Values[..2])
+        Vector.reflect v3d n3d
+        |> Vector3D.fromVector
 
     module Create =
         let zero = Vector3D(0.0, 0.0, 0.0)
