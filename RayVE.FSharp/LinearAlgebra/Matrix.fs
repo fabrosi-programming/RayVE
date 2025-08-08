@@ -28,7 +28,11 @@ type Matrix(values: double[][]) =
         with get() = values.Length
 
     member __.ColumnCount
-        with get() = values.[0].Length
+        with get() =
+            if values.Length = 0 then
+                0
+            else
+                values.[0].Length
 
     member __.RowVectors =
         values
@@ -42,6 +46,9 @@ type Matrix(values: double[][]) =
         transpose.RowVectors
     
     static member (*) (left: Matrix, right: Matrix) =
+        if left.ColumnCount <> right.ColumnCount then
+            failwith "Incompatible matrix dimensions."
+
         let leftRows = left.RowVectors
         let rightColumns = right.ColumnVectors
         Array2D.init left.RowCount right.ColumnCount (fun r c -> leftRows.[r] * rightColumns.[c])
@@ -58,6 +65,10 @@ type Matrix(values: double[][]) =
         |> Vector
 
     static member (*) (scalar: float, matrix: Matrix) =
+        Array2D.init matrix.RowCount matrix.ColumnCount (fun r c -> matrix.[r, c] * scalar)
+        |> Matrix
+
+    static member (*) (matrix: Matrix, scalar: float) =
         Array2D.init matrix.RowCount matrix.ColumnCount (fun r c -> matrix.[r, c] * scalar)
         |> Matrix
 
@@ -110,10 +121,21 @@ module Matrix =
 
     let rec determinant (matrix: Matrix) =
         match (matrix.RowCount, matrix.ColumnCount) with
+        | (0, 0) -> failwith "Matrix must be at least 2x2."
+        | (1, 1) -> failwith "Matrix must be at least 2x2."
         | (2, 2) -> matrix.[0, 0] * matrix.[1, 1] - matrix.[0, 1] * matrix.[1, 0]
         | _ -> Vector(matrix.Values.[0]) * Vector(cofactors matrix 0)
-    and minor (matrix:Matrix) row column =
-        determinant (subMatrix matrix row column)
+    and minor (matrix: Matrix) row column =
+        match (matrix.RowCount, matrix.ColumnCount) with
+        | (0, 0) -> failwith "Matrix must be at least 2x2."
+        | (1, 1) -> failwith "Matrix must be at least 2x2."
+        | (2, 2) -> match (row, column) with
+                    | (0, 0) -> matrix.[1, 1]
+                    | (0, 1) -> matrix.[1, 0]
+                    | (1, 0) -> matrix.[0, 1]
+                    | (1, 1) -> matrix.[0, 0]
+                    | (_, _) -> failwith "Invalid row and column specification for a 2x2 matrix."
+        | _ -> determinant (subMatrix matrix row column)
     and cofactor (matrix: Matrix) r c =
         let sign = match (r + c) % 2 with
                    | 0 -> 1
@@ -127,13 +149,11 @@ module Matrix =
         determinant matrix <> 0.0
 
     let cofactorMatrix (matrix: Matrix) =
-        let cofactorMatrix = Array2D.init matrix.RowCount matrix.ColumnCount (cofactor matrix)
-                             |> Matrix
-        cofactorMatrix
-        |> transpose
+        Array2D.init matrix.RowCount matrix.ColumnCount (cofactor matrix)
+        |> Matrix
 
     let invert (matrix: Matrix) =
-        (cofactorMatrix matrix) / (determinant matrix)
+        transpose (cofactorMatrix matrix) / (determinant matrix)
 
     let swapRows (matrix: Matrix) row1 row2 =
         let valueSource r c =

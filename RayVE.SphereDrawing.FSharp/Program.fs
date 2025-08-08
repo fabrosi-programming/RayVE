@@ -3,7 +3,7 @@ open System.IO
 open RayVE
 
 let origin = Point3D.Create.zero
-let canvasSize = 50
+let canvasSize = 300
 let canvasDepth = 5
 let scale = 100. / float canvasSize
 let ambientColor = Color(0.1, 0.1, 0.1)

@@ -6,35 +6,35 @@ open RayVE
 module VectorTests =
 
     [<Fact>]
-    let op_plus () =
+    let op_add () =
         let v1 = Vector([| 1.; 2.; 3. |])
         let v2 = Vector([| 4.; 5.; 6. |])
         let result = v1 + v2
         Assert.Equal(Vector([| 5.; 7.; 9. |]), result)
 
     [<Fact>]
-    let op_minus () =
+    let op_subtract () =
         let v1 = Vector([| 1.; 2.; 3. |])
         let v2 = Vector([| 4.; 6.; 8. |])
         let result = v2 - v1
         Assert.Equal(Vector([| 3.; 4.; 5. |]), result)
 
     [<Fact>]
-    let op_times_0 () =
+    let op_multiply_0 () =
         let v1 = Vector([| 1.; 2.; 3. |])
         let v2 = Vector([| 4.; 5.; 6. |])
         let result = v1 * v2
         Assert.Equal(32., result)
 
     [<Fact>]
-    let op_times_1 () =
+    let op_multiply_1 () =
         let s = 2.
         let v = Vector([| 4.; 5.; 6. |])
         let result = s * v
         Assert.Equal(Vector([| 8.; 10.; 12. |]), result)
 
     [<Fact>]
-    let op_times_2 () =
+    let op_multiply_2 () =
         let s = 2.
         let v = Vector([| 4.; 5.; 6. |])
         let result = v * s
