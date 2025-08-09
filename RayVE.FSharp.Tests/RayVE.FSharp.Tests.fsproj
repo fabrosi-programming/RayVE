@@ -10,6 +10,7 @@
     <Compile Include="MathTests.fs" />
     <Compile Include="VectorTests.fs" />
     <Compile Include="MatrixTests.fs" />
+    <Compile Include="ColorTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
