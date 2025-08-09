@@ -11,6 +11,8 @@
     <Compile Include="VectorTests.fs" />
     <Compile Include="MatrixTests.fs" />
     <Compile Include="ColorTests.fs" />
+    <Compile Include="RayTests.fs" />
+    <Compile Include="SurfaceTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

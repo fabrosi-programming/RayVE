@@ -44,7 +44,7 @@ module ColorTests =
     [<Fact>]
     let PPMValue_0 () =
         let maxValue = 255
-        let rawValue = 1.5
+        let rawValue = 0.75
         let expected = 191
         let result = Color.PPMValue maxValue rawValue
         Assert.Equal(expected, result)
@@ -53,6 +53,6 @@ module ColorTests =
     let toPPM_0 () =
         let color = Color(0.5, 0.75, 1.0)
         let maxValue = 255
-        let expected = [| "127"; "191"; "255" |]
+        let expected = [| "128"; "191"; "255" |]
         let result = Color.toPPM color maxValue
         Assert.Equal<string[]>(expected, result)

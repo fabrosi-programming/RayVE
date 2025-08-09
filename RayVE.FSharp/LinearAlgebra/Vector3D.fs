@@ -42,6 +42,10 @@ type Vector3D(x: float, y: float, z: float) =
         -1.0 * vector
 
 module Vector3D =
+    let magnitude (vector: Vector3D) =
+        let v3d = Vector(vector.Values[..2])
+        Vector.magnitude v3d
+
     let normalize (vector: Vector3D) =
         let v3d = Vector(vector.Values[..2])
         Vector.normalize v3d
